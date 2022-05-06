@@ -1,0 +1,156 @@
+// Font styles
+.roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.montserrat {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.source-code-pro {
+    font-family: 'Source Code Pro', monospace;
+}
+
+.poppins {
+    font-family: 'Poppins', sans-serif;
+}
+
+.raleway {
+    font-family: 'Raleway', sans-serif;
+}
+
+.pacifico {
+    font-family: 'Pacifico', cursive;
+}
+
+.patrick-hand {
+    font-family: 'Patrick Hand', cursive;
+}
+
+.comfortaa {
+    font-family: 'Comfortaa', cursive;
+}
+
+.freckle-face {
+    font-family: 'Freckle Face', cursive;
+}
+
+.permanent-marker {
+    font-family: 'Permanent Marker', cursive;
+}
+
+.major-mono-display {
+    font-family: 'Major Mono Display', monospace;
+}
+
+.hi-melody {
+    font-family: 'Hi Melody', cursive;
+}
+
+// Theme colours
+.dark {
+    background-color: #000;
+}
+
+.pink {
+    background-color: var(--pink);
+}
+
+.purple {
+    background-color: var(--purple);
+}
+
+.green {
+    background-color: var(--green);
+}
+
+.orange {
+    background-color: var(--orange);
+}
+
+.brown {
+    background-color: var(--brown);
+}
+
+.gray {
+    background-color: var(--gray);
+}
+
+// Theme gradients
+.light-purple {
+    background-color: #4568DC;
+    background-image: linear-gradient(to right, #B06AB3, #4568DC);
+}
+
+.witching-hour {
+    background-color: #c31432;
+    background-image: linear-gradient(to bottom right, #240b36, #c31432);
+}
+
+.reef {
+    background-color: #00d2ff;
+    background-image: linear-gradient(to bottom right, #2F80ED, #56CCF2);
+}
+
+.dimigo {
+    background-color: #ff0f7b;
+    background-image: linear-gradient(to bottom right, #ff0f7b 0%, #f89c2a 100%);
+}
+
+.sublime-vivid {
+    background-color: #FC466B;
+    background-image: linear-gradient(to bottom right, #3F5EFB, #FC466B);
+}
+
+.greenery {
+    background-color: #00b09b;
+    background-image: linear-gradient(to bottom right, #96c93d, #00b09b);
+}
+
+.titanium {
+    background-color: #283048;
+    background-image: linear-gradient(to bottom right, #859398, #283048);
+}
+
+.pink,
+.purple,
+.blue,
+.green,
+.orange,
+.brown,
+.gray,
+.light-purple,
+.witching-hour,
+.reef,
+.dimigo,
+.sublime-vivid,
+.greenery,
+.titanium {
+    border: none !important;
+}
+
+// Image size
+.rem-50 {
+    width: 50rem;
+
+    @include respond(600px) {
+        width: calc(90vw - 4rem);
+    }
+}
+
+.rem-24 {
+    width: 24rem;
+
+    @include respond(600px) {
+        width: calc(45vw - 3rem);
+    }
+}
+
+// Active font
+.chosen-font {
+    background-color: rgba($color: #fff, $alpha: 0.1);
+
+    @include respond(600px) {
+        background-color: rgba($color: #fff, $alpha: 0.2);
+    }    
+}
