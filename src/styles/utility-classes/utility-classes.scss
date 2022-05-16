@@ -147,7 +147,7 @@
 }
 
 // Active font
-.chosen-font {
+.selected-font {
     background-color: rgba($color: #fff, $alpha: 0.1);
 
     @include respond(600px) {

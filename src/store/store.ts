@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-type Notes = {
-    notes: {
+type Note = {
+    note: {
         noteId: string
         noteTitle: string,
         noteText: string,
@@ -13,9 +13,9 @@ type Notes = {
 };
 
 type InitialState = {
-    userNotes: Notes[],
-    favouriteNotes: Notes[],
-    trashedNotes: Notes[],
+    userNotes: Note[],
+    favouriteNotes: Note[],
+    trashedNotes: Note[],
     isNoteEmpty: boolean,
     isNoteNew: boolean,
     isFormVisible: boolean,
@@ -44,23 +44,23 @@ const initialState: InitialState = {
     noteIsFavourite: false
 };
 
-createSlice({
+const noteStateSlice = createSlice({
     name: "Notes",
     initialState,
     reducers: {
-        formVisibility(state, action) {
+        formVisibility(state, action: PayloadAction<boolean>) {
             state.isFormVisible = action.payload;
         },
         
-        currentTitle(state, action) {
+        currentTitle(state, action: PayloadAction<string>) {
             state.noteTitle = action.payload;
         },
 
-        currentNote(state, action) {
+        currentNote(state, action: PayloadAction<string>) {
             state.noteText = action.payload;
         },
 
-        imageUploaded(state, action) {
+        imageUploaded(state, action: PayloadAction<string>) {
             state.noteImages.push(action.payload);
         },
 
@@ -140,29 +140,29 @@ createSlice({
         //     }
         // },
 
-        setTheme(state, action) {
+        setTheme(state, action: PayloadAction<string>) {
             state.noteTheme = action.payload;
         },
 
-        setFont(state, action) {
+        setFont(state, action: PayloadAction<string>) {
             state.noteFont = action.payload;
         },
 
-        noteEmpty(state, action) {
-            state.isNoteEmpty = action.payload;
-        },
+        // noteEmpty(state, action) {
+        //     state.isNoteEmpty = action.payload;
+        // },
 
-        newNote(state, action) {
-            state.isNoteNew = action.payload;
-        },
+        // newNote(state, action) {
+        //     state.isNoteNew = action.payload;
+        // },
 
-        deleteImages(state, action) {
-            state.noteImages.splice(action.payload, 1);
-        },
+        // deleteImages(state, action) {
+        //     state.noteImages.splice(action.payload, 1);
+        // },
 
-        toggleFavouriteStatus(state) {
-            state.noteIsFavourite = !state.noteIsFavourite;
-        },
+        // toggleFavouriteStatus(state) {
+        //     state.noteIsFavourite = !state.noteIsFavourite;
+        // },
 
         // addFavouriteNotes(state) {
         //     state.favouriteNotes = state.userNotes.filter(note => note.favourite === true);
@@ -170,4 +170,10 @@ createSlice({
     }
 })
 
-export {};
+const store = configureStore({
+    reducer: noteStateSlice.reducer
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export const noteActions = noteStateSlice.actions;
+export default store;

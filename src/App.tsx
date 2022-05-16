@@ -1,14 +1,17 @@
-import React from "react";
+import { Provider } from "react-redux";
 import Navigation from "./components/Common/Navigation";
 import HomePage from "./components/Pages/Home";
+import store from "./store/store";
 import "./styles/main.scss";
 
 function App() {
   return (
-    <div className="App">
-      <Navigation />
-      <HomePage />
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <Navigation />
+        <HomePage />
+      </div>
+    </Provider>
   );
 }
 

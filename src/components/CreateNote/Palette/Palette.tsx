@@ -1,21 +1,29 @@
+import { useDispatch, useSelector } from "react-redux";
+import { noteActions, RootState } from "../../../store/store";
+
 function Palette() {
     const themeColours: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
     const themeGradients: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
+	const activeTheme = useSelector((state: RootState) => state.noteTheme);
+	const dispatch = useDispatch();
 
-	const themeChange = (e: React.FormEvent<HTMLButtonElement>, theme: string, value: boolean) => {
+	const themeChange = (e: React.FormEvent, theme: string, value: boolean) => {
 		e.preventDefault();
-		
+		dispatch(noteActions.setTheme(theme));
 	}
 
-	const activeTheme = (theme: string) => {
+	const activeThemeIndicator = (theme: string) => {
+		let themeClass: string;
 		if (theme === "dark") {
-			return "default-theme-button";
+			themeClass = "default-theme-button";
 		} else {
-			return theme;
+			themeClass = theme;
 		}
+
+		return theme === activeTheme ? `active-theme ${themeClass}` : themeClass;
 	}
 	
-  	return(
+  	return (
 		<div className="palette-container">
 		<div className="palette comical-shadow-idle">
 			<div className="solid-colours">
@@ -24,7 +32,7 @@ function Palette() {
 					{themeColours.map((themeColour, index) => {
 						return <button
 							key={index}
-							className={activeTheme(themeColour)}
+							className={activeThemeIndicator(themeColour)}
 							onClick={(e) => themeChange(e, themeColour, false)}>
 						</button>
 					})}
@@ -37,7 +45,7 @@ function Palette() {
 					{themeGradients.map((themeGradient, index) => {
 						return <button
 							key={index}
-							className={activeTheme(themeGradient)}
+							className={activeThemeIndicator(themeGradient)}
 							onClick={(e) => themeChange(e, themeGradient, true)}>
 						</button>
 					})}

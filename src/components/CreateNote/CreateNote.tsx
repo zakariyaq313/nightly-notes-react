@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { noteActions, RootState } from "../../store/store";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
-type CreateNoteProps = {
-  formVisible: boolean,
-  closeNote: (value: boolean) => void
-};
+function CreateNote() {
+  const formVisibility = useSelector((state: RootState) => state.isFormVisible);
+  const background = useSelector((state: RootState) => state.noteTheme);
+  const fontFamily = useSelector((state: RootState) => state.noteFont);
+  const dispatch = useDispatch();
 
-function CreateNote(props: CreateNoteProps) {
   const [themeState, setTheme] = useState({
     font: false,
     palette: false
   });
+
+  const formClasses = () => {
+    let formClassNames: string = `${background} ${fontFamily}`;
+    return formVisibility ? `form-visible ${formClassNames}` : formClassNames;
+  }
 
   const themeHandler = (value: { font: boolean, palette: boolean }) => {
     setTheme({
@@ -28,12 +35,12 @@ function CreateNote(props: CreateNoteProps) {
 
   const closeNoteDialog = (e: React.FormEvent) => {
     e.preventDefault();
-    props.closeNote(false);
+    dispatch(noteActions.formVisibility(false));
   }
 
 	return (
-		<form className={ props.formVisible ? "form-visible" : "" }>
-      <div onClick={ hideElements } className="upper-half">
+		<form className={formClasses()}>
+      <div onClick={hideElements} className="upper-half">
         <div className="action-buttons">
           <button onClick={closeNoteDialog}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>

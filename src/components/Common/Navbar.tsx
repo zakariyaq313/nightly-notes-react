@@ -1,14 +1,18 @@
+import { useDispatch } from "react-redux";
+import { noteActions } from "../../store/store";
+
 type NavbarProps = {
     pageLabel: React.ReactNode,
     buttonLabel: string,
     buttonClass: string,
-    newNote: (value: boolean) => void
 };
 
 function Navbar(props: NavbarProps) {
-    const {pageLabel, buttonLabel, buttonClass, newNote} = props;
+    const {pageLabel, buttonLabel, buttonClass} = props;
+    const dispatch = useDispatch();
+
     const createNewNote = () => {
-        newNote(true);
+        dispatch(noteActions.formVisibility(true));
     }
 
     return (
