@@ -84,7 +84,15 @@ const noteStateSlice = createSlice({
         //     });        
         // },
 
-        editingNote(state, action) {
+        editingNote(state, action: PayloadAction<{
+            id: string,
+            title: string,
+            text: string,
+            images: string[],
+            theme: string,
+            font: string,
+            favourite: boolean
+        }>) {
             state.noteId = action.payload.id;
             state.noteTitle = action.payload.title;
             state.noteText = action.payload.text;

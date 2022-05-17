@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState } from "../../store/store";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
 function CreateNote() {
+  const uploadImageButton = useRef<HTMLInputElement>(null);
   const formVisibility = useSelector((state: RootState) => state.isFormVisible);
   const background = useSelector((state: RootState) => state.noteTheme);
   const fontFamily = useSelector((state: RootState) => state.noteFont);
+  const title = useSelector((state: RootState) => state.noteTitle);
+  const note = useSelector((state: RootState) => state.noteText);
   const dispatch = useDispatch();
 
   const [themeState, setTheme] = useState({
@@ -19,7 +22,7 @@ function CreateNote() {
     return formVisibility ? `form-visible ${formClassNames}` : formClassNames;
   }
 
-  const themeHandler = (value: { font: boolean, palette: boolean }) => {
+  const themeHandler = (value: {font: boolean, palette: boolean}) => {
     setTheme({
       font: value.font,
       palette: value.palette
@@ -36,6 +39,24 @@ function CreateNote() {
   const closeNoteDialog = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(noteActions.formVisibility(false));
+  }
+
+  const getTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(noteActions.currentTitle(e.target.value));
+  }
+
+  const getNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    dispatch(noteActions.currentNote(e.target.value));
+  }
+
+  const uploadButtonClicked = () => {
+    uploadImageButton.current?.click();
+  }
+
+  const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      dispatch(noteActions.imageUploaded(URL.createObjectURL(e.target.files[0])));
+    }
   }
 
 	return (
@@ -65,16 +86,17 @@ function CreateNote() {
         </div>
 
         <div className="user-inputs">
-          <input type="text" placeholder="Title" spellCheck={false} />
-          <textarea placeholder="Your note" spellCheck={false}></textarea>
-          <input type="file" accept="image/*" style={{display: "none"}} />
+          <input onChange={getTitle} value={title} placeholder="Title" type="text" spellCheck={false} />
+          <textarea onChange={getNote} value={note} placeholder="Your note" spellCheck={false}></textarea>
+          <input onChange={uploadImage} ref={uploadImageButton} type="file" accept="image/*" style={{display: "none"}} />
         </div>      
       </div>
         
       <div className="lower-half">
         <ButtonPanel 
-          theme={ themeState }
-          onUpdateTheme={ themeHandler } />
+          theme={themeState}
+          onUpdateTheme={themeHandler}
+          onUploadImage={uploadButtonClicked} />
       </div>
     </form>
   );

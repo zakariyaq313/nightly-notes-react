@@ -8,11 +8,12 @@ type ButtonPanelProps = {
     palette: boolean
   },
 
-  onUpdateTheme: (value: { font: boolean, palette: boolean }) => void
+  onUpdateTheme: (value: {font: boolean, palette: boolean}) => void,
+  onUploadImage: () => void
 };
 
 function ButtonPanel(props: ButtonPanelProps) {
-  const { theme, onUpdateTheme } = props;
+  const {theme, onUpdateTheme, onUploadImage} = props;
   
   const openFontSelect = () => {
     onUpdateTheme({
@@ -29,12 +30,17 @@ function ButtonPanel(props: ButtonPanelProps) {
     });
   }
 
-  const closeElements = (e: React.FormEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const closeElements = () => {
     onUpdateTheme({
       font: false,
       palette: false
     });
+  }
+
+  const uploadImage = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    closeElements();
+    onUploadImage();
   }
 
   return(
@@ -44,7 +50,7 @@ function ButtonPanel(props: ButtonPanelProps) {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"/></svg>
       </span>
 
-      <button onClick={closeElements} title="Image">
+      <button onClick={uploadImage} title="Image">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.86 8.86l-3 3.87L9 13.14 6 17h12l-3.86-5.14z"/></svg>
       </button>
 
