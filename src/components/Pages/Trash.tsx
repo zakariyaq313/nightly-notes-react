@@ -4,11 +4,11 @@ import Navbar from "../Common/Navbar";
 import CreateNote from "../CreateNote/CreateNote";
 import Note from "../Notes/Note";
 
-function HomePage() {
-    const notes = useSelector((state: RootState) => state.userNotes);
-    const pageLabel = <span className="logo"><b>Notes</b><b>Mini</b></span>;
-    const buttonLabel = "New note";
-    const buttonClass = "create-note-btn";
+function Trash() {
+    const notes = useSelector((state: RootState) => state.trashedNotes);
+    const pageLabel = <b>Trash</b>;
+    const buttonLabel = "Empty trash";
+    const buttonClass = "empty-trash";
 
     return (
         <>
@@ -16,7 +16,7 @@ function HomePage() {
                 pageLabel={pageLabel} 
                 buttonLabel={buttonLabel}
                 buttonClass={buttonClass}
-                isTrash={false}
+                isTrash={true}
             />
 
             <CreateNote />
@@ -36,7 +36,7 @@ function HomePage() {
                 })}
             </div>
         </>
-    )
+    );
 }
 
-export default HomePage;
+export default Trash;

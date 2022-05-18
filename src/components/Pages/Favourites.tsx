@@ -4,9 +4,9 @@ import Navbar from "../Common/Navbar";
 import CreateNote from "../CreateNote/CreateNote";
 import Note from "../Notes/Note";
 
-function HomePage() {
-    const notes = useSelector((state: RootState) => state.userNotes);
-    const pageLabel = <span className="logo"><b>Notes</b><b>Mini</b></span>;
+function Favourites() {
+    const notes = useSelector((state: RootState) => state.favouriteNotes);
+    const pageLabel = <b>Favourites</b>;
     const buttonLabel = "New note";
     const buttonClass = "create-note-btn";
 
@@ -36,7 +36,7 @@ function HomePage() {
                 })}
             </div>
         </>
-    )
+    );
 }
 
-export default HomePage;
+export default Favourites;

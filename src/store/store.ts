@@ -1,15 +1,13 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Note = {
-    note: {
-        noteId: string
-        noteTitle: string,
-        noteText: string,
-        noteImages: string[],
-        noteTheme: string,
-        noteFont: string,
-        noteIsFavourite: boolean
-    }
+    noteId: string
+    noteTitle: string,
+    noteText: string,
+    noteImages: string[],
+    noteTheme: string,
+    noteFont: string,
+    noteIsFavourite: boolean
 };
 
 type InitialState = {
