@@ -1,40 +1,26 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import Navbar from "../Common/Navbar";
-import CreateNote from "../CreateNote/CreateNote";
-import Note from "../Notes/Note";
+import Page from "../Common/Page";
+import NotesIcon from "../Icons/NotesIcon";
 
 function HomePage() {
     const notes = useSelector((state: RootState) => state.userNotes);
     const pageLabel = <span className="logo"><b>Notes</b><b>Mini</b></span>;
     const buttonLabel = "New note";
     const buttonClass = "create-note-btn";
+    const emptyText = "Anything to add?";
 
     return (
         <>
-            <Navbar 
-                pageLabel={pageLabel} 
+            <Page
+                notes={notes}
+                pageLabel={pageLabel}
                 buttonLabel={buttonLabel}
                 buttonClass={buttonClass}
+                emptyText={emptyText}
+                emptyIcon={<NotesIcon/>}
                 isTrash={false}
             />
-
-            <CreateNote />
-
-            <div className="notes">
-                {notes.map((note) => {
-                    return <Note
-                        key={note.noteId}
-                        id={note.noteId}
-                        title={note.noteTitle}
-                        text={note.noteText}
-                        images={note.noteImages}
-                        theme={note.noteTheme}
-                        font={note.noteFont}
-                        favourite={note.noteIsFavourite}
-                    />
-                })}
-            </div>
         </>
     )
 }

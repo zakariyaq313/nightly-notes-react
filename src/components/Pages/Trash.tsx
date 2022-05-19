@@ -1,40 +1,26 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import Navbar from "../Common/Navbar";
-import CreateNote from "../CreateNote/CreateNote";
-import Note from "../Notes/Note";
+import Page from "../Common/Page";
+import TrashIcon from "../Icons/TrashIcon";
 
 function Trash() {
     const notes = useSelector((state: RootState) => state.trashedNotes);
     const pageLabel = <b>Trash</b>;
     const buttonLabel = "Empty trash";
     const buttonClass = "empty-trash";
+    const emptyText = "Trash is empty";
 
     return (
         <>
-            <Navbar 
-                pageLabel={pageLabel} 
+            <Page
+                notes={notes}
+                pageLabel={pageLabel}
                 buttonLabel={buttonLabel}
                 buttonClass={buttonClass}
+                emptyText={emptyText}
+                emptyIcon={<TrashIcon/>}
                 isTrash={true}
             />
-
-            <CreateNote />
-
-            <div className="notes">
-                {notes.map((note) => {
-                    return <Note
-                        key={note.noteId}
-                        id={note.noteId}
-                        title={note.noteTitle}
-                        text={note.noteText}
-                        images={note.noteImages}
-                        theme={note.noteTheme}
-                        font={note.noteFont}
-                        favourite={note.noteIsFavourite}
-                    />
-                })}
-            </div>
         </>
     );
 }

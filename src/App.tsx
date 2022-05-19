@@ -1,4 +1,5 @@
 import { Provider } from "react-redux";
+import Footer from "./components/Common/Footer";
 import Navigation from "./components/Common/Navigation";
 import HomePage from "./components/Pages/Home";
 import store from "./store/store";
@@ -10,6 +11,7 @@ function App() {
       <div className="App">
         <Navigation />
         <HomePage />
+        <Footer />
       </div>
     </Provider>
   );
