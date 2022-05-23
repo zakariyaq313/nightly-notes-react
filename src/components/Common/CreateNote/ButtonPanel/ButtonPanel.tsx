@@ -1,11 +1,11 @@
-import React from "react";
-import ArrowDownIcon from "../../Icons/ArrowDownIcon";
-import ImageIcon from "../../Icons/ImageIcon";
-import PaletteIcon from "../../Icons/PaletteIcon";
-import RestoreIcon from "../../Icons/RestoreIcon";
-import TrashIcon from "../../Icons/TrashIcon";
+import React, { Fragment } from "react";
+import ArrowDownIcon from "../../../Icons/ArrowDownIcon";
+import ImageIcon from "../../../Icons/ImageIcon";
+import PaletteIcon from "../../../Icons/PaletteIcon";
+import RestoreIcon from "../../../Icons/RestoreIcon";
+import TrashIcon from "../../../Icons/TrashIcon";
 import FontSelect from "../FontSelect/FontSelect";
-import Palette from "../Palette/Palette";
+import Palette from "../ColorPalette/Palette";
 
 type ButtonPanelProps = {
   activePage: string,
@@ -51,7 +51,7 @@ function ButtonPanel(props: ButtonPanelProps) {
   return (
 		<div className="note-options">
       { activePage !== "trash" &&
-        <>
+        <Fragment>
           <span onClick={openFontSelect} className="font-select-button">
             Font family
             <ArrowDownIcon />
@@ -68,11 +68,11 @@ function ButtonPanel(props: ButtonPanelProps) {
           <button disabled title="Delete">
             <TrashIcon />
           </button>
-        </>
+        </Fragment>
       }
 
       { activePage === "trash" &&
-        <>
+        <Fragment>
           <button title="Delete forever">
             <TrashIcon />
           </button>
@@ -80,7 +80,7 @@ function ButtonPanel(props: ButtonPanelProps) {
           <button title="Restore">
             <RestoreIcon />
           </button>
-        </>
+        </Fragment>
       }
 
       { theme.font && <FontSelect /> }

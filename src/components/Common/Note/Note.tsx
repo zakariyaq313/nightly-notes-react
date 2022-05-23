@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { noteActions } from "../../store/store";
+import { noteActions } from "../../../store/store";
 
 type NoteProps = {
     id: string,
     title: string,
-    text: string,
+    content: string,
     images: string[],
     theme: string,
     font: string,
@@ -12,13 +12,13 @@ type NoteProps = {
 };
 
 function Note(props: NoteProps) {
-    const { id, title, text, images, theme, font, favourite } = props;
+    const { id, title, content, images, theme, font, favourite } = props;
     const dispatch = useDispatch();
     const editNote = () => {
         dispatch(noteActions.editingNote({
             id: id,
             title: title,
-            text: text,
+            content: content,
             images: images,
             theme: theme,
             font: font,
@@ -34,7 +34,7 @@ function Note(props: NoteProps) {
                 })}
             </div>
             <h3>{ title }</h3>
-            <p>{ text }</p>
+            <p>{ content }</p>
         </div>
     );
 }

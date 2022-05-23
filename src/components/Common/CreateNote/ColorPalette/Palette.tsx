@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { noteActions, RootState } from "../../../store/store";
+import { noteActions, RootState } from "../../../../store/store";
 
 function Palette() {
     const themeColours: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];

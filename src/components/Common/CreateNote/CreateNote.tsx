@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { noteActions, RootState } from "../../store/store";
-import ArrowLeftIcon from "../Icons/ArrowLeftIcon";
-import DeleteIcon from "../Icons/DeleteIcon";
-import FavouriteIcon from "../Icons/FavouriteIcon";
-import UnfavouriteIcon from "../Icons/UnfavouriteIcon";
+import { noteActions, RootState } from "../../../store/store";
+import ArrowLeftIcon from "../../Icons/ArrowLeftIcon";
+import DeleteIcon from "../../Icons/DeleteIcon";
+import FavouriteIcon from "../../Icons/FavouriteIcon";
+import UnfavouriteIcon from "../../Icons/UnfavouriteIcon";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
 type CreateNoteProps = {
@@ -12,16 +12,17 @@ type CreateNoteProps = {
 };
 
 function CreateNote(props: CreateNoteProps) {
+  const { activePage } = props;
+  const dispatch = useDispatch();
   const uploadImageButton = useRef<HTMLInputElement>(null);
+
   const formVisibility = useSelector((state: RootState) => state.isFormVisible);
   const background = useSelector((state: RootState) => state.noteTheme);
   const fontFamily = useSelector((state: RootState) => state.noteFont);
-  const title = useSelector((state: RootState) => state.noteTitle);
-  const noteContent = useSelector((state: RootState) => state.noteText);
+  const noteTitle = useSelector((state: RootState) => state.noteTitle);
+  const noteContent = useSelector((state: RootState) => state.noteContent);
   const images = useSelector((state: RootState) => state.noteImages);
   const favourite = useSelector((state: RootState) => state.noteIsFavourite);
-  const { activePage } = props;
-  const dispatch = useDispatch();
 
   const [themeState, setTheme] = useState({
     font: false,
@@ -74,7 +75,8 @@ function CreateNote(props: CreateNoteProps) {
 
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      dispatch(noteActions.imageUploaded(URL.createObjectURL(e.target.files[0])));
+      const uploadedImage = URL.createObjectURL(e.target.files[0]);
+      dispatch(noteActions.imageUploaded(uploadedImage));
     }
   }
 
@@ -115,7 +117,7 @@ function CreateNote(props: CreateNoteProps) {
 
         <div className="user-inputs">
           <input onChange={ setTitle }
-                  value={ title }
+                  value={ noteTitle }
                   placeholder="Title"
                   type="text"
                   spellCheck={ false }

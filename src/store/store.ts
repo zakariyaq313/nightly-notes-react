@@ -3,7 +3,7 @@ import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 type Note = {
     noteId: string
     noteTitle: string,
-    noteText: string,
+    noteContent: string,
     noteImages: string[],
     noteTheme: string,
     noteFont: string,
@@ -20,7 +20,7 @@ type InitialState = {
     activePage: string,
     noteId: string,
     noteTitle: string,
-    noteText: string,
+    noteContent: string,
     noteImages: string[],
     noteTheme: string,
     noteFont: string,
@@ -37,7 +37,7 @@ const initialState: InitialState = {
     activePage: "home",
     noteId: "",
     noteTitle: "",
-    noteText: "",
+    noteContent: "",
     noteImages: [],
     noteTheme: "dark",
     noteFont: "roboto",
@@ -57,7 +57,7 @@ const noteStateSlice = createSlice({
         },
 
         currentNote(state, action: PayloadAction<string>) {
-            state.noteText = action.payload;
+            state.noteContent = action.payload;
         },
 
         imageUploaded(state, action: PayloadAction<string>) {
@@ -76,7 +76,7 @@ const noteStateSlice = createSlice({
         //     collection.unshift({
         //         id: new Date().toISOString(),
         //         title: state.noteTitle,
-        //         text: state.noteText,
+        //         text: state.noteContent,
         //         images: state.noteImages,
         //         theme: state.noteTheme,
         //         font: state.noteFont,
@@ -87,7 +87,7 @@ const noteStateSlice = createSlice({
         editingNote(state, action: PayloadAction<{
             id: string,
             title: string,
-            text: string,
+            content: string,
             images: string[],
             theme: string,
             font: string,
@@ -95,7 +95,7 @@ const noteStateSlice = createSlice({
         }>) {
             state.noteId = action.payload.id;
             state.noteTitle = action.payload.title;
-            state.noteText = action.payload.text;
+            state.noteContent = action.payload.content;
             state.noteImages = action.payload.images;
             state.noteTheme = action.payload.theme;
             state.noteFont = action.payload.font;
@@ -106,7 +106,7 @@ const noteStateSlice = createSlice({
             let noteFound = action;
             Object.assign(noteFound, {
                 title: state.noteTitle,
-                text: state.noteText,
+                content: state.noteContent,
                 images: state.noteImages,
                 theme: state.noteTheme,
                 font: state.noteFont,
@@ -117,7 +117,7 @@ const noteStateSlice = createSlice({
         resetNote(state) {
             state.noteId = "";
             state.noteTitle = "";
-            state.noteText = "";
+            state.noteContent = "";
             state.noteImages = [];
             state.noteTheme = "dark";
             state.noteFont = "roboto";

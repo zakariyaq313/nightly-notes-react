@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import CreateNote from "../CreateNote/CreateNote";
-import Note from "../Note/Note";
-import Navbar from "./Navbar";
+import Navbar from "../Common/Navbar";
+import CreateNote from "../Common/CreateNote/CreateNote";
+import Note from "../Common/Note/Note";
 
 type Props = {
     activePage: string,
@@ -11,7 +11,7 @@ type Props = {
     notes: {
         noteId: string,
         noteTitle: string,
-        noteText: string,
+        noteContent: string,
         noteImages: string[],
         noteTheme: string,
         noteFont: string,
@@ -20,9 +20,13 @@ type Props = {
 };
 
 function Page(props: Props) {
-    const { notes, activePage, pageLabel, emptyText, emptyIcon } = props;
     const [ notesEmpty, setNotesEmpty ] = useState(true);
+    const { notes, activePage, pageLabel, emptyText, emptyIcon } = props;
     const emptyClass = (activePage === "home") ? "" : "inline-description";
+
+    const closeNote = () => {
+
+    }
 
     useEffect(() => {
         if (notes.length > 0) {
@@ -40,6 +44,9 @@ function Page(props: Props) {
                 notesEmpty={ notesEmpty }
             />
 
+            <div onClick={ closeNote } className="['overlay', overlayVisible]"></div>
+            <div className="['background-blur', blurOverlayClasses]"></div>
+
             <CreateNote
                 activePage={ activePage }
             />
@@ -50,7 +57,7 @@ function Page(props: Props) {
                         key={ note.noteId }
                         id={ note.noteId }
                         title={ note.noteTitle }
-                        text={ note.noteText }
+                        content={ note.noteContent }
                         images={ note.noteImages }
                         theme={ note.noteTheme }
                         font={ note.noteFont }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, noteActions } from "../../../store/store";
+import { RootState, noteActions } from "../../../../store/store";
 
 function FontSelect() {
   const fontStyles: { name: string, class: string }[] = [

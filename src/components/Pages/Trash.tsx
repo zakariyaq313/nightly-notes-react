@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
-import Page from "../Common/Page";
+import Page from "../Base/Page";
 import SparklesIcon from "../Icons/SparklesIcon";
 
 function Trash() {
