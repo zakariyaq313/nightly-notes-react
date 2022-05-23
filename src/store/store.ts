@@ -17,6 +17,7 @@ type InitialState = {
     isNoteEmpty: boolean,
     isNoteNew: boolean,
     isFormVisible: boolean,
+    activePage: string,
     noteId: string,
     noteTitle: string,
     noteText: string,
@@ -33,6 +34,7 @@ const initialState: InitialState = {
     isNoteEmpty: true,
     isNoteNew: true,
     isFormVisible: false,
+    activePage: "home",
     noteId: "",
     noteTitle: "",
     noteText: "",
@@ -166,9 +168,9 @@ const noteStateSlice = createSlice({
         //     state.noteImages.splice(action.payload, 1);
         // },
 
-        // toggleFavouriteStatus(state) {
-        //     state.noteIsFavourite = !state.noteIsFavourite;
-        // },
+        toggleFavouriteStatus(state) {
+            state.noteIsFavourite = !state.noteIsFavourite;
+        },
 
         // addFavouriteNotes(state) {
         //     state.favouriteNotes = state.userNotes.filter(note => note.favourite === true);

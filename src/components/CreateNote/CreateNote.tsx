@@ -7,13 +7,20 @@ import FavouriteIcon from "../Icons/FavouriteIcon";
 import UnfavouriteIcon from "../Icons/UnfavouriteIcon";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
-function CreateNote() {
+type CreateNoteProps = {
+  activePage: string
+};
+
+function CreateNote(props: CreateNoteProps) {
   const uploadImageButton = useRef<HTMLInputElement>(null);
   const formVisibility = useSelector((state: RootState) => state.isFormVisible);
   const background = useSelector((state: RootState) => state.noteTheme);
   const fontFamily = useSelector((state: RootState) => state.noteFont);
   const title = useSelector((state: RootState) => state.noteTitle);
-  const note = useSelector((state: RootState) => state.noteText);
+  const noteContent = useSelector((state: RootState) => state.noteText);
+  const images = useSelector((state: RootState) => state.noteImages);
+  const favourite = useSelector((state: RootState) => state.noteIsFavourite);
+  const { activePage } = props;
   const dispatch = useDispatch();
 
   const [themeState, setTheme] = useState({
@@ -22,11 +29,19 @@ function CreateNote() {
   });
 
   const formClasses = () => {
-    let formClassNames: string = `${background} ${fontFamily}`;
-    return formVisibility ? `form-visible ${formClassNames}` : formClassNames;
+    const formClassNames: string = `${ background } ${ fontFamily }`;
+    return formVisibility ? `form-visible ${ formClassNames }` : formClassNames;
   }
 
-  const themeHandler = (value: {font: boolean, palette: boolean}) => {
+  const imageClasses = () => {
+    return images.length === 1 ? "rem-50" : "rem-24";
+  }
+
+  const imageColumns = () => {
+    return images.length === 1 ? { columns: "1" } : { columns: "2" };
+  }
+
+  const themeHandler = (value: { font: boolean, palette: boolean }) => {
     setTheme({
       font: value.font,
       palette: value.palette
@@ -40,16 +55,16 @@ function CreateNote() {
     });
   }
 
-  const closeNoteDialog = (e: React.FormEvent) => {
+  const closeNoteDialog = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(noteActions.formVisibility(false));
   }
 
-  const getTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const setTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(noteActions.currentTitle(e.target.value));
   }
 
-  const getNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const setNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch(noteActions.currentNote(e.target.value));
   }
 
@@ -63,44 +78,71 @@ function CreateNote() {
     }
   }
 
+  const toggleFavourite = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(noteActions.toggleFavouriteStatus());
+  }
+
 	return (
-		<form className={formClasses()}>
-      <div onClick={hideElements} className="upper-half">
+		<form className={ formClasses() }>
+      <div onClick={ hideElements } className="upper-half">
         <div className="action-buttons">
-          <button onClick={closeNoteDialog}>
+          <button onClick={ closeNoteDialog }>
             <ArrowLeftIcon />
           </button>
 
-          <button
-            disabled
-            className="favourite-button">
-            <FavouriteIcon />
-            <UnfavouriteIcon />
+          <button onClick={ toggleFavourite }
+                  className="favourite-button"
+                  disabled={ activePage === "trash" }>
+            { !favourite && <FavouriteIcon /> }
+            { favourite && <UnfavouriteIcon /> }
           </button>
         </div>
 
-        <div v-if="imagesPresent" className="images">
-          <div className="image">
-            <img src="image" className="imageWidth" alt="" />
-
-            <button className="delete-image" disabled>
-              <DeleteIcon />              
-            </button>
+        { images.length > 0 &&
+          <div className="images" style={ imageColumns() }>
+            { images.map((image, index) => {
+              return <div className="image" key={ index }>
+                <img src={ image } className={ imageClasses() } alt="" />
+                <button className="delete-image"
+                  disabled={ activePage === "trash" }>
+                  <DeleteIcon />              
+                </button>
+              </div>
+            })}
           </div>
-        </div>
+        }
 
         <div className="user-inputs">
-          <input onChange={getTitle} value={title} placeholder="Title" type="text" spellCheck={false} />
-          <textarea onChange={getNote} value={note} placeholder="Your note" spellCheck={false}></textarea>
-          <input onChange={uploadImage} ref={uploadImageButton} type="file" accept="image/*" style={{display: "none"}} />
-        </div>      
+          <input onChange={ setTitle }
+                  value={ title }
+                  placeholder="Title"
+                  type="text"
+                  spellCheck={ false }
+                  disabled={ activePage === "trash" }
+          />
+
+          <textarea onChange={ setNote }
+                  value={ noteContent }
+                  placeholder="Your note"
+                  spellCheck={ false }
+                  disabled={ activePage === "trash" }>
+          </textarea>
+
+          <input onChange={ uploadImage }
+                  ref={ uploadImageButton }
+                  type="file" accept="image/*"
+                  style={{ display: "none" }}
+          />
+        </div>
       </div>
         
       <div className="lower-half">
-        <ButtonPanel 
-          theme={themeState}
-          onUpdateTheme={themeHandler}
-          onUploadImage={uploadButtonClicked}
+        <ButtonPanel
+          activePage={ activePage }
+          theme={ themeState }
+          onUpdateTheme={ themeHandler }
+          onUploadImage={ uploadButtonClicked }
         />
       </div>
     </form>

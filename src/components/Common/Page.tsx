@@ -4,12 +4,10 @@ import Note from "../Note/Note";
 import Navbar from "./Navbar";
 
 type Props = {
-    pageLabel: React.ReactNode,
-    buttonLabel: string,
-    buttonClass: string,
-    isTrash: boolean,
+    activePage: string,
+    pageLabel: React.ReactElement,
     emptyText: string,
-    emptyIcon: React.ReactNode,
+    emptyIcon: React.ReactElement,
     notes: {
         noteId: string,
         noteTitle: string,
@@ -22,8 +20,9 @@ type Props = {
 };
 
 function Page(props: Props) {
-    const {pageLabel, buttonLabel, buttonClass, isTrash, emptyText, emptyIcon, notes} = props;
-    const [notesEmpty, setNotesEmpty] = useState(true);
+    const { notes, activePage, pageLabel, emptyText, emptyIcon } = props;
+    const [ notesEmpty, setNotesEmpty ] = useState(true);
+    const emptyClass = (activePage === "home") ? "" : "inline-description";
 
     useEffect(() => {
         if (notes.length > 0) {
@@ -35,35 +34,36 @@ function Page(props: Props) {
 
     return (
         <>
-            <Navbar 
-                pageLabel={pageLabel} 
-                buttonLabel={buttonLabel}
-                buttonClass={buttonClass}
-                isTrash={isTrash}
+            <Navbar
+                pageLabel={ pageLabel } 
+                activePage={ activePage }
+                notesEmpty={ notesEmpty }
             />
 
-            <CreateNote />
+            <CreateNote
+                activePage={ activePage }
+            />
 
             <div className="notes">
-                {notes.map((note) => {
+                { notes.map((note) => {
                     return <Note
-                        key={note.noteId}
-                        id={note.noteId}
-                        title={note.noteTitle}
-                        text={note.noteText}
-                        images={note.noteImages}
-                        theme={note.noteTheme}
-                        font={note.noteFont}
-                        favourite={note.noteIsFavourite}
+                        key={ note.noteId }
+                        id={ note.noteId }
+                        title={ note.noteTitle }
+                        text={ note.noteText }
+                        images={ note.noteImages }
+                        theme={ note.noteTheme }
+                        font={ note.noteFont }
+                        favourite={ note.noteIsFavourite }
                     />
                 })}
             </div>
 
-            {notesEmpty &&
+            { notesEmpty &&
                 <div className="notes-unavailable">
-                    <h2>
-                        {emptyIcon}
-                        <span>{emptyText}</span>
+                    <h2 className={ emptyClass }>
+                        { emptyIcon }
+                        <span>{ emptyText }</span>
                     </h2>
                 </div>
             }

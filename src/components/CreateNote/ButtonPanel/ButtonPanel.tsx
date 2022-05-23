@@ -8,17 +8,17 @@ import FontSelect from "../FontSelect/FontSelect";
 import Palette from "../Palette/Palette";
 
 type ButtonPanelProps = {
+  activePage: string,
   theme: {
     font: boolean,
     palette: boolean
   },
-
   onUpdateTheme: (value: {font: boolean, palette: boolean}) => void,
   onUploadImage: () => void
 };
 
 function ButtonPanel(props: ButtonPanelProps) {
-  const {theme, onUpdateTheme, onUploadImage} = props;
+  const { activePage, theme, onUpdateTheme, onUploadImage } = props;
   
   const openFontSelect = () => {
     onUpdateTheme({
@@ -48,32 +48,40 @@ function ButtonPanel(props: ButtonPanelProps) {
     onUploadImage();
   }
 
-  return(
+  return (
 		<div className="note-options">
-      <span onClick={openFontSelect} className="font-select-button">
-        Font family
-        <ArrowDownIcon />
-      </span>
+      { activePage !== "trash" &&
+        <>
+          <span onClick={openFontSelect} className="font-select-button">
+            Font family
+            <ArrowDownIcon />
+          </span>
 
-      <button onClick={uploadImage} title="Image">
-        <ImageIcon />
-      </button>
+          <button onClick={uploadImage} title="Image">
+            <ImageIcon />
+          </button>
 
-      <button onClick={openPalette} title="Background colour">
-        <PaletteIcon />
-      </button>
+          <button onClick={openPalette} title="Background colour">
+            <PaletteIcon />
+          </button>
 
-      <button disabled title="Delete">
-        <TrashIcon />
-      </button>
+          <button disabled title="Delete">
+            <TrashIcon />
+          </button>
+        </>
+      }
 
-      <button title="Delete forever">
-        <TrashIcon />
-      </button>
+      { activePage === "trash" &&
+        <>
+          <button title="Delete forever">
+            <TrashIcon />
+          </button>
 
-      <button title="Restore">
-        <RestoreIcon />
-      </button>
+          <button title="Restore">
+            <RestoreIcon />
+          </button>
+        </>
+      }
 
       { theme.font && <FontSelect /> }
       { theme.palette && <Palette /> }

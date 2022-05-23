@@ -4,15 +4,16 @@ import PlusIcon from "../Icons/PlusIcon";
 import TrashIcon from "../Icons/TrashIcon";
 
 type NavbarProps = {
+    activePage: string,
     pageLabel: React.ReactNode,
-    buttonLabel: string,
-    buttonClass: string,
-    isTrash: boolean
+    notesEmpty: boolean
 };
 
 function Navbar(props: NavbarProps) {
-    const {pageLabel, buttonLabel, buttonClass, isTrash} = props;
+    const { activePage, pageLabel, notesEmpty } = props;
     const dispatch = useDispatch();
+    const buttonLabel = (activePage === "trash") ? "Empty Trash" : "New Note";
+    const buttonClass = (activePage === "trash") ? "empty-trash" : "create-note-btn";
 
     const createNewNote = () => {
         dispatch(noteActions.formVisibility(true));
@@ -21,16 +22,17 @@ function Navbar(props: NavbarProps) {
     return (
         <nav className="navbar">
             <div className="page-label">
-                {pageLabel}
+                { pageLabel }
             </div>
 
             <button
-                className={`${buttonClass} comical-shadow-clickable`}
-                onClick={createNewNote}>
+                onClick={ createNewNote }
+                className={ `${ buttonClass } comical-shadow-clickable` }
+                disabled={ (notesEmpty && activePage === "trash") || activePage === "favourites" }>
                 <span className="rising-background">
-                    {!isTrash && <PlusIcon />}
-                    {isTrash && <TrashIcon />}
-                    {buttonLabel}
+                    { activePage !== "trash" && <PlusIcon/> }
+                    { activePage === "trash" && <TrashIcon/> }
+                    { buttonLabel }
                 </span>
                 <span></span>
                 <span></span>
