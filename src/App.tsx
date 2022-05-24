@@ -9,22 +9,22 @@ import store from "./store/store";
 import "./styles/main.scss";
 
 function App() {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div className="App">
-          <Navigation />
-          <Routes>
-            <Route path="/home" element={<HomePage/>} />
-            <Route path="/favourites" element={<Favourites/>} />
-            <Route path="/trash" element={<Trash/>} />
-            <Route path="*" element={<Navigate to="/home" replace={ true } />} />
-          </Routes>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    </Provider>
-  );
+	return (
+		<Provider store={store}>
+			<BrowserRouter>
+				<div className="App">
+					<Navigation />
+					<Routes>
+						<Route path="/home" element={<HomePage />} />
+						<Route path="/favourites" element={<Favourites />} />
+						<Route path="/trash" element={<Trash />} />
+						<Route path="*" element={<Navigate to="/home" replace={true} />} />
+					</Routes>
+					<Footer />
+				</div>
+			</BrowserRouter>
+		</Provider>
+	);
 }
 
 export default App;

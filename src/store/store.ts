@@ -1,185 +1,183 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type Note = {
-    noteId: string
-    noteTitle: string,
-    noteContent: string,
-    noteImages: string[],
-    noteTheme: string,
-    noteFont: string,
-    noteIsFavourite: boolean
+	noteId: string
+	noteTitle: string,
+	noteContent: string,
+	noteImages: string[],
+	noteTheme: string,
+	noteFont: string,
+	noteIsFavourite: boolean
 };
 
 type InitialState = {
-    userNotes: Note[],
-    favouriteNotes: Note[],
-    trashedNotes: Note[],
-    isNoteEmpty: boolean,
-    isNoteNew: boolean,
-    isFormVisible: boolean,
-    activePage: string,
-    noteId: string,
-    noteTitle: string,
-    noteContent: string,
-    noteImages: string[],
-    noteTheme: string,
-    noteFont: string,
-    noteIsFavourite: boolean
+	userNotes: Note[],
+	favouriteNotes: Note[],
+	trashedNotes: Note[],
+	isNoteEmpty: boolean,
+	isNoteNew: boolean,
+	isFormVisible: boolean,
+	noteId: string,
+	noteTitle: string,
+	noteContent: string,
+	noteImages: string[],
+	noteTheme: string,
+	noteFont: string,
+	noteIsFavourite: boolean
 };
 
 const initialState: InitialState = {
-    userNotes: [],
-    favouriteNotes: [],
-    trashedNotes: [],
-    isNoteEmpty: true,
-    isNoteNew: true,
-    isFormVisible: false,
-    activePage: "home",
-    noteId: "",
-    noteTitle: "",
-    noteContent: "",
-    noteImages: [],
-    noteTheme: "dark",
-    noteFont: "roboto",
-    noteIsFavourite: false
+	userNotes: [],
+	favouriteNotes: [],
+	trashedNotes: [],
+	isNoteEmpty: true,
+	isNoteNew: true,
+	isFormVisible: false,
+	noteId: "",
+	noteTitle: "",
+	noteContent: "",
+	noteImages: [],
+	noteTheme: "dark",
+	noteFont: "roboto",
+	noteIsFavourite: false
 };
 
 const noteStateSlice = createSlice({
-    name: "Notes",
-    initialState,
-    reducers: {
-        formVisibility(state, action: PayloadAction<boolean>) {
-            state.isFormVisible = action.payload;
-        },
-        
-        currentTitle(state, action: PayloadAction<string>) {
-            state.noteTitle = action.payload;
-        },
+	name: "Notes",
+	initialState,
+	reducers: {
+		formVisibility(state, action: PayloadAction<boolean>) {
+			state.isFormVisible = action.payload;
+		},
 
-        currentNote(state, action: PayloadAction<string>) {
-            state.noteContent = action.payload;
-        },
+		currentTitle(state, action: PayloadAction<string>) {
+			state.noteTitle = action.payload;
+		},
 
-        imageUploaded(state, action: PayloadAction<string>) {
-            state.noteImages.push(action.payload);
-        },
+		currentNote(state, action: PayloadAction<string>) {
+			state.noteContent = action.payload;
+		},
 
-        // createOrTrash(state, action) {
-        //     let collection;
+		imageUploaded(state, action: PayloadAction<string>) {
+			state.noteImages.push(action.payload);
+		},
 
-        //     if (action.payload === "create") {
-        //         collection = state.userNotes;
-        //     } else if(action.payload === "trash"){
-        //         collection = state.trashedNotes;
-        //     }
+		// createOrTrash(state, action) {
+			// let collection;
 
-        //     collection.unshift({
-        //         id: new Date().toISOString(),
-        //         title: state.noteTitle,
-        //         text: state.noteContent,
-        //         images: state.noteImages,
-        //         theme: state.noteTheme,
-        //         font: state.noteFont,
-        //         favourite: state.noteIsFavourite
-        //     });        
-        // },
+			// if (action.payload === "create") {
+				// collection = state.userNotes;
+			// } else if(action.payload === "trash"){
+				// collection = state.trashedNotes;
+			// }
 
-        editingNote(state, action: PayloadAction<{
-            id: string,
-            title: string,
-            content: string,
-            images: string[],
-            theme: string,
-            font: string,
-            favourite: boolean
-        }>) {
-            state.noteId = action.payload.id;
-            state.noteTitle = action.payload.title;
-            state.noteContent = action.payload.content;
-            state.noteImages = action.payload.images;
-            state.noteTheme = action.payload.theme;
-            state.noteFont = action.payload.font;
-            state.noteIsFavourite = action.payload.favourite;
-        },
+			// collection.unshift({
+				// id: new Date().toISOString(),
+				// title: state.noteTitle,
+				// text: state.noteContent,
+				// images: state.noteImages,
+				// theme: state.noteTheme,
+				// font: state.noteFont,
+				// favourite: state.noteIsFavourite
+			// });
+		// },
 
-        updateNote(state, action) {
-            let noteFound = action;
-            Object.assign(noteFound, {
-                title: state.noteTitle,
-                content: state.noteContent,
-                images: state.noteImages,
-                theme: state.noteTheme,
-                font: state.noteFont,
-                favourite: state.noteIsFavourite
-            });
-        },
+		editingNote(state, action: PayloadAction<{
+			id: string,
+			title: string,
+			content: string,
+			images: string[],
+			theme: string,
+			font: string,
+			favourite: boolean
+		}>) {
+			state.noteId = action.payload.id;
+			state.noteTitle = action.payload.title;
+			state.noteContent = action.payload.content;
+			state.noteImages = action.payload.images;
+			state.noteTheme = action.payload.theme;
+			state.noteFont = action.payload.font;
+			state.noteIsFavourite = action.payload.favourite;
+		},
 
-        resetNote(state) {
-            state.noteId = "";
-            state.noteTitle = "";
-            state.noteContent = "";
-            state.noteImages = [];
-            state.noteTheme = "dark";
-            state.noteFont = "roboto";
-            state.noteIsFavourite = false;
-        },
+		updateNote(state, action) {
+			let noteFound = action;
+			Object.assign(noteFound, {
+				title: state.noteTitle,
+				content: state.noteContent,
+				images: state.noteImages,
+				theme: state.noteTheme,
+				font: state.noteFont,
+				favourite: state.noteIsFavourite
+			});
+		},
 
-        // trashNote(state, action) {
-        //     state.trashedNotes.unshift(action.payload);
-        //     state.favouriteNotes = state.favouriteNotes.filter(note => note.id !== action.id);
-        //     state.userNotes = state.userNotes.filter(note => note.id !== action.id);
-        // },
+		resetNote(state) {
+			state.noteId = "";
+			state.noteTitle = "";
+			state.noteContent = "";
+			state.noteImages = [];
+			state.noteTheme = "dark";
+			state.noteFont = "roboto";
+			state.noteIsFavourite = false;
+		},
 
-        // removeEmptyNote(state) {
-        //     state.userNotes = state.userNotes.filter(note => note.id !== state.noteId);
-        // },
+		// trashNote(state, action) {
+			// state.trashedNotes.unshift(action.payload);
+			// state.favouriteNotes = state.favouriteNotes.filter(note => note.id !== action.id);
+			// state.userNotes = state.userNotes.filter(note => note.id !== action.id);
+		// },
 
-        // restoreNote(state) {
-        //     let noteFound = state.trashedNotes.find(note => note.id === state.noteId);
-        //     state.userNotes.unshift(noteFound);
-        //     state.trashedNotes = state.trashedNotes.filter(note => note.id !== noteFound.id);
-        // },
+		// removeEmptyNote(state) {
+			// state.userNotes = state.userNotes.filter(note => note.id !== state.noteId);
+		// },
 
-        // deleteNotes(state, action) {
-        //     if (action.payload === "delete-one") {
-        //         state.trashedNotes = state.trashedNotes.filter(note => note.id !== state.noteId);
-        //     } else if (action.payload === "delete-all") {
-        //         state.trashedNotes = [];
-        //     }
-        // },
+		// restoreNote(state) {
+			// let noteFound = state.trashedNotes.find(note => note.id === state.noteId);
+			// state.userNotes.unshift(noteFound);
+			// state.trashedNotes = state.trashedNotes.filter(note => note.id !== noteFound.id);
+		// },
 
-        setTheme(state, action: PayloadAction<string>) {
-            state.noteTheme = action.payload;
-        },
+		// deleteNotes(state, action) {
+			// if (action.payload === "delete-one") {
+				// state.trashedNotes = state.trashedNotes.filter(note => note.id !== state.noteId);
+			// } else if (action.payload === "delete-all") {
+				// state.trashedNotes = [];
+			// }
+		// },
 
-        setFont(state, action: PayloadAction<string>) {
-            state.noteFont = action.payload;
-        },
+		setTheme(state, action: PayloadAction<string>) {
+			state.noteTheme = action.payload;
+		},
 
-        // noteEmpty(state, action) {
-        //     state.isNoteEmpty = action.payload;
-        // },
+		setFont(state, action: PayloadAction<string>) {
+			state.noteFont = action.payload;
+		},
 
-        // newNote(state, action) {
-        //     state.isNoteNew = action.payload;
-        // },
+		// noteEmpty(state, action) {
+			// state.isNoteEmpty = action.payload;
+		// },
 
-        // deleteImages(state, action) {
-        //     state.noteImages.splice(action.payload, 1);
-        // },
+		// newNote(state, action) {
+			// state.isNoteNew = action.payload;
+		// },
 
-        toggleFavouriteStatus(state) {
-            state.noteIsFavourite = !state.noteIsFavourite;
-        },
+		// deleteImages(state, action) {
+			// state.noteImages.splice(action.payload, 1);
+		// },
 
-        // addFavouriteNotes(state) {
-        //     state.favouriteNotes = state.userNotes.filter(note => note.favourite === true);
-        // }
-    }
+		toggleFavouriteStatus(state) {
+			state.noteIsFavourite = !state.noteIsFavourite;
+		},
+
+		// addFavouriteNotes(state) {
+			// state.favouriteNotes = state.userNotes.filter(note => note.favourite === true);
+		// }
+	}
 })
 
 const store = configureStore({
-    reducer: noteStateSlice.reducer
+	reducer: noteStateSlice.reducer
 });
 
 export type RootState = ReturnType<typeof store.getState>;
