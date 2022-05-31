@@ -2,20 +2,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState } from "../../../../../store/store";
 
 function Palette() {
-	const themeColours: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
-	const themeGradients: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
+	const themeColourList: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
+	const themeGradientList: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
 	const activeTheme = useSelector((state: RootState) => state.noteTheme);
 	const dispatch = useDispatch();
 
 	const themeChange = (e: React.FormEvent, theme: string, value: boolean) => {
 		e.preventDefault();
-		dispatch(noteActions.setTheme(theme));
+		dispatch(noteActions.setNoteTheme(theme));
 	}
 
 	const themeClasses = (theme: string) => {
 		let themeClass: string;
 		if (theme === "dark") {
-			themeClass = "default-theme-button";
+			themeClass =  "default-theme-button";
 		} else {
 			themeClass = theme;
 		}
@@ -29,11 +29,11 @@ function Palette() {
 				<div className="solid-colours">
 					<b>Solid</b>
 					<div className="theme-buttons">
-						{themeColours.map((themeColour, index) => (
+						{themeColourList.map((colour, index) => (
 							<button
 								key={index}
-								className={themeClasses(themeColour)}
-								onClick={(e) => themeChange(e, themeColour, false)}>
+								className={themeClasses(colour)}
+								onClick={(e) => themeChange(e, colour, false)}>
 							</button>
 						))}
 					</div>
@@ -42,11 +42,11 @@ function Palette() {
 				<div className="gradient-colours">
 					<b>Gradient</b>
 					<div className="theme-buttons">
-						{themeGradients.map((themeGradient, index) => (
+						{themeGradientList.map((gradient, index) => (
 							<button
 								key={index}
-								className={themeClasses(themeGradient)}
-								onClick={(e) => themeChange(e, themeGradient, true)}>
+								className={themeClasses(gradient)}
+								onClick={(e) => themeChange(e, gradient, true)}>
 							</button>
 						))}
 					</div>

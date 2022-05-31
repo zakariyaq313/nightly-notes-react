@@ -58,7 +58,7 @@ function FontSelect() {
 	const selectedFont = useSelector((state: RootState) => state.noteFont);
 	const changeFont = (e: React.FormEvent, font: string) => {
 		e.preventDefault();
-		dispatch(noteActions.setFont(font));
+		dispatch(noteActions.setNoteFont(font));
 	}
 
 	const fontClasses = (fontFamily: string) => {

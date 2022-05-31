@@ -1,39 +1,35 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Navbar from "../Common/Navbar";
-import CreateNote from "../Common/CreateNote/CreateNote";
+import NoteDialog from "../Common/NoteDialog/NoteDialog";
 import Note from "../Common/Note/Note";
-import { useDispatch, useSelector } from "react-redux";
-import { noteActions, RootState } from "../../store/store";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../store/store";
+import { exitNote } from "../../store/thunks/thunks";
+import { PageProps } from "../../types/types";
+import ConfirmDelete from "../Common/ConfirmDelete";
 
-type Props = {
-	activePage: string,
-	pageLabel: React.ReactElement,
-	emptyNotesClass: string,
-	emptyNotesInfo: string,
-	emptyNotesIcon: React.ReactElement,
-	notes: {
-		noteId: string,
-		noteTitle: string,
-		noteContent: string,
-		noteImages: string[],
-		noteTheme: string,
-		noteFont: string,
-		noteIsFavourite: boolean
-	}[]
-};
-
-function Page(props: Props) {
-	const {notes, activePage, pageLabel, emptyNotesClass, emptyNotesInfo, emptyNotesIcon} = props;
-
-	const [notesEmpty, setNotesEmpty] = useState<boolean>(true);
-	const [overlayVisible, setOverlayVisibility] = useState<string>("");
-
+function Page(props: PageProps) {
+	const {
+		notes, activePage, pageLabel, emptyNotesClass, emptyNotesInfo, emptyNotesIcon
+	} = props;
 	const formIsVisible = useSelector((state: RootState) => state.isFormVisible);
-	const dispatch = useDispatch();
+	const thunkDispatch = useAppDispatch();
+	const [notesEmpty, setNotesEmpty] = useState<boolean>(true);
+	const [overlayClasses, setOverlayClasses] = useState("");
+	const [blurOverlayClasses, setBlurOverlayClasses] = useState("");
+	const [deleteConfirmVisible, setDeleteConfirmVisibility] = useState(false);
+	const [deleteAmount, setDeleteAmount] = useState("");
 
 	const closeNote = () => {
-		dispatch(noteActions.resetNote());
-		dispatch(noteActions.formVisibility(false));
+		thunkDispatch(exitNote(activePage));
+	}
+
+	const showDeleteConfirm = (value: boolean) => {
+		setDeleteConfirmVisibility(value);
+	}
+
+	const syncDeleteAmount = (value: string) => {
+		setDeleteAmount(value);
 	}
 
 	useEffect(() => {
@@ -46,9 +42,9 @@ function Page(props: Props) {
 
 	useEffect(() => {
 		if (formIsVisible) {
-			setOverlayVisibility("overlay-visible");
+			setOverlayClasses("overlay-visible");
 		} else {
-			setOverlayVisibility("");
+			setOverlayClasses("");
 		}
 	}, [formIsVisible]);
 
@@ -58,28 +54,32 @@ function Page(props: Props) {
 				pageLabel={pageLabel}
 				activePage={activePage}
 				notesEmpty={notesEmpty}
+				onShowDeleteConfirm={showDeleteConfirm}
+				onSetDeleteAmount={syncDeleteAmount}
 			/>
 
-			<div onClick={closeNote} className={`overlay ${overlayVisible}`}></div>
-			<div className="['background-blur', blurOverlayClasses]"></div>
+			<div onClick={closeNote} className={`overlay ${overlayClasses}`}></div>
+			<div className={`background-blur' ${blurOverlayClasses}`}></div>
 
-			<CreateNote
+			<NoteDialog
 				activePage={activePage}
+				onShowDeleteConfirm={showDeleteConfirm}
+				onSetDeleteAmount={syncDeleteAmount}
 			/>
 
 			<div className="notes">
-				{ notes.map((note) => {
-					return <Note
-						key={note.noteId}
-						id={note.noteId}
-						title={note.noteTitle}
-						content={note.noteContent}
-						images={note.noteImages}
-						theme={note.noteTheme}
-						font={note.noteFont}
-						favourite={note.noteIsFavourite}
+				{notes.map((note) => (
+					<Note
+						key={note.id}
+						id={note.id}
+						title={note.title}
+						content={note.content}
+						images={note.images}
+						theme={note.theme}
+						font={note.font}
+						isFavourite={note.isFavourite}
 					/>
-				})}
+				))}
 			</div>
 
 			{notesEmpty &&
@@ -89,6 +89,14 @@ function Page(props: Props) {
 						<span>{emptyNotesInfo}</span>
 					</h2>
 				</div>
+			}
+
+			{activePage === "trash" &&
+				<ConfirmDelete
+					deleteConfirmVisible={deleteConfirmVisible}
+					deleteAmount={deleteAmount}
+					onShowDeleteConfirm={showDeleteConfirm}
+				/>
 			}
 		</Fragment>
 	)

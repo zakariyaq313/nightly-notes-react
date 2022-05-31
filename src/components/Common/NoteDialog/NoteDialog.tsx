@@ -1,84 +1,81 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState } from "../../../store/store";
+import { NoteDialogProps } from "../../../types/types";
 import ArrowLeftIcon from "../../Icons/ArrowLeftIcon";
 import DeleteIcon from "../../Icons/DeleteIcon";
 import FavouriteIcon from "../../Icons/FavouriteIcon";
 import UnfavouriteIcon from "../../Icons/UnfavouriteIcon";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
-type CreateNoteProps = {
-	activePage: string,
-};
-
-function CreateNote(props: CreateNoteProps) {
-	const {activePage} = props;
+function NoteDialog(props: NoteDialogProps) {
+	const {activePage, onShowDeleteConfirm, onSetDeleteAmount} = props;
 	const dispatch = useDispatch();
 	const uploadImageButton = useRef<HTMLInputElement>(null);
 
-	const formVisibility = useSelector((state: RootState) => state.isFormVisible);
-	const background = useSelector((state: RootState) => state.noteTheme);
-	const fontFamily = useSelector((state: RootState) => state.noteFont);
+	const formIsVisibile = useSelector((state: RootState) => state.isFormVisible);
+	const noteTheme = useSelector((state: RootState) => state.noteTheme);
+	const notefont = useSelector((state: RootState) => state.noteFont);
 	const noteTitle = useSelector((state: RootState) => state.noteTitle);
 	const noteContent = useSelector((state: RootState) => state.noteContent);
-	const images = useSelector((state: RootState) => state.noteImages);
-	const favourite = useSelector((state: RootState) => state.noteIsFavourite);
+	const noteImages = useSelector((state: RootState) => state.noteImages);
+	const noteIsFavourite = useSelector((state: RootState) => state.noteIsFavourite);
 
-	const [formClasses, setFormClasses] = useState<string>("");
-	const [imageClasses, setImageClasses] = useState<string>("");
+	const [formClasses, setFormClasses] = useState("");
+	const [imageClasses, setImageClasses] = useState("");
 	const [imageColumns, setImageColumns] = useState({ columns: "1" });
 	const [themeOptions, setThemeOptions] = useState({ fontSelect: false, palette: false });
 
 	const themeOptionsHandler = (value: {fontSelect: boolean, palette: boolean}) => {
-		setThemeOptions({
-			fontSelect: value.fontSelect,
-			palette: value.palette
-		});
+		setThemeOptions({fontSelect: value.fontSelect, palette: value.palette});
 	}
 
 	const hideElements = () => {
-		setThemeOptions({
-			fontSelect: false,
-			palette: false
-		});
+		setThemeOptions({fontSelect: false, palette: false});
 	}
 
+	// Set form(note dialog) classes
 	useEffect(() => {
-		if (!formVisibility) {
-			hideElements();
-		}
-	}, [formVisibility]);
-
-	useEffect(() => {
-		const formClassNames: string = `${ background } ${ fontFamily }`;
-		if (formVisibility) {
+		const formClassNames: string = `${ noteTheme } ${ notefont }`;
+		if (formIsVisibile) {
 			setFormClasses(`form-visible ${formClassNames}`);
 		} else {
 			setFormClasses("");
+			hideElements();
 		}
-	}, [formVisibility, background, fontFamily]);
+	}, [formIsVisibile, noteTheme, notefont]);
 
+	// Set image classes and style
 	useEffect(() => {
-		if (images.length === 1) {
+		if (noteImages.length === 1) {
 			setImageClasses("rem-50");
 			setImageColumns({columns: "1"});
 		} else {
 			setImageClasses("rem-24");
 			setImageColumns({columns: "2"});
 		}
-	}, [images.length]);
+	}, [noteImages.length]);
+
+	// Set noteIsEmpty global state
+	useEffect(() => {
+		if (noteTitle.trim() !== "" || noteContent.trim() !== "" || noteImages.length > 0) {
+			dispatch(noteActions.noteIsEmpty(false));
+		} else {
+			dispatch(noteActions.noteIsEmpty(true));
+		}
+	}, [dispatch, noteTitle, noteContent, noteImages]);
 
 	const closeNoteDialog = (e: React.FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		dispatch(noteActions.formVisibility(false));
+		dispatch(noteActions.noteDialogIsVisible(false));
 	}
 
-	const setTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-		dispatch(noteActions.currentTitle(e.target.value));
+	const syncNoteTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+		dispatch(noteActions.setNoteTitle(e.target.value));
 	}
 
-	const setNote = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		dispatch(noteActions.currentNote(e.target.value));
+	const syncNoteContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+		dispatch(noteActions.setNoteContent(e.target.value));
 	}
 
 	const uploadButtonClicked = () => {
@@ -88,13 +85,21 @@ function CreateNote(props: CreateNoteProps) {
 	const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const uploadedImage = URL.createObjectURL(e.target.files[0]);
-			dispatch(noteActions.imageUploaded(uploadedImage));
+			dispatch(noteActions.setNoteImages(uploadedImage));
 		}
 	}
 
 	const toggleFavourite = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		dispatch(noteActions.toggleFavouriteStatus());
+		dispatch(noteActions.setNoteFavourite());
+	}
+
+	const showDeleteConfirm = (value: boolean) => {
+		onShowDeleteConfirm(value);
+	}
+
+	const syncDeleteAmount = (value: string) => {
+		onSetDeleteAmount(value);
 	}
 
 	return (
@@ -108,14 +113,14 @@ function CreateNote(props: CreateNoteProps) {
 					<button onClick={toggleFavourite}
 						className="favourite-button"
 						disabled={activePage === "trash"}>
-							{!favourite && <FavouriteIcon />}
-							{favourite && <UnfavouriteIcon />}
+							{!noteIsFavourite && <FavouriteIcon />}
+							{noteIsFavourite && <UnfavouriteIcon />}
 					</button>
 				</div>
 
-				{images.length > 0 &&
+				{noteImages.length > 0 &&
 					<div className="images" style={imageColumns}>
-						{images.map((image, index) => (
+						{noteImages.map((image, index) => (
 							<div className="image" key={index}>
 								<img className={imageClasses} src={image} alt="" />
 								<button className="delete-image" disabled={activePage === "trash"}>
@@ -127,7 +132,7 @@ function CreateNote(props: CreateNoteProps) {
 				}
 
 				<div className="user-inputs">
-					<input onChange={setTitle}
+					<input onChange={syncNoteTitle}
 						value={noteTitle}
 						placeholder="Title"
 						type="text"
@@ -135,7 +140,7 @@ function CreateNote(props: CreateNoteProps) {
 						disabled={activePage === "trash"}
 					/>
 
-					<textarea onChange={setNote}
+					<textarea onChange={syncNoteContent}
 						value={noteContent}
 						placeholder="Your note"
 						spellCheck={false}
@@ -156,10 +161,12 @@ function CreateNote(props: CreateNoteProps) {
 					themeOptions={themeOptions}
 					onUpdateThemeOptions={themeOptionsHandler}
 					onUploadImage={uploadButtonClicked}
+					onShowDeleteConfirm={showDeleteConfirm}
+					onSetDeleteAmount={syncDeleteAmount}
 				/>
 			</div>
 		</form>
 	);
 }
 
-export default CreateNote;
+export default NoteDialog;

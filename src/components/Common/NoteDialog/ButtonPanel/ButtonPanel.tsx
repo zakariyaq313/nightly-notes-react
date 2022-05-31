@@ -6,19 +6,23 @@ import RestoreIcon from "../../../Icons/RestoreIcon";
 import TrashIcon from "../../../Icons/TrashIcon";
 import FontSelect from "./FontSelect/FontSelect";
 import Palette from "./ColorPalette/Palette";
-
-type ButtonPanelProps = {
-	activePage: string,
-	themeOptions: {
-		fontSelect: boolean,
-		palette: boolean
-	},
-	onUpdateThemeOptions: (value: {fontSelect: boolean, palette: boolean}) => void,
-	onUploadImage: () => void
-};
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../../../store/store";
+import { moveToTrash, restoreFromTrash } from "../../../../store/thunks/thunks";
+import { ButtonPanelProps } from "../../../../types/types";
 
 function ButtonPanel (props: ButtonPanelProps) {
-	const {activePage, themeOptions, onUpdateThemeOptions, onUploadImage} = props;
+	const {
+		activePage,
+		themeOptions,
+		onUpdateThemeOptions,
+		onUploadImage,
+		onShowDeleteConfirm,
+		onSetDeleteAmount
+	} = props;
+
+	const noteIsEmpty = useSelector((state: RootState) => state.isNoteEmpty);
+	const thunkDispatch = useAppDispatch();
 
 	const openFontSelect = () => {
 		onUpdateThemeOptions({
@@ -48,9 +52,25 @@ function ButtonPanel (props: ButtonPanelProps) {
 		onUploadImage();
 	}
 
+	const trashNote = (e: React.FormEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		thunkDispatch(moveToTrash());
+	}
+
+	const confirmDeletion = (e: React.FormEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		onShowDeleteConfirm(true);
+		onSetDeleteAmount("one");
+	}
+
+	const restoreNote = (e: React.FormEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		thunkDispatch(restoreFromTrash());
+	}
+
 	return (
 		<div className="note-options">
-			{ activePage !== "trash" &&
+			{activePage !== "trash" &&
 				<Fragment>
 					<span onClick={openFontSelect} className="font-select-button">
 						Font family
@@ -65,26 +85,26 @@ function ButtonPanel (props: ButtonPanelProps) {
 						<PaletteIcon />
 					</button>
 
-					<button disabled title="Delete">
+					<button onClick={trashNote} disabled={noteIsEmpty} title="Delete">
 						<TrashIcon />
 					</button>
 				</Fragment>
 			}
 
-			{ activePage === "trash" &&
+			{activePage === "trash" &&
 				<Fragment>
-					<button title="Delete forever">
+					<button onClick={confirmDeletion} title="Delete forever">
 						<TrashIcon />
 					</button>
 
-					<button title="Restore">
+					<button onClick={restoreNote} title="Restore">
 						<RestoreIcon />
 					</button>
 				</Fragment>
 			}
 
-			{ themeOptions.fontSelect && <FontSelect /> }
-			{ themeOptions.palette && <Palette /> }
+			{themeOptions.fontSelect && <FontSelect />}
+			{themeOptions.palette && <Palette />}
 		</div>
 	);
 }
