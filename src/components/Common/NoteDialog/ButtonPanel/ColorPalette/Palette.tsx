@@ -4,12 +4,14 @@ import { noteActions, RootState } from "../../../../../store/store";
 function Palette() {
 	const themeColourList: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
 	const themeGradientList: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
+	
+	const dispatch = useDispatch();	
 	const activeTheme = useSelector((state: RootState) => state.noteTheme);
-	const dispatch = useDispatch();
 
-	const themeChange = (e: React.FormEvent, theme: string, value: boolean) => {
+	const themeChange = (e: React.FormEvent, theme: string, isGradient: boolean) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteTheme(theme));
+		dispatch(noteActions.noteThemeIsGradient(isGradient));
 	}
 
 	const themeClasses = (theme: string) => {

@@ -10,10 +10,22 @@ import ConfirmDelete from "../Common/ConfirmDelete";
 
 function Page(props: PageProps) {
 	const {
-		notes, activePage, pageLabel, emptyNotesClass, emptyNotesInfo, emptyNotesIcon
+		notes,
+		activePage,
+		pageLabel,
+		emptyNotesClass,
+		emptyNotesInfo,
+		emptyNotesIcon
 	} = props;
-	const formIsVisible = useSelector((state: RootState) => state.isFormVisible);
+
+	const {
+		isFormVisible,
+		noteTheme,
+		isThemeGradient
+	} = useSelector((state: RootState) => state);
+
 	const thunkDispatch = useAppDispatch();
+	
 	const [notesEmpty, setNotesEmpty] = useState<boolean>(true);
 	const [overlayClasses, setOverlayClasses] = useState("");
 	const [blurOverlayClasses, setBlurOverlayClasses] = useState("");
@@ -41,12 +53,17 @@ function Page(props: PageProps) {
 	}, [notes]);
 
 	useEffect(() => {
-		if (formIsVisible) {
+		if (isFormVisible) {
 			setOverlayClasses("overlay-visible");
+			if (isThemeGradient) {
+				setBlurOverlayClasses(`blur-visible ${noteTheme}`);				
+			} else {
+				setBlurOverlayClasses("");
+			}
 		} else {
 			setOverlayClasses("");
 		}
-	}, [formIsVisible]);
+	}, [isFormVisible, noteTheme, isThemeGradient]);
 
 	return (
 		<Fragment>
@@ -55,16 +72,16 @@ function Page(props: PageProps) {
 				activePage={activePage}
 				notesEmpty={notesEmpty}
 				onShowDeleteConfirm={showDeleteConfirm}
-				onSetDeleteAmount={syncDeleteAmount}
+				onSyncDeleteAmount={syncDeleteAmount}
 			/>
 
 			<div onClick={closeNote} className={`overlay ${overlayClasses}`}></div>
-			<div className={`background-blur' ${blurOverlayClasses}`}></div>
+			<div className={`background-blur ${blurOverlayClasses}`}></div>
 
 			<NoteDialog
 				activePage={activePage}
 				onShowDeleteConfirm={showDeleteConfirm}
-				onSetDeleteAmount={syncDeleteAmount}
+				onSyncDeleteAmount={syncDeleteAmount}
 			/>
 
 			<div className="notes">

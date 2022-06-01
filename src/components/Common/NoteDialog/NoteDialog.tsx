@@ -9,17 +9,24 @@ import UnfavouriteIcon from "../../Icons/UnfavouriteIcon";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
 function NoteDialog(props: NoteDialogProps) {
-	const {activePage, onShowDeleteConfirm, onSetDeleteAmount} = props;
+	const {
+		activePage,
+		onShowDeleteConfirm,
+		onSyncDeleteAmount
+	} = props;
+
+	const {
+		isFormVisible,
+		noteTitle,
+		noteContent,
+		noteImages,
+		noteTheme,
+		noteFont,
+		noteIsFavourite
+	} = useSelector((state: RootState) => state);
+
 	const dispatch = useDispatch();
 	const uploadImageButton = useRef<HTMLInputElement>(null);
-
-	const formIsVisibile = useSelector((state: RootState) => state.isFormVisible);
-	const noteTheme = useSelector((state: RootState) => state.noteTheme);
-	const notefont = useSelector((state: RootState) => state.noteFont);
-	const noteTitle = useSelector((state: RootState) => state.noteTitle);
-	const noteContent = useSelector((state: RootState) => state.noteContent);
-	const noteImages = useSelector((state: RootState) => state.noteImages);
-	const noteIsFavourite = useSelector((state: RootState) => state.noteIsFavourite);
 
 	const [formClasses, setFormClasses] = useState("");
 	const [imageClasses, setImageClasses] = useState("");
@@ -33,37 +40,6 @@ function NoteDialog(props: NoteDialogProps) {
 	const hideElements = () => {
 		setThemeOptions({fontSelect: false, palette: false});
 	}
-
-	// Set form(note dialog) classes
-	useEffect(() => {
-		const formClassNames: string = `${ noteTheme } ${ notefont }`;
-		if (formIsVisibile) {
-			setFormClasses(`form-visible ${formClassNames}`);
-		} else {
-			setFormClasses("");
-			hideElements();
-		}
-	}, [formIsVisibile, noteTheme, notefont]);
-
-	// Set image classes and style
-	useEffect(() => {
-		if (noteImages.length === 1) {
-			setImageClasses("rem-50");
-			setImageColumns({columns: "1"});
-		} else {
-			setImageClasses("rem-24");
-			setImageColumns({columns: "2"});
-		}
-	}, [noteImages.length]);
-
-	// Set noteIsEmpty global state
-	useEffect(() => {
-		if (noteTitle.trim() !== "" || noteContent.trim() !== "" || noteImages.length > 0) {
-			dispatch(noteActions.noteIsEmpty(false));
-		} else {
-			dispatch(noteActions.noteIsEmpty(true));
-		}
-	}, [dispatch, noteTitle, noteContent, noteImages]);
 
 	const closeNoteDialog = (e: React.FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -89,6 +65,11 @@ function NoteDialog(props: NoteDialogProps) {
 		}
 	}
 
+	const deleteImage = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+		e.preventDefault();
+		dispatch(noteActions.deleteImages(index));
+	}
+
 	const toggleFavourite = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteFavourite());
@@ -99,8 +80,39 @@ function NoteDialog(props: NoteDialogProps) {
 	}
 
 	const syncDeleteAmount = (value: string) => {
-		onSetDeleteAmount(value);
+		onSyncDeleteAmount(value);
 	}
+
+	// Set form(note dialog) classes
+	useEffect(() => {
+		const formClassNames: string = `${ noteTheme } ${ noteFont }`;
+		if (isFormVisible) {
+			setFormClasses(`form-visible ${formClassNames}`);
+		} else {
+			setFormClasses("");
+			hideElements();
+		}
+	}, [isFormVisible, noteTheme, noteFont]);
+
+	// Set image classes and style
+	useEffect(() => {
+		if (noteImages.length === 1) {
+			setImageClasses("rem-50");
+			setImageColumns({columns: "1"});
+		} else {
+			setImageClasses("rem-24");
+			setImageColumns({columns: "2"});
+		}
+	}, [noteImages.length]);
+
+	// Set noteIsEmpty global state
+	useEffect(() => {
+		if (noteTitle.trim() !== "" || noteContent.trim() !== "" || noteImages.length > 0) {
+			dispatch(noteActions.noteIsEmpty(false));
+		} else {
+			dispatch(noteActions.noteIsEmpty(true));
+		}
+	}, [dispatch, noteTitle, noteContent, noteImages]);
 
 	return (
 		<form className={formClasses}>
@@ -123,7 +135,11 @@ function NoteDialog(props: NoteDialogProps) {
 						{noteImages.map((image, index) => (
 							<div className="image" key={index}>
 								<img className={imageClasses} src={image} alt="" />
-								<button className="delete-image" disabled={activePage === "trash"}>
+								<button
+									onClick={(e) => deleteImage(e, index)}
+									className="delete-image"
+									disabled={activePage === "trash"}>
+
 									<DeleteIcon />
 								</button>
 							</div>
@@ -162,7 +178,7 @@ function NoteDialog(props: NoteDialogProps) {
 					onUpdateThemeOptions={themeOptionsHandler}
 					onUploadImage={uploadButtonClicked}
 					onShowDeleteConfirm={showDeleteConfirm}
-					onSetDeleteAmount={syncDeleteAmount}
+					onSyncDeleteAmount={syncDeleteAmount}
 				/>
 			</div>
 		</form>

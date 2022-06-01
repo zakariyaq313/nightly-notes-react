@@ -7,6 +7,7 @@ export const initialState: InitialState = {
 	isNoteEmpty: true,
 	isNoteNew: true,
 	isFormVisible: false,
+	isThemeGradient: false,
 	noteId: "",
 	noteTitle: "",
 	noteContent: "",

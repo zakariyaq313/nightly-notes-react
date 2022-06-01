@@ -19,6 +19,10 @@ export const noteStateSlice = createSlice({
 			state.isNoteNew = action.payload;
 		},
 
+		noteThemeIsGradient(state, action: PayloadAction<boolean>) {
+			state.isThemeGradient = action.payload;
+		},
+
 		setNoteTitle(state, action: PayloadAction<string>) {
 			state.noteTitle = action.payload;
 		},

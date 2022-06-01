@@ -7,6 +7,7 @@ import TrashIcon from "../Icons/TrashIcon";
 function Navigation() {
 	const location = useLocation();
 	const navigate = useNavigate();
+	
 	const [activePageIndication, setActivePageIndication] = useState("focus-home");
 		
 	const switchPageHandler = (page: string) => {

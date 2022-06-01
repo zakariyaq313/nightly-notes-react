@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState, noteActions } from "../../../../../store/store";
 
 function FontSelect() {
-	const fontStyles: { name: string, class: string }[] = [
+	const fontStyles: Array<{ name: string, class: string }> = [
 		{
 			name: "Roboto",
 			class: "roboto"
@@ -56,6 +56,7 @@ function FontSelect() {
 
 	const dispatch = useDispatch();
 	const selectedFont = useSelector((state: RootState) => state.noteFont);
+	
 	const changeFont = (e: React.FormEvent, font: string) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteFont(font));

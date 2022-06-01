@@ -6,11 +6,19 @@ import PlusIcon from "../Icons/PlusIcon";
 import TrashIcon from "../Icons/TrashIcon";
 
 function Navbar(props: NavbarProps) {
-	const {activePage, pageLabel, notesEmpty, onShowDeleteConfirm, onSetDeleteAmount} = props;
+	const {
+		activePage,
+		pageLabel,
+		notesEmpty,
+		onShowDeleteConfirm,
+		onSyncDeleteAmount
+	} = props;
+
+	const dispatch = useDispatch();
+	
 	const [buttonLabel, setButtonLabel] = useState("");
 	const [buttonClass, setButtonClass] = useState("");
 	const [buttonAction, setButtonAction] = useState(() => () => {});
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const createNewNote = () => {
@@ -20,7 +28,7 @@ function Navbar(props: NavbarProps) {
 
 		const showDeleteConfirm = () => {
 			onShowDeleteConfirm(true);
-			onSetDeleteAmount("all");
+			onSyncDeleteAmount("all");
 		}
 
 		if (activePage === "trash") {
@@ -32,7 +40,7 @@ function Navbar(props: NavbarProps) {
 			setButtonClass("create-note-btn");
 			setButtonAction(() => createNewNote);
 		}
-	}, [dispatch, activePage, onShowDeleteConfirm, onSetDeleteAmount]);
+	}, [dispatch, activePage, onShowDeleteConfirm, onSyncDeleteAmount]);
 
 	return (
 		<nav className="navbar">

@@ -32,7 +32,7 @@ function Note (props: NoteType) {
 
 	return (
 		<div className={`note ${theme} ${font}`} onClick={editNote}>
-			{images.length > 1 &&
+			{images.length > 0 &&
 				<div className="note-images" style={imageColumns}>
 					{images.map((image, index) => (
 						<img key={index} src={image} alt="" />

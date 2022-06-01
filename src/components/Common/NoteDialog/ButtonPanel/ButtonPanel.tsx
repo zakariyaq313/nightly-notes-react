@@ -18,32 +18,23 @@ function ButtonPanel (props: ButtonPanelProps) {
 		onUpdateThemeOptions,
 		onUploadImage,
 		onShowDeleteConfirm,
-		onSetDeleteAmount
+		onSyncDeleteAmount
 	} = props;
 
-	const noteIsEmpty = useSelector((state: RootState) => state.isNoteEmpty);
 	const thunkDispatch = useAppDispatch();
+	const noteIsEmpty = useSelector((state: RootState) => state.isNoteEmpty);
 
 	const openFontSelect = () => {
-		onUpdateThemeOptions({
-			fontSelect: !themeOptions.fontSelect,
-			palette: false
-		});
+		onUpdateThemeOptions({fontSelect: !themeOptions.fontSelect, palette: false});
 	}
 
 	const openPalette = (e: React.FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		onUpdateThemeOptions({
-			fontSelect: false,
-			palette: !themeOptions.palette
-		});
+		onUpdateThemeOptions({fontSelect: false, palette: !themeOptions.palette});
 	}
 
 	const closeElements = () => {
-		onUpdateThemeOptions({
-			fontSelect: false,
-			palette: false
-		});
+		onUpdateThemeOptions({fontSelect: false, palette: false});
 	}
 
 	const uploadImage = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -60,7 +51,7 @@ function ButtonPanel (props: ButtonPanelProps) {
 	const confirmDeletion = (e: React.FormEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		onShowDeleteConfirm(true);
-		onSetDeleteAmount("one");
+		onSyncDeleteAmount("one");
 	}
 
 	const restoreNote = (e: React.FormEvent<HTMLButtonElement>) => {
