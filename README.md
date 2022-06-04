@@ -1,6 +1,6 @@
 # **Notes Mini**
 
-Notes app originally made using Vue (<a href="https://zakariyaq313.github.io/notes-mini-vue/">link</a>), re-made completely using React!
+Notes app originally made using Vue (<a href="https://github.com/zakariyaq313/notes-mini-vue">link</a>), re-made completely using React!
 
 <a href="https://zakariyaq313.github.io/notes-mini-react/"><img src="./src/assets/images/screen.png"></a>
 
