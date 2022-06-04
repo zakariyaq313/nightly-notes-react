@@ -1,4 +1,4 @@
-function PaletteIcon() {
+function PaletteIcon(): JSX.Element {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
 			<path fill="none" d="M0 0H24V24H0z"></path>

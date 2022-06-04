@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../store/store";
 import { deleteFromTrash } from "../../store/thunks/thunks";
 import { ConfirmDeleteProps } from "../../types/types";
 
-function ConfirmDelete(props: ConfirmDeleteProps) {
+function ConfirmDelete(props: ConfirmDeleteProps): JSX.Element {
 	const {deleteConfirmVisible, deleteAmount, onShowDeleteConfirm} = props;
 	const thunkDispatch = useAppDispatch();
 

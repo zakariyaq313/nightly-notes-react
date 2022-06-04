@@ -4,7 +4,7 @@ import { RootState } from "../../store/store";
 import Page from "../Base/Page";
 import SparklesIcon from "../Icons/SparklesIcon";
 
-function Trash() {
+function Trash(): JSX.Element {
 	const notes = useSelector((state: RootState) => state.trashedNotes);
 	const pageLabel = <b>Trash</b>;
 	const emptyNotesClass = "inline-description";

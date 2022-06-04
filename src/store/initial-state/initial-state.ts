@@ -6,13 +6,13 @@ export const initialState: InitialState = {
 	trashedNotes: [],
 	isNoteEmpty: true,
 	isNoteNew: true,
-	isFormVisible: false,
-	isThemeGradient: false,
+	isNoteDialogVisible: false,
 	noteId: "",
 	noteTitle: "",
 	noteContent: "",
 	noteImages: [],
 	noteTheme: "dark",
-	noteFont: "roboto",
-	noteIsFavourite: false
+	noteFont: "glacial",
+	noteIsFavourite: false,
+	noteThemeIsGradient: false
 };

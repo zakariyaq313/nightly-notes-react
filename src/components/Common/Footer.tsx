@@ -1,4 +1,4 @@
-function Footer() {
+function Footer(): JSX.Element {
 	return (
 		<footer>
 			<p>

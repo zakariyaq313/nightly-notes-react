@@ -8,7 +8,7 @@ export const noteStateSlice = createSlice({
 	initialState: initialState,
 	reducers: {
 		noteDialogIsVisible(state, action: PayloadAction<boolean>) {
-			state.isFormVisible = action.payload;
+			state.isNoteDialogVisible = action.payload;
 		},
 
 		noteIsEmpty(state, action: PayloadAction<boolean>) {
@@ -20,7 +20,7 @@ export const noteStateSlice = createSlice({
 		},
 
 		noteThemeIsGradient(state, action: PayloadAction<boolean>) {
-			state.isThemeGradient = action.payload;
+			state.noteThemeIsGradient = action.payload;
 		},
 
 		setNoteTitle(state, action: PayloadAction<string>) {
@@ -56,7 +56,8 @@ export const noteStateSlice = createSlice({
 				images: state.noteImages,
 				theme: state.noteTheme,
 				font: state.noteFont,
-				isFavourite: state.noteIsFavourite
+				isFavourite: state.noteIsFavourite,
+				isGradient: state.noteThemeIsGradient
 			});
 
 			if (action.payload === "create") {
@@ -74,6 +75,7 @@ export const noteStateSlice = createSlice({
 			state.noteTheme = action.payload.theme;
 			state.noteFont = action.payload.font;
 			state.noteIsFavourite = action.payload.isFavourite;
+			state.noteThemeIsGradient = action.payload.isGradient
 		},
 
         updateNote(state) {
@@ -85,7 +87,8 @@ export const noteStateSlice = createSlice({
 				images: state.noteImages,
 				theme: state.noteTheme,
 				font: state.noteFont,
-				isFavourite: state.noteIsFavourite
+				isFavourite: state.noteIsFavourite,
+				isGradient: state.noteThemeIsGradient
 			});
 		},
 
@@ -95,8 +98,9 @@ export const noteStateSlice = createSlice({
 			state.noteContent = "";
 			state.noteImages = [];
 			state.noteTheme = "dark";
-			state.noteFont = "roboto";
+			state.noteFont = "glacial";
 			state.noteIsFavourite = false;
+			state.noteThemeIsGradient = false
 		},
 
 		trashNote(state) {

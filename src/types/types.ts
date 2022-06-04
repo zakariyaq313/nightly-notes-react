@@ -5,7 +5,8 @@ export type NoteType = {
 	images: Array<string>,
 	theme: string,
 	font: string,
-	isFavourite: boolean
+	isFavourite: boolean,
+	isGradient: boolean
 };
 
 export type InitialState = {
@@ -14,21 +15,21 @@ export type InitialState = {
 	trashedNotes: Array<NoteType>,
 	isNoteEmpty: boolean,
 	isNoteNew: boolean,
-	isFormVisible: boolean,
-	isThemeGradient: boolean,
+	isNoteDialogVisible: boolean,
 	noteId: string,
 	noteTitle: string,
 	noteContent: string,
 	noteImages: Array<string>,
 	noteTheme: string,
 	noteFont: string,
-	noteIsFavourite: boolean
+	noteIsFavourite: boolean,
+	noteThemeIsGradient: boolean
 };
 
-export type NavbarProps = {
+export type HeaderProps = {
 	activePage: string,
-	pageLabel: React.ReactNode,
-	notesEmpty: boolean,
+	pageLabel: React.ReactElement,
+	notesUnavailable: boolean,
 	onShowDeleteConfirm: (value: boolean) => void,
 	onSyncDeleteAmount: (value: string) => void
 };
@@ -50,8 +51,8 @@ export type NoteDialogProps = {
 
 export type ButtonPanelProps = {
 	activePage: string,
-	themeOptions: {fontSelect: boolean, palette: boolean},
-	onUpdateThemeOptions: (value: {fontSelect: boolean, palette: boolean}) => void,
+	fontAndPaletteVisibility: {fontSelect: boolean, palette: boolean},
+	onUpdateFontAndPalette: (value: {fontSelect: boolean, palette: boolean}) => void,
 	onUploadImage: () => void,
 	onShowDeleteConfirm: (value: boolean) => void,
 	onSyncDeleteAmount: (value: string) => void
@@ -61,4 +62,8 @@ export type ConfirmDeleteProps = {
 	deleteConfirmVisible: boolean,
 	deleteAmount: string,
 	onShowDeleteConfirm: (value: boolean) => void
+};
+
+export type ArrowDownIconProps = {
+	style: string
 };

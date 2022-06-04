@@ -2,62 +2,58 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, noteActions } from "../../../../../store/store";
 
-function FontSelect() {
-	const fontStyles: Array<{ name: string, class: string }> = [
+function FontSelect(): JSX.Element {
+	const fontStyles: {name: string, className: string }[] = [
 		{
-			name: "Roboto",
-			class: "roboto"
+			name: "Glacial Indifference",
+			className: "glacial"
 		},
 		{
 			name: "Montserrat",
-			class: "montserrat"
-		},
-		{
-			name: "Comfortaa",
-			class: "comfortaa"
+			className: "montserrat"
 		},
 		{
 			name: "Major Mono",
-			class: "major-mono-display"
-		},
-		{
-			name: "Source Code Pro",
-			class: "source-code-pro"
+			className: "major-mono-display"
 		},
 		{
 			name: "Poppins",
-			class: "poppins"
+			className: "poppins"
 		},
 		{
 			name: "Raleway",
-			class: "raleway"
+			className: "raleway"
+		},
+		{
+			name: "Roboto",
+			className: "roboto"
 		},
 		{
 			name: "Pacifico",
-			class: "pacifico"
+			className: "pacifico"
+		},
+		{
+			name: "Source Code Pro",
+			className: "source-code-pro"
 		},
 		{
 			name: "Hi Melody",
-			class: "hi-melody"
-		},
-		{
-			name: "Patrick Hand",
-			class: "patrick-hand"
+			className: "hi-melody"
 		},
 		{
 			name: "Freckle Face",
-			class: "freckle-face"
+			className: "freckle-face"
 		},
 		{
 			name: "Permanent Marker",
-			class: "permanent-marker"
+			className: "permanent-marker"
 		}
 	];
 
 	const dispatch = useDispatch();
 	const selectedFont = useSelector((state: RootState) => state.noteFont);
 	
-	const changeFont = (e: React.FormEvent, font: string) => {
+	const changeFont = (e: React.MouseEvent<HTMLLIElement>, font: string) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteFont(font));
 	}
@@ -75,8 +71,8 @@ function FontSelect() {
 			{fontStyles.map((fontStyle, index) => (
 				<li
 					key={index}
-					className={fontClasses(fontStyle.class)}
-					onClick={(e) => changeFont(e, fontStyle.class)}>
+					className={fontClasses(fontStyle.className)}
+					onClick={(e) => changeFont(e, fontStyle.className)}>
 					{fontStyle.name}
 				</li>
 			))}

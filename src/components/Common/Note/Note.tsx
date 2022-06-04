@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { noteActions } from "../../../store/store";
 import { NoteType } from "../../../types/types";
 
-function Note (props: NoteType) {
-	const { id, title, content, images, theme, font, isFavourite } = props;
+function Note (props: NoteType): JSX.Element {
+	const { id, title, content, images, theme, font, isFavourite, isGradient } = props;
 	const [imageColumns, setImageColumns] = useState({columns: "1"});
 	const dispatch = useDispatch();
 
@@ -24,7 +24,8 @@ function Note (props: NoteType) {
 			images: images,
 			theme: theme,
 			font: font,
-			isFavourite: isFavourite
+			isFavourite: isFavourite,
+			isGradient: isGradient
 		}));
 		dispatch(noteActions.noteIsNew(false));
 		dispatch(noteActions.noteDialogIsVisible(true));

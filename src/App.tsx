@@ -1,5 +1,5 @@
 import { Provider } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Footer from "./components/Common/Footer";
 import Navigation from "./components/Common/Navigation";
 import Favourites from "./components/Pages/Favourites";
@@ -8,11 +8,11 @@ import Trash from "./components/Pages/Trash";
 import store from "./store/store";
 import "./styles/main.scss";
 
-function App() {
+function App(): JSX.Element {
 	return (
 		<Provider store={store}>
-			<BrowserRouter>
-				<div className="App">
+			<HashRouter>
+				<main className="app">
 					<Navigation />
 					<Routes>
 						<Route path="/home" element={<HomePage />} />
@@ -21,8 +21,8 @@ function App() {
 						<Route path="*" element={<Navigate to="/home" replace={true} />} />
 					</Routes>
 					<Footer />
-				</div>
-			</BrowserRouter>
+				</main>
+			</HashRouter>
 		</Provider>
 	);
 }

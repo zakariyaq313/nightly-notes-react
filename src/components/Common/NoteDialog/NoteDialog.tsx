@@ -4,11 +4,11 @@ import { noteActions, RootState } from "../../../store/store";
 import { NoteDialogProps } from "../../../types/types";
 import ArrowLeftIcon from "../../Icons/ArrowLeftIcon";
 import DeleteIcon from "../../Icons/DeleteIcon";
-import FavouriteIcon from "../../Icons/FavouriteIcon";
-import UnfavouriteIcon from "../../Icons/UnfavouriteIcon";
+import FavouriteIcon from "../../Icons/HeartOutlineIcon";
+import UnfavouriteIcon from "../../Icons/HeartFilledIcon";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
 
-function NoteDialog(props: NoteDialogProps) {
+function NoteDialog(props: NoteDialogProps): JSX.Element {
 	const {
 		activePage,
 		onShowDeleteConfirm,
@@ -16,7 +16,7 @@ function NoteDialog(props: NoteDialogProps) {
 	} = props;
 
 	const {
-		isFormVisible,
+		isNoteDialogVisible,
 		noteTitle,
 		noteContent,
 		noteImages,
@@ -26,22 +26,23 @@ function NoteDialog(props: NoteDialogProps) {
 	} = useSelector((state: RootState) => state);
 
 	const dispatch = useDispatch();
+	const noteTextArea = useRef<HTMLTextAreaElement>(null);
 	const uploadImageButton = useRef<HTMLInputElement>(null);
 
-	const [formClasses, setFormClasses] = useState("");
+	const [noteDialogClasses, setNoteDialogClasses] = useState("");
 	const [imageClasses, setImageClasses] = useState("");
 	const [imageColumns, setImageColumns] = useState({ columns: "1" });
-	const [themeOptions, setThemeOptions] = useState({ fontSelect: false, palette: false });
+	const [fontAndPaletteVisibility, setFontAndPalette] = useState({fontSelect: false, palette: false});
 
-	const themeOptionsHandler = (value: {fontSelect: boolean, palette: boolean}) => {
-		setThemeOptions({fontSelect: value.fontSelect, palette: value.palette});
+	const fontAndPaletteHandler = (value: {fontSelect: boolean, palette: boolean}) => {
+		setFontAndPalette({fontSelect: value.fontSelect, palette: value.palette});
 	}
 
-	const hideElements = () => {
-		setThemeOptions({fontSelect: false, palette: false});
+	const hideFontAndPalette = () => {
+		setFontAndPalette({fontSelect: false, palette: false});
 	}
 
-	const closeNoteDialog = (e: React.FormEvent<HTMLButtonElement>) => {
+	const closeNoteDialog = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		dispatch(noteActions.noteDialogIsVisible(false));
 	}
@@ -52,6 +53,13 @@ function NoteDialog(props: NoteDialogProps) {
 
 	const syncNoteContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		dispatch(noteActions.setNoteContent(e.target.value));
+	}
+
+	const enterTextArea = (e: React.KeyboardEvent<HTMLInputElement>) => {
+		if(e.key === "Enter" || e.key === "NumpadEnter") {
+			e.preventDefault();
+			noteTextArea.current?.focus();
+		}
 	}
 
 	const uploadButtonClicked = () => {
@@ -83,18 +91,18 @@ function NoteDialog(props: NoteDialogProps) {
 		onSyncDeleteAmount(value);
 	}
 
-	// Set form(note dialog) classes
+	// Set theme (font and background) for note dialog
 	useEffect(() => {
-		const formClassNames: string = `${ noteTheme } ${ noteFont }`;
-		if (isFormVisible) {
-			setFormClasses(`form-visible ${formClassNames}`);
+		const themeClasses: string = `${noteTheme} ${noteFont}`;
+		if (isNoteDialogVisible) {
+			setNoteDialogClasses(`note-dialog-visible ${themeClasses}`);
 		} else {
-			setFormClasses("");
-			hideElements();
+			setNoteDialogClasses("");
+			hideFontAndPalette();
 		}
-	}, [isFormVisible, noteTheme, noteFont]);
+	}, [isNoteDialogVisible, noteTheme, noteFont]);
 
-	// Set image classes and style
+	// Set styles for image/s in note dialog
 	useEffect(() => {
 		if (noteImages.length === 1) {
 			setImageClasses("rem-50");
@@ -105,7 +113,7 @@ function NoteDialog(props: NoteDialogProps) {
 		}
 	}, [noteImages.length]);
 
-	// Set noteIsEmpty global state
+	// Set isNoteEmpty global state
 	useEffect(() => {
 		if (noteTitle.trim() !== "" || noteContent.trim() !== "" || noteImages.length > 0) {
 			dispatch(noteActions.noteIsEmpty(false));
@@ -115,8 +123,8 @@ function NoteDialog(props: NoteDialogProps) {
 	}, [dispatch, noteTitle, noteContent, noteImages]);
 
 	return (
-		<form className={formClasses}>
-			<div onClick={hideElements} className="upper-half">
+		<form className={`note-dialog ${noteDialogClasses}`}>
+			<div onClick={hideFontAndPalette} className="note-content">
 				<div className="action-buttons">
 					<button onClick={closeNoteDialog}>
 						<ArrowLeftIcon />
@@ -149,6 +157,7 @@ function NoteDialog(props: NoteDialogProps) {
 
 				<div className="user-inputs">
 					<input onChange={syncNoteTitle}
+						onKeyDown={(e) => enterTextArea(e)}
 						value={noteTitle}
 						placeholder="Title"
 						type="text"
@@ -159,6 +168,7 @@ function NoteDialog(props: NoteDialogProps) {
 					<textarea onChange={syncNoteContent}
 						value={noteContent}
 						placeholder="Your note"
+						ref={noteTextArea}
 						spellCheck={false}
 						disabled={activePage === "trash"}>
 					</textarea>
@@ -170,17 +180,15 @@ function NoteDialog(props: NoteDialogProps) {
 					/>
 				</div>
 			</div>
-				
-			<div className="lower-half">
-				<ButtonPanel
-					activePage={activePage}
-					themeOptions={themeOptions}
-					onUpdateThemeOptions={themeOptionsHandler}
-					onUploadImage={uploadButtonClicked}
-					onShowDeleteConfirm={showDeleteConfirm}
-					onSyncDeleteAmount={syncDeleteAmount}
-				/>
-			</div>
+
+			<ButtonPanel
+				activePage={activePage}
+				fontAndPaletteVisibility={fontAndPaletteVisibility}
+				onUpdateFontAndPalette={fontAndPaletteHandler}
+				onUploadImage={uploadButtonClicked}
+				onShowDeleteConfirm={showDeleteConfirm}
+				onSyncDeleteAmount={syncDeleteAmount}
+			/>
 		</form>
 	);
 }

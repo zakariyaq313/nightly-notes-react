@@ -4,7 +4,7 @@ import { RootState } from "../../store/store";
 import Page from "../Base/Page";
 import NotesIcon from "../Icons/NotesIcon";
 
-function HomePage() {
+function HomePage(): JSX.Element {
 	const notes = useSelector((state: RootState) => state.userNotes);
 	const pageLabel = <span className="logo"><b>Notes</b><b>Mini</b></span>;
 	const emptyNotesInfo = "Anything to add?";

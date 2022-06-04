@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import FavouriteIcon from "../Icons/FavouriteIcon";
+import FavouriteIcon from "../Icons/HeartOutlineIcon";
 import HomeIcon from "../Icons/HomeIcon";
 import TrashIcon from "../Icons/TrashIcon";
 
-function Navigation() {
+function Navigation(): JSX.Element {
 	const location = useLocation();
 	const navigate = useNavigate();
 	

@@ -4,7 +4,7 @@ import { RootState } from "../../store/store";
 import Page from "../Base/Page";
 import HeartIcon from "../Icons/HeartIcon";
 
-function Favourites() {
+function Favourites(): JSX.Element {
 	const notes = useSelector((state: RootState) => state.favouriteNotes);
 	const pageLabel = <b>Favourites</b>;
 	const emptyNotesClass = "inline-description";

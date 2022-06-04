@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState } from "../../../../../store/store";
 
-function Palette() {
+function Palette(): JSX.Element {
 	const themeColourList: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
 	const themeGradientList: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
 	
 	const dispatch = useDispatch();	
 	const activeTheme = useSelector((state: RootState) => state.noteTheme);
 
-	const themeChange = (e: React.FormEvent, theme: string, isGradient: boolean) => {
+	const themeChange = (e: React.MouseEvent<HTMLButtonElement>, theme: string, isGradient: boolean) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteTheme(theme));
 		dispatch(noteActions.noteThemeIsGradient(isGradient));

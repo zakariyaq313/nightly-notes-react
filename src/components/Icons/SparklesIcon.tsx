@@ -1,4 +1,4 @@
-function SparklesIcon() {
+function SparklesIcon(): JSX.Element {
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512.736 512.736">
 			<path

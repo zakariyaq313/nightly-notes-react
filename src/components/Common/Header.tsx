@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { noteActions } from "../../store/store";
-import { NavbarProps } from "../../types/types";
+import { HeaderProps } from "../../types/types";
 import PlusIcon from "../Icons/PlusIcon";
 import TrashIcon from "../Icons/TrashIcon";
 
-function Navbar(props: NavbarProps) {
+function Navbar(props: HeaderProps): JSX.Element {
 	const {
 		activePage,
 		pageLabel,
-		notesEmpty,
+		notesUnavailable,
 		onShowDeleteConfirm,
 		onSyncDeleteAmount
 	} = props;
@@ -20,7 +20,7 @@ function Navbar(props: NavbarProps) {
 	const [buttonClass, setButtonClass] = useState("");
 	const [buttonAction, setButtonAction] = useState(() => () => {});
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const createNewNote = () => {
 			dispatch(noteActions.noteDialogIsVisible(true));
 			dispatch(noteActions.noteIsNew(true));
@@ -33,7 +33,7 @@ function Navbar(props: NavbarProps) {
 
 		if (activePage === "trash") {
 			setButtonLabel("Empty Trash");
-			setButtonClass("empty-trash");
+			setButtonClass("empty-trash-btn");
 			setButtonAction(() => showDeleteConfirm);
 		} else {
 			setButtonLabel("New Note");
@@ -43,16 +43,17 @@ function Navbar(props: NavbarProps) {
 	}, [dispatch, activePage, onShowDeleteConfirm, onSyncDeleteAmount]);
 
 	return (
-		<nav className="navbar">
+		<header>
 			<div className="page-label">
 				{pageLabel}
 			</div>
 
 			<button
 				onClick={buttonAction}
-				className={`${ buttonClass } comical-shadow-clickable`}
-				disabled={(notesEmpty && activePage === "trash") || activePage === "favourites"}>
-				<span className="rising-background">
+				className={`comical-shadow-clickable ${buttonClass}`}
+				disabled={(notesUnavailable && activePage === "trash") || activePage === "favourites"}>
+					
+				<span>
 					{activePage !== "trash" && <PlusIcon />}
 					{activePage === "trash" && <TrashIcon />}
 					{buttonLabel}
@@ -60,7 +61,7 @@ function Navbar(props: NavbarProps) {
 				<span></span>
 				<span></span>
 			</button>
-		</nav>
+		</header>
 	);
 }
 

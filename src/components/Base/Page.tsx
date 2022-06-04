@@ -1,14 +1,14 @@
-import { Fragment, useEffect, useState } from "react";
-import Navbar from "../Common/Navbar";
-import NoteDialog from "../Common/NoteDialog/NoteDialog";
-import Note from "../Common/Note/Note";
-import { useSelector } from "react-redux";
+import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { RootState, useAppDispatch } from "../../store/store";
+import { useSelector } from "react-redux";
 import { exitNote } from "../../store/thunks/thunks";
 import { PageProps } from "../../types/types";
+import Navbar from "../Common/Header";
+import Note from "../Common/Note/Note";
+import NoteDialog from "../Common/NoteDialog/NoteDialog";
 import ConfirmDelete from "../Common/ConfirmDelete";
 
-function Page(props: PageProps) {
+function Page(props: PageProps): JSX.Element {
 	const {
 		notes,
 		activePage,
@@ -19,14 +19,14 @@ function Page(props: PageProps) {
 	} = props;
 
 	const {
-		isFormVisible,
+		isNoteDialogVisible,
 		noteTheme,
-		isThemeGradient
+		noteThemeIsGradient
 	} = useSelector((state: RootState) => state);
 
 	const thunkDispatch = useAppDispatch();
 	
-	const [notesEmpty, setNotesEmpty] = useState<boolean>(true);
+	const [notesUnavailable, setNotesUnavailable] = useState(true);
 	const [overlayClasses, setOverlayClasses] = useState("");
 	const [blurOverlayClasses, setBlurOverlayClasses] = useState("");
 	const [deleteConfirmVisible, setDeleteConfirmVisibility] = useState(false);
@@ -44,33 +44,36 @@ function Page(props: PageProps) {
 		setDeleteAmount(value);
 	}
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (notes.length > 0) {
-			setNotesEmpty(false);
+			setNotesUnavailable(false);
 		} else {
-			setNotesEmpty(true);
+			setNotesUnavailable(true);
 		}
 	}, [notes]);
 
 	useEffect(() => {
-		if (isFormVisible) {
+		if (isNoteDialogVisible) {
 			setOverlayClasses("overlay-visible");
-			if (isThemeGradient) {
-				setBlurOverlayClasses(`blur-visible ${noteTheme}`);				
-			} else {
-				setBlurOverlayClasses("");
-			}
 		} else {
 			setOverlayClasses("");
 		}
-	}, [isFormVisible, noteTheme, isThemeGradient]);
+	}, [isNoteDialogVisible]);
+
+	useEffect(() => {
+		if (isNoteDialogVisible && noteThemeIsGradient) {
+			setBlurOverlayClasses(`blur-visible ${noteTheme}`);				
+		} else {
+			setBlurOverlayClasses("");
+		}
+	}, [isNoteDialogVisible, noteTheme, noteThemeIsGradient]);
 
 	return (
 		<Fragment>
 			<Navbar
 				pageLabel={pageLabel}
 				activePage={activePage}
-				notesEmpty={notesEmpty}
+				notesUnavailable={notesUnavailable}
 				onShowDeleteConfirm={showDeleteConfirm}
 				onSyncDeleteAmount={syncDeleteAmount}
 			/>
@@ -95,11 +98,12 @@ function Page(props: PageProps) {
 						theme={note.theme}
 						font={note.font}
 						isFavourite={note.isFavourite}
+						isGradient={note.isGradient}
 					/>
 				))}
 			</div>
 
-			{notesEmpty &&
+			{notesUnavailable &&
 				<div className="notes-unavailable">
 					<h2 className={emptyNotesClass}>
 						{emptyNotesIcon}
