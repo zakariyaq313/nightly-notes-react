@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/notes-mini-react/static/css/main.64c1e736.css",
-    "main.js": "/notes-mini-react/static/js/main.f033aee1.js",
+    "main.js": "/notes-mini-react/static/js/main.2d251438.js",
     "static/media/Glacial Indifference Regular.otf": "/notes-mini-react/static/media/Glacial Indifference Regular.663a1c12d079e631b0b2.otf",
     "index.html": "/notes-mini-react/index.html",
     "main.64c1e736.css.map": "/notes-mini-react/static/css/main.64c1e736.css.map",
-    "main.f033aee1.js.map": "/notes-mini-react/static/js/main.f033aee1.js.map"
+    "main.2d251438.js.map": "/notes-mini-react/static/js/main.2d251438.js.map"
   },
   "entrypoints": [
     "static/css/main.64c1e736.css",
-    "static/js/main.f033aee1.js"
+    "static/js/main.2d251438.js"
   ]
 }
