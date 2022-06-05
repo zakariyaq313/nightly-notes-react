@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { noteActions, RootState } from "../../../store/store";
+import { noteActions, RootState, useAppDispatch } from "../../../store/store";
 import { NoteDialogProps } from "../../../types/types";
 import ArrowLeftIcon from "../../Icons/ArrowLeftIcon";
 import DeleteIcon from "../../Icons/DeleteIcon";
 import FavouriteIcon from "../../Icons/HeartOutlineIcon";
 import UnfavouriteIcon from "../../Icons/HeartFilledIcon";
 import ButtonPanel from "./ButtonPanel/ButtonPanel";
+import { exitNote } from "../../../store/thunks/thunks";
 
 function NoteDialog(props: NoteDialogProps): JSX.Element {
 	const {
@@ -26,6 +27,7 @@ function NoteDialog(props: NoteDialogProps): JSX.Element {
 	} = useSelector((state: RootState) => state);
 
 	const dispatch = useDispatch();
+	const thunkDispatch = useAppDispatch();
 	const noteTextArea = useRef<HTMLTextAreaElement>(null);
 	const uploadImageButton = useRef<HTMLInputElement>(null);
 
@@ -44,7 +46,7 @@ function NoteDialog(props: NoteDialogProps): JSX.Element {
 
 	const closeNoteDialog = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		dispatch(noteActions.noteDialogIsVisible(false));
+		thunkDispatch(exitNote(activePage));
 	}
 
 	const syncNoteTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
