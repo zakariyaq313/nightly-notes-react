@@ -1,4 +1,4 @@
-import { ArrowDownIconProps } from "../../types/types";
+import { ArrowDownIconProps } from "../types/types";
 
 function ArrowDownIcon(props: ArrowDownIconProps): JSX.Element {
 	const {style} = props;

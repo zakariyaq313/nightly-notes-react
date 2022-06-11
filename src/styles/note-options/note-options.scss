@@ -1,0 +1,10 @@
+.note-options {
+	display: flex;
+	justify-content: flex-start;
+	column-gap: 2rem;
+	position: relative;
+
+	button svg {
+		height: 2.4rem;
+	}
+}

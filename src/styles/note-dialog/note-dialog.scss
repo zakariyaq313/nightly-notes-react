@@ -1,3 +1,5 @@
+@import "../mixins/mixins.scss";
+
 .note-dialog {
 	border: 1px solid rgba($color: #fff, $alpha: 0.2);
 	border-radius: 4px;
@@ -23,7 +25,6 @@
 	}
 
 	&,
-	.note-content,
 	.user-inputs {
 		display: flex;
 		flex-direction: column;
@@ -63,7 +64,7 @@
 	}
 }
 
-.note-dialog-visible {
+.note-dialog.note-dialog-visible {
 	opacity: 1;
 	transform: translate(-50%, -50%) scale(1);
 	z-index: 100;
@@ -86,16 +87,5 @@
 				margin-left: -6px;
 			}
 		}
-	}
-}
-
-.note-options {
-	display: flex;
-	justify-content: flex-start;
-	column-gap: 2rem;
-	position: relative;
-
-	button svg {
-		height: 2.4rem;
 	}
 }

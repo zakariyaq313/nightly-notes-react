@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NoteType } from "../../types/types";
+import { NoteType, ThemeType } from "../../types/types";
 import { filterNotes, findNote } from "../helper-functions/helper-functions";
 import { initialState } from "../initial-state/initial-state";
 
@@ -19,23 +19,19 @@ export const noteStateSlice = createSlice({
 			state.isNoteNew = action.payload;
 		},
 
-		noteThemeIsGradient(state, action: PayloadAction<boolean>) {
-			state.noteThemeIsGradient = action.payload;
-		},
-
 		setNoteTitle(state, action: PayloadAction<string>) {
 			state.noteTitle = action.payload;
 		},
 
-		setNoteContent(state, action: PayloadAction<string>) {
-			state.noteContent = action.payload;
+		setNoteText(state, action: PayloadAction<string>) {
+			state.noteText = action.payload;
 		},
 
 		setNoteImages(state, action: PayloadAction<string>) {
 			state.noteImages.push(action.payload);
 		},
 
-		setNoteTheme(state, action: PayloadAction<string>) {
+		setNoteTheme(state, action: PayloadAction<ThemeType>) {
 			state.noteTheme = action.payload;
 		},
 
@@ -47,67 +43,66 @@ export const noteStateSlice = createSlice({
 			state.noteIsFavourite = !state.noteIsFavourite;
 		},
 
-		createOrTrash(state, action: PayloadAction<string>) {			
-			const notes = [];
-			notes.push({
+		createOrTrash(state, action: PayloadAction<string>) {
+			const newNote: NoteType = {
 				id: new Date().toISOString(),
-				title: state.noteTitle,
-				content: state.noteContent,
+				title: state.noteTitle.trim(),
+				text: state.noteText,
 				images: state.noteImages,
 				theme: state.noteTheme,
 				font: state.noteFont,
 				isFavourite: state.noteIsFavourite,
-				isGradient: state.noteThemeIsGradient
-			});
+			};
 
 			if (action.payload === "create") {
-				state.userNotes = [...notes, ...state.userNotes];
+				state.userNotes.unshift(newNote);
 			} else if(action.payload === "trash"){
-				state.trashedNotes = [...notes, ...state.trashedNotes];
+				state.trashedNotes.unshift(newNote);
 			}
 		},
 
-		editNote(state, action: PayloadAction<NoteType>) {
+		editNoteContent(state, action: PayloadAction<NoteType>) {
 			state.noteId = action.payload.id;
 			state.noteTitle = action.payload.title;
-			state.noteContent = action.payload.content;
+			state.noteText = action.payload.text;
 			state.noteImages = action.payload.images;
 			state.noteTheme = action.payload.theme;
 			state.noteFont = action.payload.font;
 			state.noteIsFavourite = action.payload.isFavourite;
-			state.noteThemeIsGradient = action.payload.isGradient
 		},
 
-        updateNote(state) {
+        updateNoteContent(state) {
 			const noteFound = findNote(state.userNotes, state.noteId);
 
-			Object.assign(noteFound, {
-				title: state.noteTitle,
-				content: state.noteContent,
-				images: state.noteImages,
-				theme: state.noteTheme,
-				font: state.noteFont,
-				isFavourite: state.noteIsFavourite,
-				isGradient: state.noteThemeIsGradient
-			});
+			if (noteFound) {
+				Object.assign(noteFound, {
+					title: state.noteTitle.trim(),
+					text: state.noteText,
+					images: state.noteImages,
+					theme: state.noteTheme,
+					font: state.noteFont,
+					isFavourite: state.noteIsFavourite,
+				});	
+			}
 		},
 
-		resetNote(state) {
+		resetNoteContent(state) {
 			state.noteId = "";
 			state.noteTitle = "";
-			state.noteContent = "";
+			state.noteText = "";
 			state.noteImages = [];
-			state.noteTheme = "dark";
+			state.noteTheme.colour = "dark";
+			state.noteTheme.isGradient = false;
 			state.noteFont = "glacial";
 			state.noteIsFavourite = false;
-			state.noteThemeIsGradient = false
 		},
 
 		trashNote(state) {
 			const noteToTrash = findNote(state.userNotes, state.noteId);
+
 			if (noteToTrash) {
 				state.trashedNotes.unshift(noteToTrash);
-				state.userNotes = filterNotes(state.userNotes, state.noteId);	
+				state.userNotes = filterNotes(state.userNotes, state.noteId);
 			}
 		},
 
@@ -120,7 +115,7 @@ export const noteStateSlice = createSlice({
 			}
 		},
 
-        deleteImages(state, action: PayloadAction<number>) {
+        deleteNoteImages(state, action: PayloadAction<number>) {
 			state.noteImages.splice(action.payload, 1);
 		},
 

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../store/store";
+import { useThunkDispatch } from "../../store/store";
 import { deleteFromTrash } from "../../store/thunks/thunks";
 import { ConfirmDeleteProps } from "../../types/types";
+import "../../styles/confirm-delete/confirm-delete.scss";
 
 function ConfirmDelete(props: ConfirmDeleteProps): JSX.Element {
 	const {deleteConfirmVisible, deleteAmount, onShowDeleteConfirm} = props;
-	const thunkDispatch = useAppDispatch();
+	const thunkDispatch = useThunkDispatch();
 
 	const [deleteConfirmClasses, setDeleteConfirmClasses] = useState("");
 	const [deletionWarning, setDeletionWarning] = useState("");
@@ -45,8 +46,15 @@ function ConfirmDelete(props: ConfirmDeleteProps): JSX.Element {
 			<div className="confirmation-dialog">
 				<strong>{deletionWarning}</strong>
 				<div className="delete-confirm-buttons">
-					<button className="rising-background" onClick={cancelDelete}>Cancel</button>
-					<button className="rising-background" onClick={deleteConfirmed}>{deleteButtonText}</button>
+					<button className="rising-background"
+						onClick={cancelDelete}>
+							Cancel
+					</button>
+					
+					<button className="rising-background"
+						onClick={deleteConfirmed}>
+							{deleteButtonText}
+					</button>
 		  		</div>
 			</div>
 		</div>

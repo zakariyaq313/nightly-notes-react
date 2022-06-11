@@ -1,30 +1,43 @@
-export type NoteType = {
-	id: string,
-	title: string,
-	content: string,
-	images: Array<string>,
-	theme: string,
-	font: string,
-	isFavourite: boolean,
+import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
+import { RootState } from "../store/store";
+
+export type ThemeType = {
+	colour: string,
 	isGradient: boolean
 };
 
+export type NoteType = {
+	id: string,
+	title: string,
+	text: string,
+	images: string[],
+	theme: ThemeType,
+	font: string,
+	isFavourite: boolean,
+};
+
 export type InitialState = {
-	userNotes: Array<NoteType>,
-	favouriteNotes: Array<NoteType>,
-	trashedNotes: Array<NoteType>,
+	userNotes: NoteType[],
+	favouriteNotes: NoteType[],
+	trashedNotes: NoteType[],
 	isNoteEmpty: boolean,
 	isNoteNew: boolean,
 	isNoteDialogVisible: boolean,
 	noteId: string,
 	noteTitle: string,
-	noteContent: string,
-	noteImages: Array<string>,
-	noteTheme: string,
+	noteText: string,
+	noteImages: string[],
+	noteTheme: ThemeType,
 	noteFont: string,
 	noteIsFavourite: boolean,
-	noteThemeIsGradient: boolean
 };
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	RootState,
+	unknown,
+	AnyAction
+>;
 
 export type HeaderProps = {
 	activePage: string,
@@ -34,13 +47,13 @@ export type HeaderProps = {
 	onSyncDeleteAmount: (value: string) => void
 };
 
-export type PageProps = {
+export type BaseComponentProps = {
 	activePage: string,
 	pageLabel: React.ReactElement,
-	emptyNotesClass: string,
-	emptyNotesInfo: string,
-	emptyNotesIcon: React.ReactElement,
-	notes: Array<NoteType>
+	notesUnavailableClass: string,
+	notesUnavailableInfo: string,
+	notesUnavailableIcon: React.ReactElement,
+	notes: NoteType[]
 };
 
 export type NoteDialogProps = {
@@ -49,13 +62,25 @@ export type NoteDialogProps = {
 	onSyncDeleteAmount: (value: string) => void
 };
 
-export type ButtonPanelProps = {
+export type NoteContentProps = {
 	activePage: string,
-	fontAndPaletteVisibility: {fontSelect: boolean, palette: boolean},
-	onUpdateFontAndPalette: (value: {fontSelect: boolean, palette: boolean}) => void,
-	onUploadImage: () => void,
+	onHideFontAndPalette: () => void
+};
+
+export type NoteOptionsProps = {
+	activePage: string,
 	onShowDeleteConfirm: (value: boolean) => void,
-	onSyncDeleteAmount: (value: string) => void
+	onSyncDeleteAmount: (value: string) => void,
+
+	fontAndPaletteVisibility: {
+		fontSelect: boolean,
+		palette: boolean
+	},
+
+	onUpdateFontAndPalette: (value: {
+		fontSelect: boolean,
+		palette: boolean
+	}) => void
 };
 
 export type ConfirmDeleteProps = {

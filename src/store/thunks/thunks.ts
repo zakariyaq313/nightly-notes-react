@@ -1,7 +1,5 @@
-import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
-import { noteActions, RootState } from "../store";
-
-type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;
+import { AppThunk, NoteType } from "../../types/types";
+import { noteActions } from "../store";
 
 export const exitNote = (page: string): AppThunk => {
 	return (dispatch, getState) => {
@@ -12,7 +10,7 @@ export const exitNote = (page: string): AppThunk => {
 				}
 			} else {				
 				if (!getState().isNoteEmpty) {
-					dispatch(noteActions.updateNote());
+					dispatch(noteActions.updateNoteContent());
 				} else {
 					dispatch(noteActions.deleteEmptyNote());
 				}
@@ -21,8 +19,16 @@ export const exitNote = (page: string): AppThunk => {
 			dispatch(noteActions.addFavouriteNotes());
 		}
 
-		dispatch(noteActions.resetNote());	
+		dispatch(noteActions.resetNoteContent());	
 		dispatch(noteActions.noteDialogIsVisible(false));
+	}
+}
+
+export const editNote = (noteContent: NoteType): AppThunk => {
+	return (dispatch) => {
+		dispatch(noteActions.editNoteContent(noteContent));
+		dispatch(noteActions.noteDialogIsVisible(true));
+		dispatch(noteActions.noteIsNew(false));
 	}
 }
 
@@ -31,11 +37,11 @@ export const moveToTrash = (): AppThunk => {
 		if (getState().isNoteNew) {
 			dispatch(noteActions.createOrTrash("trash"));
 		} else {
-			dispatch(noteActions.updateNote());
+			dispatch(noteActions.updateNoteContent());
 			dispatch(noteActions.trashNote());
 		}
 
-		dispatch(noteActions.resetNote());
+		dispatch(noteActions.resetNoteContent());
 		dispatch(noteActions.addFavouriteNotes());
 		dispatch(noteActions.noteDialogIsVisible(false));
 	}
@@ -44,7 +50,7 @@ export const moveToTrash = (): AppThunk => {
 export const restoreFromTrash = (): AppThunk => {
     return (dispatch) => {
 	    dispatch(noteActions.restoreNote());
-	    dispatch(noteActions.resetNote());
+	    dispatch(noteActions.resetNoteContent());
 	    dispatch(noteActions.noteDialogIsVisible(false));
 	    dispatch(noteActions.addFavouriteNotes());
     }
@@ -53,7 +59,7 @@ export const restoreFromTrash = (): AppThunk => {
 export const deleteFromTrash = (amount: string): AppThunk => {
 	return (dispatch) => {
 		dispatch(noteActions.deleteNotesForever(amount));
-		dispatch(noteActions.resetNote());
+		dispatch(noteActions.resetNoteContent());
 		dispatch(noteActions.noteDialogIsVisible(false));
 	}
 }

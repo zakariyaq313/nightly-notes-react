@@ -1,10 +1,10 @@
 import { Provider } from "react-redux";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
-import Footer from "./components/Common/Footer";
-import Navigation from "./components/Common/Navigation";
-import Favourites from "./components/Pages/Favourites";
-import HomePage from "./components/Pages/Home";
-import Trash from "./components/Pages/Trash";
+import Footer from "./components/UIComponents/Footer";
+import Navigation from "./components/UIComponents/Navigation";
+import Favourites from "./pages/Favourites";
+import HomePage from "./pages/Home";
+import Trash from "./pages/Trash";
 import store from "./store/store";
 import "./styles/main.scss";
 

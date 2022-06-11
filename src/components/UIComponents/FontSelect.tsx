@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, noteActions } from "../../../../../store/store";
+import { RootState, noteActions } from "../../store/store";
+import "../../styles/font-select/font-select.scss";
 
 function FontSelect(): JSX.Element {
 	const fontStyles: {name: string, className: string }[] = [

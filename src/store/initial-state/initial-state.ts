@@ -9,10 +9,9 @@ export const initialState: InitialState = {
 	isNoteDialogVisible: false,
 	noteId: "",
 	noteTitle: "",
-	noteContent: "",
+	noteText: "",
 	noteImages: [],
-	noteTheme: "dark",
+	noteTheme: {colour: "dark", isGradient: false},
 	noteFont: "glacial",
 	noteIsFavourite: false,
-	noteThemeIsGradient: false
 };

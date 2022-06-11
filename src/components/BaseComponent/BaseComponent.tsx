@@ -1,30 +1,31 @@
 import { Fragment, useEffect, useLayoutEffect, useState } from "react";
-import { RootState, useAppDispatch } from "../../store/store";
-import { useSelector } from "react-redux";
+import { noteActions, RootState, useThunkDispatch } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import { exitNote } from "../../store/thunks/thunks";
-import { PageProps } from "../../types/types";
-import Navbar from "../Common/Header";
-import Note from "../Common/Note/Note";
-import NoteDialog from "../Common/NoteDialog/NoteDialog";
-import ConfirmDelete from "../Common/ConfirmDelete";
+import { BaseComponentProps } from "../../types/types";
+import Header from "../UIComponents/Header";
+import Note from "../Note/Note";
+import NoteDialog from "../NoteDialog/NoteDialog";
+import ConfirmDelete from "../UIComponents/ConfirmDelete";
+import "../../styles/base-component/base-component.scss";
 
-function Page(props: PageProps): JSX.Element {
+function BaseComponent(props: BaseComponentProps): JSX.Element {
 	const {
 		notes,
 		activePage,
 		pageLabel,
-		emptyNotesClass,
-		emptyNotesInfo,
-		emptyNotesIcon
+		notesUnavailableClass,
+		notesUnavailableInfo,
+		notesUnavailableIcon
 	} = props;
 
 	const {
 		isNoteDialogVisible,
 		noteTheme,
-		noteThemeIsGradient
 	} = useSelector((state: RootState) => state);
 
-	const thunkDispatch = useAppDispatch();
+	const dispatch = useDispatch();
+	const thunkDispatch = useThunkDispatch();
 	
 	const [notesUnavailable, setNotesUnavailable] = useState(true);
 	const [overlayClasses, setOverlayClasses] = useState("");
@@ -32,8 +33,12 @@ function Page(props: PageProps): JSX.Element {
 	const [deleteConfirmVisible, setDeleteConfirmVisibility] = useState(false);
 	const [deleteAmount, setDeleteAmount] = useState("");
 
-	const closeNote = () => {
+	const closeNoteDialog = () => {
 		thunkDispatch(exitNote(activePage));
+	}
+
+	const showNoteDialog = () => {
+		dispatch(noteActions.noteDialogIsVisible(true));
 	}
 
 	const showDeleteConfirm = (value: boolean) => {
@@ -52,6 +57,8 @@ function Page(props: PageProps): JSX.Element {
 		}
 	}, [notes]);
 
+
+	// Visibility of note-dialog overlay
 	useEffect(() => {
 		if (isNoteDialogVisible) {
 			setOverlayClasses("overlay-visible");
@@ -60,17 +67,19 @@ function Page(props: PageProps): JSX.Element {
 		}
 	}, [isNoteDialogVisible]);
 
+
+	// Glowing effect behind note-dialog for gradient backgrounds
 	useEffect(() => {
-		if (isNoteDialogVisible && noteThemeIsGradient) {
-			setBlurOverlayClasses(`blur-visible ${noteTheme}`);				
+		if (isNoteDialogVisible && noteTheme.isGradient) {
+			setBlurOverlayClasses(`blur-visible ${noteTheme.colour}`);				
 		} else {
 			setBlurOverlayClasses("");
 		}
-	}, [isNoteDialogVisible, noteTheme, noteThemeIsGradient]);
+	}, [isNoteDialogVisible, noteTheme]);
 
 	return (
 		<Fragment>
-			<Navbar
+			<Header
 				pageLabel={pageLabel}
 				activePage={activePage}
 				notesUnavailable={notesUnavailable}
@@ -78,7 +87,7 @@ function Page(props: PageProps): JSX.Element {
 				onSyncDeleteAmount={syncDeleteAmount}
 			/>
 
-			<div onClick={closeNote} className={`overlay ${overlayClasses}`}></div>
+			<div onClick={closeNoteDialog} className={`overlay ${overlayClasses}`}></div>
 			<div className={`background-blur ${blurOverlayClasses}`}></div>
 
 			<NoteDialog
@@ -87,28 +96,41 @@ function Page(props: PageProps): JSX.Element {
 				onSyncDeleteAmount={syncDeleteAmount}
 			/>
 
-			<div className="notes">
-				{notes.map((note) => (
-					<Note
-						key={note.id}
-						id={note.id}
-						title={note.title}
-						content={note.content}
-						images={note.images}
-						theme={note.theme}
-						font={note.font}
-						isFavourite={note.isFavourite}
-						isGradient={note.isGradient}
-					/>
-				))}
-			</div>
+			{!notesUnavailable &&
+				<div className="notes">
+					{notes.map((note) => (
+						<Note
+							key={note.id}
+							id={note.id}
+							title={note.title}
+							text={note.text}
+							images={note.images}
+							theme={note.theme}
+							font={note.font}
+							isFavourite={note.isFavourite}
+						/>
+					))}
+				</div>
+			}
 
 			{notesUnavailable &&
 				<div className="notes-unavailable">
-					<h2 className={emptyNotesClass}>
-						{emptyNotesIcon}
-						<span>{emptyNotesInfo}</span>
-					</h2>
+					<span className={notesUnavailableClass}>
+						{notesUnavailableIcon}
+						
+						{activePage === "home" &&
+							<h2 onClick={showNoteDialog}
+								className="clickable">
+								{notesUnavailableInfo}
+							</h2>
+						}
+
+						{activePage !== "home" &&
+							<h2>
+								{notesUnavailableInfo}
+							</h2>
+						}
+					</span>
 				</div>
 			}
 
@@ -123,4 +145,4 @@ function Page(props: PageProps): JSX.Element {
 	)
 }
 
-export default Page;
+export default BaseComponent;

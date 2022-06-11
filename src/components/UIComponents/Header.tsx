@@ -2,10 +2,11 @@ import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { noteActions } from "../../store/store";
 import { HeaderProps } from "../../types/types";
-import PlusIcon from "../Icons/PlusIcon";
-import TrashIcon from "../Icons/TrashIcon";
+import PlusIcon from "../../icons/PlusIcon";
+import TrashIcon from "../../icons/TrashIcon";
+import "../../styles/header/header.scss";
 
-function Navbar(props: HeaderProps): JSX.Element {
+function Header(props: HeaderProps): JSX.Element {
 	const {
 		activePage,
 		pageLabel,
@@ -22,8 +23,8 @@ function Navbar(props: HeaderProps): JSX.Element {
 
 	useLayoutEffect(() => {
 		const createNewNote = () => {
-			dispatch(noteActions.noteDialogIsVisible(true));
 			dispatch(noteActions.noteIsNew(true));
+			dispatch(noteActions.noteDialogIsVisible(true));
 		}
 
 		const showDeleteConfirm = () => {
@@ -52,12 +53,15 @@ function Navbar(props: HeaderProps): JSX.Element {
 				onClick={buttonAction}
 				className={`comical-shadow-clickable ${buttonClass}`}
 				disabled={(notesUnavailable && activePage === "trash") || activePage === "favourites"}>
-					
+
 				<span>
 					{activePage !== "trash" && <PlusIcon />}
 					{activePage === "trash" && <TrashIcon />}
 					{buttonLabel}
 				</span>
+				
+				{/* Empty span tags used instead of pseudo elements because
+					required animation does not work on the latter */}
 				<span></span>
 				<span></span>
 			</button>
@@ -65,4 +69,4 @@ function Navbar(props: HeaderProps): JSX.Element {
 	);
 }
 
-export default Navbar;
+export default Header;

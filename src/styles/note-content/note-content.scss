@@ -1,5 +1,9 @@
+@import "../mixins/mixins.scss";
+
 .note-content {
 	.images {
+		margin-bottom: 2rem;
+		
 		.image {
 			position: relative;
 			margin-bottom: 1rem;

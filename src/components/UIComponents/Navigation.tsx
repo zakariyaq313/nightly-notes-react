@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import FavouriteIcon from "../Icons/HeartOutlineIcon";
-import HomeIcon from "../Icons/HomeIcon";
-import TrashIcon from "../Icons/TrashIcon";
+import FavouriteIcon from "../../icons/HeartOutlineIcon";
+import HomeIcon from "../../icons/HomeIcon";
+import TrashIcon from "../../icons/TrashIcon";
+import "../../styles/navigation/navigation.scss";
 
 function Navigation(): JSX.Element {
 	const location = useLocation();

@@ -1,6 +1,6 @@
 # **Notes Mini**
 
-Notes app originally made using Vue (<a href="https://github.com/zakariyaq313/notes-mini-vue">link</a>), re-made completely using React!
+Notes app <a href="https://github.com/zakariyaq313/notes-mini-vue">originally</a> made using Vue, re-made completely using React!
 
 <a href="https://zakariyaq313.github.io/notes-mini-react/"><img src="./src/assets/images/screen.png"></a>
 
@@ -10,7 +10,7 @@ Made using -
 - **Typescript** - Language
 - **Redux Toolkit** - State management
 - **React Router** - Page routing 
-- **Sass/external CSS** - Element styling
+- **Sass/external stylesheet** - Element styling
 
 How to run in local server -
 - **Clone** the respository
