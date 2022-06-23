@@ -16,7 +16,6 @@ function HomePage(): JSX.Element {
 				notes={notes}
 				activePage="home"
 				pageLabel={pageLabel}
-				notesUnavailableClass={""}
 				notesUnavailableInfo={notesUnavailableInfo}
 				notesUnavailableIcon={notesUnavailableIcon}
 			/>

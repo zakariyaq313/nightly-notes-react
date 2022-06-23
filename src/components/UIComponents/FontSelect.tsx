@@ -10,12 +10,24 @@ function FontSelect(): JSX.Element {
 			className: "glacial"
 		},
 		{
+			name: "Major Mono",
+			className: "major-mono-display"
+		},
+		{
+			name: "Sacramento",
+			className: "sacramento"
+		},
+		{
 			name: "Montserrat",
 			className: "montserrat"
 		},
 		{
-			name: "Major Mono",
-			className: "major-mono-display"
+			name: "Hi Melody",
+			className: "hi-melody"
+		},
+		{
+			name: "Space Mono",
+			className: "space-mono"
 		},
 		{
 			name: "Poppins",
@@ -28,26 +40,6 @@ function FontSelect(): JSX.Element {
 		{
 			name: "Roboto",
 			className: "roboto"
-		},
-		{
-			name: "Pacifico",
-			className: "pacifico"
-		},
-		{
-			name: "Source Code Pro",
-			className: "source-code-pro"
-		},
-		{
-			name: "Hi Melody",
-			className: "hi-melody"
-		},
-		{
-			name: "Freckle Face",
-			className: "freckle-face"
-		},
-		{
-			name: "Permanent Marker",
-			className: "permanent-marker"
 		}
 	];
 
@@ -63,15 +55,13 @@ function FontSelect(): JSX.Element {
 		if (fontFamily === selectedFont) {
 			return `selected-font ${fontFamily}`;
 		}
-
 		return fontFamily;
 	}
 
 	return(
 		<ul className="font-selection-dropdown">
 			{fontStyles.map((fontStyle, index) => (
-				<li
-					key={index}
+				<li key={index}
 					className={fontClasses(fontStyle.className)}
 					onClick={(e) => changeFont(e, fontStyle.className)}>
 					{fontStyle.name}

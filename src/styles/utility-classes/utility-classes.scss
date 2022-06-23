@@ -3,16 +3,20 @@
 	font-family: 'Glacial Indifference', sans-serif;
 }
 
+.sacramento {
+	font-family: 'Sacramento', cursive;
+}
+
 .roboto {
 	font-family: 'Roboto', sans-serif;
 }
 
-.montserrat {
-	font-family: 'Montserrat', sans-serif;
+.space-mono {
+	font-family: 'Space Mono', monospace;
 }
 
-.source-code-pro {
-	font-family: 'Source Code Pro', monospace;
+.montserrat {
+	font-family: 'Montserrat', sans-serif;
 }
 
 .poppins {
@@ -23,24 +27,8 @@
 	font-family: 'Raleway', sans-serif;
 }
 
-.pacifico {
-	font-family: 'Pacifico', cursive;
-}
-
 .patrick-hand {
 	font-family: 'Patrick Hand', cursive;
-}
-
-.comfortaa {
-	font-family: 'Comfortaa', cursive;
-}
-
-.freckle-face {
-	font-family: 'Freckle Face', cursive;
-}
-
-.permanent-marker {
-	font-family: 'Permanent Marker', cursive;
 }
 
 .major-mono-display {
@@ -148,15 +136,6 @@
 	@include respond(600px) {
 		width: calc(45vw - 3rem);
 	}
-}
-
-// Active font
-.selected-font {
-	background-color: rgba($color: #fff, $alpha: 0.1);
-
-	@include respond(600px) {
-		background-color: rgba($color: #fff, $alpha: 0.2);
-	}	
 }
 
 // Clickable element indication

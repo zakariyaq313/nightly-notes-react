@@ -38,9 +38,9 @@
 		width: 100%;
 	}
 
-	input,
-	textarea,
-	button {
+	button,
+	.note-title,
+	.note-text {
 		border: none;
 
 		&:not(.theme-buttons button) {
@@ -48,8 +48,8 @@
 		}
 	}
 
-	input:disabled,
-	textarea:disabled {
+	.note-title:disabled,
+	.note-text:disabled {
 		cursor: not-allowed;
 		opacity: 0.4;
 	}

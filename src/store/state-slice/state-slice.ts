@@ -27,7 +27,7 @@ export const noteStateSlice = createSlice({
 			state.noteText = action.payload;
 		},
 
-		setNoteImages(state, action: PayloadAction<string>) {
+		addNoteImages(state, action: PayloadAction<string>) {
 			state.noteImages.push(action.payload);
 		},
 
@@ -72,18 +72,15 @@ export const noteStateSlice = createSlice({
 		},
 
         updateNoteContent(state) {
-			const noteFound = findNote(state.userNotes, state.noteId);
-
-			if (noteFound) {
-				Object.assign(noteFound, {
-					title: state.noteTitle.trim(),
-					text: state.noteText,
-					images: state.noteImages,
-					theme: state.noteTheme,
-					font: state.noteFont,
-					isFavourite: state.noteIsFavourite,
-				});	
-			}
+			const noteToUpdate = findNote(state.userNotes, state.noteId)!;
+			Object.assign(noteToUpdate, {
+				title: state.noteTitle.trim(),
+				text: state.noteText,
+				images: state.noteImages,
+				theme: state.noteTheme,
+				font: state.noteFont,
+				isFavourite: state.noteIsFavourite,
+			});
 		},
 
 		resetNoteContent(state) {
@@ -98,21 +95,15 @@ export const noteStateSlice = createSlice({
 		},
 
 		trashNote(state) {
-			const noteToTrash = findNote(state.userNotes, state.noteId);
-
-			if (noteToTrash) {
-				state.trashedNotes.unshift(noteToTrash);
-				state.userNotes = filterNotes(state.userNotes, state.noteId);
-			}
+			const noteToTrash = findNote(state.userNotes, state.noteId)!;
+			state.trashedNotes.unshift(noteToTrash);
+			state.userNotes = filterNotes(state.userNotes, noteToTrash.id);
 		},
 
         restoreNote(state) {
-			const noteFound = findNote(state.trashedNotes, state.noteId);
-
-			if (noteFound) {
-				state.userNotes.unshift(noteFound);
-				state.trashedNotes = filterNotes(state.trashedNotes, noteFound.id);
-			}
+			const noteToRestore = findNote(state.trashedNotes, state.noteId)!;
+			state.userNotes.unshift(noteToRestore);
+			state.trashedNotes = filterNotes(state.trashedNotes, noteToRestore.id);
 		},
 
         deleteNoteImages(state, action: PayloadAction<number>) {

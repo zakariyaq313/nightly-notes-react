@@ -1,10 +1,10 @@
 @import "../mixins/mixins.scss";
 
 .note-content {
-	.images {
+	.note-images {
 		margin-bottom: 2rem;
 		
-		.image {
+		.note-image {
 			position: relative;
 			margin-bottom: 1rem;
 			break-inside: avoid;
@@ -36,8 +36,8 @@
 	}
 		
 	.user-inputs {
-		input,
-		textarea {
+		.note-title,
+		.note-text {
 			width: 100%;
 			resize: none;
 			color: #fff;
@@ -52,11 +52,11 @@
 			}
 		}
 
-		input {
+		.note-title {
 			font-size: 2rem;
 		}
 
-		textarea {
+		.note-text {
 			font-size: 1.6rem;
 			line-height: 1.6;
 			height: 30rem;
@@ -77,6 +77,30 @@
 			@include respond(320px) {
 				height: 51rem;
 			}
+		}
+	}
+}
+
+.hi-melody .note-content {
+	.user-inputs {
+		.note-title {
+			font-size: 2.6rem;
+		}
+
+		.note-text {
+			font-size: 2rem;
+		}
+	}
+}
+
+.sacramento .note-content {
+	.user-inputs {
+		.note-title {
+			font-size: 2.6rem;
+		}
+
+		.note-text {
+			font-size: 2.2rem;
 		}
 	}
 }

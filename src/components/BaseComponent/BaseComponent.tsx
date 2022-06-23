@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { exitNote } from "../../store/thunks/thunks";
+import { exitNote } from "../../store/action-creators/action-creators";
 import { BaseComponentProps } from "../../types/types";
 import Header from "../UIComponents/Header";
 import Note from "../Note/Note";

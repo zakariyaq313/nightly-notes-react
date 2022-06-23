@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useThunkDispatch } from "../../store/store";
-import { deleteFromTrash } from "../../store/thunks/thunks";
+import { deleteFromTrash } from "../../store/action-creators/action-creators";
 import { ConfirmDeleteProps } from "../../types/types";
 import "../../styles/confirm-delete/confirm-delete.scss";
 

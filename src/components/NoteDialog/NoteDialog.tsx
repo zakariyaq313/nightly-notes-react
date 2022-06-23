@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
 import { NoteDialogProps } from "../../types/types";
-import { exitNote } from "../../store/thunks/thunks";
+import { exitNote } from "../../store/action-creators/action-creators";
 import NoteContent from "./NoteContent/NoteContent";
 import NoteOptions from "./NoteOptions/NoteOptions";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";

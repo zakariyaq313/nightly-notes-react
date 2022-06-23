@@ -62,14 +62,14 @@ function NoteContent(props: NoteContentProps): JSX.Element {
     return (
         <div onClick={hideFontAndPalette} className="note-content">
 			{noteImages.length > 0 &&
-				<div className="images" style={imageColumns}>
+				<div className="note-images" style={imageColumns}>
 					{noteImages.map((image, index) => (
-						<div className="image" key={index}>
+						<div className="note-image" key={index}>
 							<img className={imageClasses} src={image} alt="" />
-							<button
-								onClick={(e) => deleteImage(e, index)}
-								className="delete-image"
-					    		disabled={activePage === "trash"}>
+							
+							<button onClick={(e) => deleteImage(e, index)}
+					    		disabled={activePage === "trash"}
+								className="delete-image">
 									<DeleteIcon />
 							</button>
 						</div>
@@ -80,18 +80,20 @@ function NoteContent(props: NoteContentProps): JSX.Element {
 			<div className="user-inputs">
 				<input onChange={syncNoteTitle}
 					onKeyDown={enterTextArea}
+					type="text"
 					value={noteTitle}
 					placeholder="Title"
-					type="text"
 					spellCheck={false}
+					className="note-title"
 					disabled={activePage === "trash"}
 				/>
 
 				<textarea onChange={syncNoteText}
+					ref={noteTextArea}
 					value={noteText}
 					placeholder="Your note"
-					ref={noteTextArea}
 					spellCheck={false}
+					className="note-text"
 					disabled={activePage === "trash"}>
 				</textarea>
 			</div>

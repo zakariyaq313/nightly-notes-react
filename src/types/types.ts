@@ -50,7 +50,7 @@ export type HeaderProps = {
 export type BaseComponentProps = {
 	activePage: string,
 	pageLabel: React.ReactElement,
-	notesUnavailableClass: string,
+	notesUnavailableClass?: string,
 	notesUnavailableInfo: string,
 	notesUnavailableIcon: React.ReactElement,
 	notes: NoteType[]

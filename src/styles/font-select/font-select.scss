@@ -1,3 +1,5 @@
+@import "../mixins/mixins.scss";
+
 .font-select-button {
 	color: #fff;
 	background-color: rgba($color: #fff, $alpha: 0.1);
@@ -38,9 +40,39 @@
 	}
 
 	li {
+		display: flex;
+		align-items: center;
 		border-radius: 4px;
 		font-size: 1.4rem;
 		cursor: pointer;
-		padding: 1.2rem;
+		padding-inline: 1.2rem;
+		height: 3.6rem;
+
+		&:not(:last-of-type) {
+			margin-bottom: 3px;
+		}
+
+		&.sacramento,
+		&.hi-melody {
+			font-size: 2rem;
+		}
+
+		&.selected-font {
+			background-color: rgba($color: #fff, $alpha: 0.1);
+
+			@include respond(600px) {
+				background-color: rgba($color: #fff, $alpha: 0.2);
+			}	
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: rgba($color: #fff, $alpha: 0.1);
+	
+				@include respond(600px) {
+					background-color: rgba($color: #fff, $alpha: 0.2);
+				}	
+			}
+		}
 	}
 }

@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState, useThunkDispatch } from "../../../store/store";
-import { moveToTrash, restoreFromTrash } from "../../../store/thunks/thunks";
+import { moveToTrash, restoreFromTrash } from "../../../store/action-creators/action-creators";
 import { NoteOptionsProps } from "../../../types/types";
 import FontSelect from "../../UIComponents/FontSelect";
 import Palette from "../../UIComponents/Palette";
@@ -24,9 +24,9 @@ function NoteOptions(props: NoteOptionsProps): JSX.Element {
 	const dispatch = useDispatch();
 	const thunkDispatch = useThunkDispatch();
 
-	const noteIsEmpty = useSelector((state: RootState) => state.isNoteEmpty);
-	const uploadImageButton = useRef<HTMLInputElement>(null);
+	const imageUploader = useRef<HTMLInputElement>(null);
 	const [rotateIcon, setRotateIcon] = useState("rotate(0)");
+	const noteIsEmpty = useSelector((state: RootState) => state.isNoteEmpty);
 
 	const toggleFontSelect = () => {
 		onUpdateFontAndPalette({
@@ -53,13 +53,13 @@ function NoteOptions(props: NoteOptionsProps): JSX.Element {
 	const uploadImageClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		closeElements();
-		uploadImageButton.current?.click();
+		imageUploader.current?.click();
 	}
 
 	const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (e.target.files) {
 			const uploadedImage = URL.createObjectURL(e.target.files[0]);
-			dispatch(noteActions.setNoteImages(uploadedImage));
+			dispatch(noteActions.addNoteImages(uploadedImage));
 		}
 	}
 
@@ -68,15 +68,15 @@ function NoteOptions(props: NoteOptionsProps): JSX.Element {
 		thunkDispatch(moveToTrash());
 	}
 
+	const restoreNote = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		thunkDispatch(restoreFromTrash());
+	}
+
 	const confirmDeletion = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 		onShowDeleteConfirm(true);
 		onSyncDeleteAmount("one");
-	}
-
-	const restoreNote = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		thunkDispatch(restoreFromTrash());
 	}
 
 	useEffect(() => {
@@ -98,7 +98,7 @@ function NoteOptions(props: NoteOptionsProps): JSX.Element {
 
 					{/* Hidden image upload input */}
 					<input onChange={uploadImage}
-						ref={uploadImageButton}
+						ref={imageUploader}
 						type="file" accept="image/*"
 						style={{display: "none"}}
 					/>

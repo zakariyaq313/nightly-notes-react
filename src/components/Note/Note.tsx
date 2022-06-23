@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import { useThunkDispatch } from "../../store/store";
-import { editNote } from "../../store/thunks/thunks";
+import { editNote } from "../../store/action-creators/action-creators";
 import { NoteType } from "../../types/types";
 import "../../styles/note/note.scss";
 
@@ -32,18 +32,18 @@ function Note(props: NoteType): JSX.Element {
 	return (
 		<div className={`note ${theme.colour} ${font}`} onClick={editNoteContent}>
 			{images.length > 0 &&
-				<div className="note-images" style={imageColumns}>
+				<div className="images" style={imageColumns}>
 					{images.map((image, index) => (
-						<img key={index} src={image} alt="" />
+						<img key={index} src={image} className="image" alt="" />
 					))}
 				</div>
 			}
 
 			{title &&
-				<h3>{title}</h3>
+				<h3 className="title">{title}</h3>
 			}
 
-			<p>{text}</p>
+			<p className="text">{text}</p>
 		</div>
 	);
 }

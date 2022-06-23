@@ -6,7 +6,7 @@ Notes app <a href="https://github.com/zakariyaq313/notes-mini-vue">originally</a
 
 Made using -
 <br>
-- **React (18.0)** - Main framework/library
+- **React (18)** - Main framework/library
 - **Typescript** - Language
 - **Redux Toolkit** - State management
 - **React Router** - Page routing 
