@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/notes-mini-react/static/css/main.80861295.css",
-    "main.js": "/notes-mini-react/static/js/main.eda91d74.js",
-    "static/media/Glacial Indifference Regular.otf": "/notes-mini-react/static/media/Glacial Indifference Regular.663a1c12d079e631b0b2.otf",
-    "index.html": "/notes-mini-react/index.html",
-    "main.80861295.css.map": "/notes-mini-react/static/css/main.80861295.css.map",
-    "main.eda91d74.js.map": "/notes-mini-react/static/js/main.eda91d74.js.map"
+    "main.css": "/nightly-notes-react/static/css/main.88fd15c2.css",
+    "main.js": "/nightly-notes-react/static/js/main.f9dd4931.js",
+    "static/media/Glacial Indifference Regular.otf": "/nightly-notes-react/static/media/Glacial Indifference Regular.663a1c12d079e631b0b2.otf",
+    "index.html": "/nightly-notes-react/index.html",
+    "main.88fd15c2.css.map": "/nightly-notes-react/static/css/main.88fd15c2.css.map",
+    "main.f9dd4931.js.map": "/nightly-notes-react/static/js/main.f9dd4931.js.map"
   },
   "entrypoints": [
-    "static/css/main.80861295.css",
-    "static/js/main.eda91d74.js"
+    "static/css/main.88fd15c2.css",
+    "static/js/main.f9dd4931.js"
   ]
 }
