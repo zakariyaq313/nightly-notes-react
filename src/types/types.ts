@@ -13,7 +13,7 @@ export type NoteType = {
 	images: string[],
 	theme: ThemeType,
 	font: string,
-	isFavourite: boolean,
+	isFavourite: boolean
 };
 
 export type InitialState = {
@@ -29,7 +29,7 @@ export type InitialState = {
 	noteImages: string[],
 	noteTheme: ThemeType,
 	noteFont: string,
-	noteIsFavourite: boolean,
+	noteIsFavourite: boolean
 };
 
 export type AppThunk<ReturnType = void> = ThunkAction<
@@ -39,56 +39,7 @@ export type AppThunk<ReturnType = void> = ThunkAction<
 	AnyAction
 >;
 
-export type HeaderProps = {
-	activePage: string,
-	pageLabel: React.ReactElement,
-	notesUnavailable: boolean,
-	onShowDeleteConfirm: (value: boolean) => void,
-	onSyncDeleteAmount: (value: string) => void
-};
-
-export type BaseComponentProps = {
-	activePage: string,
-	pageLabel: React.ReactElement,
-	notesUnavailableClass?: string,
-	notesUnavailableInfo: string,
-	notesUnavailableIcon: React.ReactElement,
-	notes: NoteType[]
-};
-
-export type NoteDialogProps = {
-	activePage: string,
-	onShowDeleteConfirm: (value: boolean) => void,
-	onSyncDeleteAmount: (value: string) => void
-};
-
-export type NoteContentProps = {
-	activePage: string,
-	onHideFontAndPalette: () => void
-};
-
-export type NoteOptionsProps = {
-	activePage: string,
-	onShowDeleteConfirm: (value: boolean) => void,
-	onSyncDeleteAmount: (value: string) => void,
-
-	fontAndPaletteVisibility: {
-		fontSelect: boolean,
-		palette: boolean
-	},
-
-	onUpdateFontAndPalette: (value: {
-		fontSelect: boolean,
-		palette: boolean
-	}) => void
-};
-
-export type ConfirmDeleteProps = {
-	deleteConfirmVisible: boolean,
-	deleteAmount: string,
-	onShowDeleteConfirm: (value: boolean) => void
-};
-
-export type ArrowDownIconProps = {
-	style: string
+export type ElementsVisible = {
+	fontSelect: boolean,
+	themePalette: boolean
 };

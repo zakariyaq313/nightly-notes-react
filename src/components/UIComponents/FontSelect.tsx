@@ -1,10 +1,10 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, noteActions } from "../../store/store";
-import "../../styles/font-select/font-select.scss";
+import "../../sass/font-select/font-select.scss";
 
 function FontSelect(): JSX.Element {
-	const fontStyles: {name: string, className: string }[] = [
+	const fontFamilyList: {name: string, className: string}[] = [
 		{
 			name: "Glacial Indifference",
 			className: "glacial"
@@ -46,21 +46,18 @@ function FontSelect(): JSX.Element {
 	const dispatch = useDispatch();
 	const selectedFont = useSelector((state: RootState) => state.noteFont);
 	
-	const changeFont = (e: React.MouseEvent<HTMLLIElement>, font: string) => {
+	const changeFont = (e: React.MouseEvent, font: string) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteFont(font));
 	}
 
 	const fontClasses = (fontFamily: string) => {
-		if (fontFamily === selectedFont) {
-			return `selected-font ${fontFamily}`;
-		}
-		return fontFamily;
+		return fontFamily === selectedFont ? `selected-font ${fontFamily}` : fontFamily;
 	}
 
 	return(
 		<ul className="font-selection-dropdown">
-			{fontStyles.map((fontStyle, index) => (
+			{fontFamilyList.map((fontStyle, index) => (
 				<li key={index}
 					className={fontClasses(fontStyle.className)}
 					onClick={(e) => changeFont(e, fontStyle.className)}>

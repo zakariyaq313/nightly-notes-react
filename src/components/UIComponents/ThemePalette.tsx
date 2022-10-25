@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState } from "../../store/store";
-import "../../styles/palette/palette.scss";
+import "../../sass/theme-palette/theme-palette.scss";
 
-function Palette(): JSX.Element {
+function ThemePalette(): JSX.Element {
 	const solidColourList: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
 	const gradientColourList: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
 	
 	const dispatch = useDispatch();	
 	const activeTheme = useSelector((state: RootState) => state.noteTheme.colour);
 
-	const themeChange = (e: React.MouseEvent<HTMLButtonElement>, colour: string, isGradient: boolean) => {
+	const themeChange = (e: React.MouseEvent, colour: string, isGradient: boolean) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteTheme({
 			colour: colour,
@@ -18,13 +18,10 @@ function Palette(): JSX.Element {
 	}
 
 	const themeClasses = (theme: string) => {
-		let themeClass: string;
+		let themeClass: string = theme;
 		if (theme === "dark") {
-			themeClass =  "default-theme-button";
-		} else {
-			themeClass = theme;
+			themeClass = "default-theme-button"			
 		}
-
 		return theme === activeTheme ? `active-theme ${themeClass}` : themeClass;
 	}
 	
@@ -34,8 +31,8 @@ function Palette(): JSX.Element {
 				<div className="solid-colours">
 					<b>Solid</b>
 					<div className="theme-buttons">
-						{solidColourList.map((solidColour, index) => (
-							<button key={index}
+						{solidColourList.map((solidColour) => (
+							<button key={solidColour}
 								className={themeClasses(solidColour)}
 								onClick={(e) => themeChange(e, solidColour, false)}>
 							</button>
@@ -46,8 +43,8 @@ function Palette(): JSX.Element {
 				<div className="gradient-colours">
 					<b>Gradient</b>
 					<div className="theme-buttons">
-						{gradientColourList.map((gradientColour, index) => (
-							<button key={index}
+						{gradientColourList.map((gradientColour) => (
+							<button key={gradientColour}
 								className={themeClasses(gradientColour)}
 								onClick={(e) => themeChange(e, gradientColour, true)}>
 							</button>
@@ -59,4 +56,4 @@ function Palette(): JSX.Element {
   	);
 }
 
-export default Palette;
+export default ThemePalette;

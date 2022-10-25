@@ -2,18 +2,27 @@ import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { exitNote } from "../../store/action-creators/action-creators";
-import { BaseComponentProps } from "../../types/types";
-import Header from "../UIComponents/Header";
+import { NoteType } from "../../types/types";
+import PageHeader from "../UIComponents/PageHeader";
 import Note from "../Note/Note";
 import NoteDialog from "../NoteDialog/NoteDialog";
 import ConfirmDelete from "../UIComponents/ConfirmDelete";
-import "../../styles/base-component/base-component.scss";
+import "../../sass/base-component/base-component.scss";
 
-function BaseComponent(props: BaseComponentProps): JSX.Element {
+type Props = {
+	activePage: string,
+	pageTitle: {main: string, optional?: string},
+	notesUnavailableClass?: string,
+	notesUnavailableInfo: string,
+	notesUnavailableIcon: JSX.Element,
+	notes: NoteType[]
+};
+
+function BaseComponent(props: Props): JSX.Element {
 	const {
 		notes,
 		activePage,
-		pageLabel,
+		pageTitle,
 		notesUnavailableClass,
 		notesUnavailableInfo,
 		notesUnavailableIcon
@@ -79,28 +88,25 @@ function BaseComponent(props: BaseComponentProps): JSX.Element {
 
 	return (
 		<Fragment>
-			<Header
-				pageLabel={pageLabel}
+			<PageHeader pageTitle={pageTitle}
 				activePage={activePage}
 				notesUnavailable={notesUnavailable}
 				onShowDeleteConfirm={showDeleteConfirm}
 				onSyncDeleteAmount={syncDeleteAmount}
 			/>
 
-			<div onClick={closeNoteDialog} className={`overlay ${overlayClasses}`}></div>
+			<div className={`overlay ${overlayClasses}`} onClick={closeNoteDialog}></div>
 			<div className={`background-blur ${blurOverlayClasses}`}></div>
 
-			<NoteDialog
-				activePage={activePage}
+			<NoteDialog activePage={activePage}
 				onShowDeleteConfirm={showDeleteConfirm}
 				onSyncDeleteAmount={syncDeleteAmount}
 			/>
 
-			{!notesUnavailable &&
+			{!notesUnavailable && (
 				<div className="notes">
 					{notes.map((note) => (
-						<Note
-							key={note.id}
+						<Note key={note.id}
 							id={note.id}
 							title={note.title}
 							text={note.text}
@@ -111,36 +117,30 @@ function BaseComponent(props: BaseComponentProps): JSX.Element {
 						/>
 					))}
 				</div>
-			}
+			)}
 
-			{notesUnavailable &&
+			{notesUnavailable && (
 				<div className="notes-unavailable">
 					<span className={notesUnavailableClass}>
 						{notesUnavailableIcon}
 						
-						{activePage === "home" &&
-							<h2 onClick={showNoteDialog}
-								className="clickable">
-								{notesUnavailableInfo}
-							</h2>
-						}
+						{activePage === "home" && (
+							<h2 className="clickable" onClick={showNoteDialog}>{notesUnavailableInfo}</h2>
+						)}
 
-						{activePage !== "home" &&
-							<h2>
-								{notesUnavailableInfo}
-							</h2>
-						}
+						{activePage !== "home" && (
+							<h2>{notesUnavailableInfo}</h2>
+						)}
 					</span>
 				</div>
-			}
+			)}
 
-			{activePage === "trash" &&
-				<ConfirmDelete
-					deleteConfirmVisible={deleteConfirmVisible}
+			{activePage === "trash" && (
+				<ConfirmDelete deleteConfirmVisible={deleteConfirmVisible}
 					deleteAmount={deleteAmount}
 					onShowDeleteConfirm={showDeleteConfirm}
 				/>
-			}
+			)}
 		</Fragment>
 	)
 }

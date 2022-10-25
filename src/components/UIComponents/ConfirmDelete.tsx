@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 import { useThunkDispatch } from "../../store/store";
 import { deleteFromTrash } from "../../store/action-creators/action-creators";
-import { ConfirmDeleteProps } from "../../types/types";
-import "../../styles/confirm-delete/confirm-delete.scss";
+import "../../sass/confirm-delete/confirm-delete.scss";
 
-function ConfirmDelete(props: ConfirmDeleteProps): JSX.Element {
-	const {deleteConfirmVisible, deleteAmount, onShowDeleteConfirm} = props;
+type Props = {
+	deleteConfirmVisible: boolean,
+	deleteAmount: string,
+	onShowDeleteConfirm: (value: boolean) => void
+};
+
+function ConfirmDelete(props: Props): JSX.Element {
+	const {
+		deleteConfirmVisible,
+		deleteAmount,
+		onShowDeleteConfirm
+	} = props;
 	const thunkDispatch = useThunkDispatch();
 
 	const [deleteConfirmClasses, setDeleteConfirmClasses] = useState("");
-	const [deletionWarning, setDeletionWarning] = useState("");
+	const [deleteWarning, setDeleteWarning] = useState("");
 	const [deleteButtonText, setDeleteButtonText] = useState("");
 
-	const cancelDelete = (e: React.MouseEvent<HTMLButtonElement | HTMLDivElement>) => {
+	const cancelDelete = (e: React.MouseEvent) => {
 		if (e.currentTarget === e.target) {
 			onShowDeleteConfirm(false);
 		}
@@ -33,28 +42,21 @@ function ConfirmDelete(props: ConfirmDeleteProps): JSX.Element {
 
 	useEffect(() => {
 		if (deleteAmount === "all") {
-			setDeletionWarning("Are you sure you want to delete all notes?");
+			setDeleteWarning("Are you sure you want to delete all notes?");
 			setDeleteButtonText("Delete all");
 		} else {
-			setDeletionWarning("Are you sure you want to delete this note?");
+			setDeleteWarning("Are you sure you want to delete this note?");
 			setDeleteButtonText("Delete");
 		}
 	}, [deleteAmount]);
 
 	return (
-		<div onClick={cancelDelete} className={`delete-confirm ${deleteConfirmClasses}`}>
+		<div onClick={(e) => cancelDelete(e)} className={`delete-confirm ${deleteConfirmClasses}`}>
 			<div className="confirmation-dialog">
-				<strong>{deletionWarning}</strong>
+				<strong>{deleteWarning}</strong>
 				<div className="delete-confirm-buttons">
-					<button className="rising-background"
-						onClick={cancelDelete}>
-							Cancel
-					</button>
-					
-					<button className="rising-background"
-						onClick={deleteConfirmed}>
-							{deleteButtonText}
-					</button>
+					<button className="rising-background" onClick={(e) => cancelDelete(e)}>Cancel</button>
+					<button className="rising-background" onClick={deleteConfirmed}>{deleteButtonText}</button>
 		  		</div>
 			</div>
 		</div>

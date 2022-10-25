@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from "react";
 import { useThunkDispatch } from "../../store/store";
 import { editNote } from "../../store/action-creators/action-creators";
 import { NoteType } from "../../types/types";
-import "../../styles/note/note.scss";
+import "../../sass/note/note.scss";
 
 function Note(props: NoteType): JSX.Element {
 	const { id, title, text, images, theme, font, isFavourite } = props;

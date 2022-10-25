@@ -82,10 +82,10 @@
 
 		svg {
 			height: 2.4rem;
-
-			&:first-of-type {
-				margin-left: -6px;
-			}
 		}
+	}
+
+	.close-button {
+		margin-left: -4px;
 	}
 }

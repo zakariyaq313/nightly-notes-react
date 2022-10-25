@@ -2,55 +2,62 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState, useThunkDispatch } from "../../../store/store";
 import { moveToTrash, restoreFromTrash } from "../../../store/action-creators/action-creators";
-import { NoteOptionsProps } from "../../../types/types";
 import FontSelect from "../../UIComponents/FontSelect";
-import Palette from "../../UIComponents/Palette";
+import ThemePalette from "../../UIComponents/ThemePalette";
 import ArrowDownIcon from "../../../icons/ArrowDownIcon";
-import ImageIcon from "../../../icons/ImageIcon";
+import ImageIcon from "../../../icons/ImageUploadIcon";
 import PaletteIcon from "../../../icons/PaletteIcon";
 import RestoreIcon from "../../../icons/RestoreIcon";
 import DeleteIcon from "../../../icons/DeleteIcon";
-import "../../../styles/note-options/note-options.scss";
+import "../../../sass/note-options/note-options.scss";
+import { ElementsVisible } from "../../../types/types";
 
-function NoteOptions(props: NoteOptionsProps): JSX.Element {
+type Props = {
+	activePage: string,
+	elementsVisible: ElementsVisible
+	onShowDeleteConfirm: (value: boolean) => void,
+	onSyncDeleteAmount: (value: string) => void,
+	onUpdateElementsVisibility: (value: ElementsVisible) => void
+};
+
+function NoteOptions(props: Props): JSX.Element {
 	const {
 		activePage,
-		fontAndPaletteVisibility,
-		onUpdateFontAndPalette,
+		elementsVisible,
 		onShowDeleteConfirm,
-		onSyncDeleteAmount
+		onSyncDeleteAmount,
+		onUpdateElementsVisibility
 	} = props;
 
 	const dispatch = useDispatch();
 	const thunkDispatch = useThunkDispatch();
-
 	const imageUploader = useRef<HTMLInputElement>(null);
 	const [rotateIcon, setRotateIcon] = useState("rotate(0)");
 	const noteIsEmpty = useSelector((state: RootState) => state.isNoteEmpty);
 
 	const toggleFontSelect = () => {
-		onUpdateFontAndPalette({
-			fontSelect: !fontAndPaletteVisibility.fontSelect,
-			palette: false
+		onUpdateElementsVisibility({
+			fontSelect: !elementsVisible.fontSelect,
+			themePalette: false
 		});
 	}
 
-	const togglePalette = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const togglePalette = (e: React.MouseEvent) => {
 		e.preventDefault();
-		onUpdateFontAndPalette({
+		onUpdateElementsVisibility({
 			fontSelect: false,
-			palette: !fontAndPaletteVisibility.palette
+			themePalette: !elementsVisible.themePalette
 		});
 	}
 
 	const closeElements = () => {
-		onUpdateFontAndPalette({
+		onUpdateElementsVisibility({
 			fontSelect: false,
-			palette: false
+			themePalette: false
 		});
 	}
 
-	const uploadImageClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const uploadImageClicked = (e: React.MouseEvent) => {
 		e.preventDefault();
 		closeElements();
 		imageUploader.current?.click();
@@ -63,33 +70,33 @@ function NoteOptions(props: NoteOptionsProps): JSX.Element {
 		}
 	}
 
-	const trashNote = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const trashNote = (e: React.MouseEvent) => {
 		e.preventDefault();
 		thunkDispatch(moveToTrash());
 	}
 
-	const restoreNote = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const restoreNote = (e: React.MouseEvent) => {
 		e.preventDefault();
 		thunkDispatch(restoreFromTrash());
 	}
 
-	const confirmDeletion = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const confirmDeletion = (e: React.MouseEvent) => {
 		e.preventDefault();
 		onShowDeleteConfirm(true);
 		onSyncDeleteAmount("one");
 	}
 
 	useEffect(() => {
-		if (fontAndPaletteVisibility.fontSelect) {
+		if (elementsVisible.fontSelect) {
 			setRotateIcon("rotate(180deg)");
 		} else {
 			setRotateIcon("rotate(0)");
 		}
-	}, [fontAndPaletteVisibility.fontSelect]);
+	}, [elementsVisible.fontSelect]);
 
 	return (
 		<div className="note-options">
-			{activePage !== "trash" &&
+			{activePage !== "trash" && (
 				<Fragment>
 					<span onClick={toggleFontSelect} className="font-select-button">
 						Font family
@@ -103,39 +110,21 @@ function NoteOptions(props: NoteOptionsProps): JSX.Element {
 						style={{display: "none"}}
 					/>
 
-					<button onClick={uploadImageClicked} title="Image">
-						<ImageIcon />
-					</button>
-
-					<button onClick={togglePalette} title="Background colour">
-						<PaletteIcon />
-					</button>
-
-					<button onClick={trashNote} disabled={noteIsEmpty} title="Delete">
-						<DeleteIcon />
-					</button>
+					<button onClick={uploadImageClicked} title="Image"><ImageIcon/></button>
+					<button onClick={togglePalette} title="Background colour"><PaletteIcon/></button>
+					<button onClick={trashNote} title="Delete" disabled={noteIsEmpty}><DeleteIcon/></button>
 				</Fragment>
-			}
+			)}
 
-			{activePage === "trash" &&
+			{activePage === "trash" && (
 				<Fragment>
-					<button onClick={confirmDeletion} title="Delete forever">
-						<DeleteIcon />
-					</button>
-
-					<button onClick={restoreNote} title="Restore">
-						<RestoreIcon />
-					</button>
+					<button onClick={confirmDeletion} title="Delete forever"><DeleteIcon/></button>
+					<button onClick={restoreNote} title="Restore"><RestoreIcon/></button>
 				</Fragment>
-			}
+			)}
 
-			{fontAndPaletteVisibility.fontSelect &&
-				<FontSelect />
-			}
-
-			{fontAndPaletteVisibility.palette &&
-				<Palette />
-			}
+			{elementsVisible.fontSelect && <FontSelect/>}
+			{elementsVisible.themePalette && <ThemePalette/>}
 		</div>
 	);
 }

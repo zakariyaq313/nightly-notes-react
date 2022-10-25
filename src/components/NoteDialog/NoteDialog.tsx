@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
-import { NoteDialogProps } from "../../types/types";
 import { exitNote } from "../../store/action-creators/action-creators";
 import NoteContent from "./NoteContent/NoteContent";
 import NoteOptions from "./NoteOptions/NoteOptions";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
-import FavouriteIcon from "../../icons/HeartOutlineIcon";
-import UnfavouriteIcon from "../../icons/HeartFilledIcon";
-import "../../styles/note-dialog/note-dialog.scss";
+import HeartOutlineIcon from "../../icons/HeartOutlineIcon";
+import HeartFilledIcon from "../../icons/HeartFilledIcon";
+import { ElementsVisible } from "../../types/types";
+import "../../sass/note-dialog/note-dialog.scss";
 
-function NoteDialog(props: NoteDialogProps): JSX.Element {
+type Props = {
+	activePage: string,
+	onShowDeleteConfirm: (value: boolean) => void,
+	onSyncDeleteAmount: (value: string) => void
+};
+
+function NoteDialog(props: Props): JSX.Element {
 	const {
 		activePage,
 		onShowDeleteConfirm,
@@ -26,33 +32,32 @@ function NoteDialog(props: NoteDialogProps): JSX.Element {
 
 	const dispatch = useDispatch();
 	const thunkDispatch = useThunkDispatch();
-
 	const [noteDialogClasses, setNoteDialogClasses] = useState("");
-	const [fontAndPaletteVisibility, setFontAndPalette] = useState({
+	const [elementsVisible, setElementsVisible] = useState({
 		fontSelect: false,
-		palette: false
+		themePalette: false
 	});
 
-	const fontAndPaletteHandler = (value: {fontSelect: boolean, palette: boolean}) => {
-		setFontAndPalette({
-			fontSelect: value.fontSelect,
-			palette: value.palette
+	const updateElementsVisibility = (visibility: ElementsVisible) => {
+		setElementsVisible({
+			fontSelect: visibility.fontSelect,
+			themePalette: visibility.themePalette
 		});
 	}
 
 	const hideFontAndPalette = () => {
-		setFontAndPalette({
+		setElementsVisible({
 			fontSelect: false,
-			palette: false
+			themePalette: false
 		});
 	}
 
-	const closeNoteDialog = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const closeNoteDialog = (e: React.MouseEvent) => {
 		e.preventDefault();
 		thunkDispatch(exitNote(activePage));
 	}
 
-	const toggleFavourite = (e: React.MouseEvent<HTMLButtonElement>) => {
+	const toggleFavourite = (e: React.MouseEvent) => {
 		e.preventDefault();
 		dispatch(noteActions.setNoteFavourite());
 	}
@@ -79,34 +84,21 @@ function NoteDialog(props: NoteDialogProps): JSX.Element {
 	return (
 		<form className={`note-dialog ${noteDialogClasses}`}>
 			<div onClick={hideFontAndPalette} className="action-buttons">
-				<button onClick={closeNoteDialog}>
-					<ArrowLeftIcon />
-				</button>
-
-				<button onClick={toggleFavourite}
-					className="favourite-button"
-					disabled={activePage === "trash"}>
-						{!noteIsFavourite &&
-							<FavouriteIcon />
-						}
-
-						{noteIsFavourite &&
-							<UnfavouriteIcon />
-						}
+				<button onClick={closeNoteDialog} className="close-button"><ArrowLeftIcon/></button>
+				<button onClick={toggleFavourite} className="favourite-button" disabled={activePage === "trash"}>
+					{noteIsFavourite ? <HeartFilledIcon /> : <HeartOutlineIcon />}
 				</button>
 			</div>
 
-			<NoteContent
-				activePage={activePage}
+			<NoteContent activePage={activePage}
 				onHideFontAndPalette={hideFontAndPalette}
 			/>
 
-			<NoteOptions
-				activePage={activePage}
-				fontAndPaletteVisibility={fontAndPaletteVisibility}
-				onUpdateFontAndPalette={fontAndPaletteHandler}
+			<NoteOptions activePage={activePage}
+				elementsVisible={elementsVisible}
 				onShowDeleteConfirm={showDeleteConfirm}
 				onSyncDeleteAmount={syncDeleteAmount}
+				onUpdateElementsVisibility={updateElementsVisibility}
 			/>
 		</form>
 	);

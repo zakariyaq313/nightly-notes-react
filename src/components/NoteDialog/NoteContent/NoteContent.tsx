@@ -2,18 +2,21 @@ import DeleteIcon from "../../../icons/DeleteIcon";
 import { useEffect, useRef, useState } from "react";
 import { noteActions, RootState } from "../../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { NoteContentProps } from "../../../types/types";
-import "../../../styles/note-content/note-content.scss";
+import "../../../sass/note-content/note-content.scss";
 
-function NoteContent(props: NoteContentProps): JSX.Element {
+type Props = {
+	activePage: string,
+	onHideFontAndPalette: () => void
+};
+
+function NoteContent(props: Props): JSX.Element {
     const {activePage, onHideFontAndPalette} = props;
 	const {noteTitle, noteText, noteImages} = useSelector((state: RootState) => state);
+	const dispatch = useDispatch();
+	const noteTextArea = useRef<HTMLTextAreaElement>(null);
 
     const [imageClasses, setImageClasses] = useState("");
 	const [imageColumns, setImageColumns] = useState({columns: ""});
-
-    const dispatch = useDispatch();
-    const noteTextArea = useRef<HTMLTextAreaElement>(null);
 
     const syncNoteTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch(noteActions.setNoteTitle(e.target.value));
@@ -30,7 +33,7 @@ function NoteContent(props: NoteContentProps): JSX.Element {
 		}
 	}
 
-    const deleteImage = (e: React.MouseEvent<HTMLButtonElement>, index: number) => {
+    const deleteImage = (e: React.MouseEvent, index: number) => {
 		e.preventDefault();
 		dispatch(noteActions.deleteNoteImages(index));
 	}
@@ -57,11 +60,11 @@ function NoteContent(props: NoteContentProps): JSX.Element {
 		} else {
 			dispatch(noteActions.noteIsEmpty(true));
 		}
-	}, [dispatch, noteTitle, noteText, noteImages]);
+	}, [dispatch, noteTitle, noteText, noteImages.length]);
 
     return (
         <div onClick={hideFontAndPalette} className="note-content">
-			{noteImages.length > 0 &&
+			{noteImages.length > 0 && (
 				<div className="note-images" style={imageColumns}>
 					{noteImages.map((image, index) => (
 						<div className="note-image" key={index}>
@@ -75,7 +78,7 @@ function NoteContent(props: NoteContentProps): JSX.Element {
 						</div>
 					))}
 				</div>
-			}
+			)}
 
 			<div className="user-inputs">
 				<input onChange={syncNoteTitle}

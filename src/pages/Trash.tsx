@@ -6,7 +6,7 @@ import SparklesIcon from "../icons/SparklesIcon";
 
 function Trash(): JSX.Element {
 	const notes = useSelector((state: RootState) => state.trashedNotes);
-	const pageLabel = <b>Trash</b>;
+	const pageTitle = {main: "Trash"};
 	const notesUnavailableClass = "inline-description";
 	const notesUnavailableInfo = "Trash is empty";
 	const notesUnavailableIcon = <SparklesIcon/>;
@@ -16,7 +16,7 @@ function Trash(): JSX.Element {
 			<BaseComponent
 				notes={notes}
 				activePage="trash"
-				pageLabel={pageLabel}
+				pageTitle={pageTitle}
 				notesUnavailableClass={notesUnavailableClass}
 				notesUnavailableInfo={notesUnavailableInfo}
 				notesUnavailableIcon={notesUnavailableIcon}

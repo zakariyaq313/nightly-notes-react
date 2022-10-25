@@ -6,16 +6,16 @@ import NotesIcon from "../icons/NotesIcon";
 
 function HomePage(): JSX.Element {
 	const notes = useSelector((state: RootState) => state.userNotes);
-	const pageLabel = <span className="logo"><b>Notes</b><b>Mini</b></span>;
+	const pageTitle = {main: "Nightly", optional: "Notes"};
 	const notesUnavailableInfo = "Anything to add?";
-	const notesUnavailableIcon = <NotesIcon/>;
+	const notesUnavailableIcon = <NotesIcon />;
 
 	return (
 		<Fragment>
 			<BaseComponent
 				notes={notes}
 				activePage="home"
-				pageLabel={pageLabel}
+				pageTitle={pageTitle}
 				notesUnavailableInfo={notesUnavailableInfo}
 				notesUnavailableIcon={notesUnavailableIcon}
 			/>
