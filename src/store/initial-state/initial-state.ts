@@ -1,8 +1,7 @@
 import { InitialState } from "../../types/types";
 
 export const initialState: InitialState = {
-	userNotes: [],
-	favouriteNotes: [],
+	savedNotes: [],
 	trashedNotes: [],
 	isNoteEmpty: true,
 	isNoteNew: true,

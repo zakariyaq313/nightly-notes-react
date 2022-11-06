@@ -2,7 +2,17 @@
 
 A notes app [originally](https://github.com/zakariyaq313/nightly-notes-vue) made using Vue, re-made completely using React!
 
-![Screenshot](./src/assets/images/screen.png)
+**Screenshot -**
+
+![PC Screenshot](./src/assets/images/screen.png)
+
+**Mobile screenshots -**
+
+<p float="left">
+	<img src="./src/assets/images/mobile-1.jpg" width="32%" />
+	<img src="./src/assets/images/mobile-2.jpg" width="32%" /> 
+	<img src="./src/assets/images/mobile-3.jpg" width="32%" />
+</p>
 
 **Made using -**
 

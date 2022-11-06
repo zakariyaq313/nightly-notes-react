@@ -1,10 +1,10 @@
 import { Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { exitNote } from "../../store/action-creators/action-creators";
+import { exitNoteDialog } from "../../store/action-creators/action-creators";
 import { NoteType } from "../../types/types";
 import PageHeader from "../UIComponents/PageHeader";
-import Note from "../Note/Note";
+import SavedNote from "../SavedNote/SavedNote";
 import NoteDialog from "../NoteDialog/NoteDialog";
 import ConfirmDelete from "../UIComponents/ConfirmDelete";
 import "../../sass/base-component/base-component.scss";
@@ -43,7 +43,7 @@ function BaseComponent(props: Props): JSX.Element {
 	const [deleteAmount, setDeleteAmount] = useState("");
 
 	const closeNoteDialog = () => {
-		thunkDispatch(exitNote(activePage));
+		thunkDispatch(exitNoteDialog(activePage));
 	}
 
 	const showNoteDialog = () => {
@@ -64,7 +64,7 @@ function BaseComponent(props: Props): JSX.Element {
 		} else {
 			setNotesUnavailable(true);
 		}
-	}, [notes]);
+	}, [notes.length]);
 
 
 	// Visibility of note-dialog overlay
@@ -106,7 +106,7 @@ function BaseComponent(props: Props): JSX.Element {
 			{!notesUnavailable && (
 				<div className="notes">
 					{notes.map((note) => (
-						<Note key={note.id}
+						<SavedNote key={note.id}
 							id={note.id}
 							title={note.title}
 							text={note.text}
@@ -125,7 +125,9 @@ function BaseComponent(props: Props): JSX.Element {
 						{notesUnavailableIcon}
 						
 						{activePage === "home" && (
-							<h2 className="clickable" onClick={showNoteDialog}>{notesUnavailableInfo}</h2>
+							<h2 className="clickable" onClick={showNoteDialog}>
+								{notesUnavailableInfo}
+							</h2>
 						)}
 
 						{activePage !== "home" && (

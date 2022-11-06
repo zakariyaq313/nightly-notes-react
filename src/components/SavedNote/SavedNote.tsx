@@ -2,9 +2,9 @@ import { useLayoutEffect, useState } from "react";
 import { useThunkDispatch } from "../../store/store";
 import { editNote } from "../../store/action-creators/action-creators";
 import { NoteType } from "../../types/types";
-import "../../sass/note/note.scss";
+import "../../sass/saved-note/saved-note.scss";
 
-function Note(props: NoteType): JSX.Element {
+function SavedNote(props: NoteType): JSX.Element {
 	const { id, title, text, images, theme, font, isFavourite } = props;
 	const [imageColumns, setImageColumns] = useState({columns: ""});
 	const thunkDispatch = useThunkDispatch();
@@ -31,21 +31,18 @@ function Note(props: NoteType): JSX.Element {
 
 	return (
 		<div className={`note ${theme.colour} ${font}`} onClick={editNoteContent}>
-			{images.length > 0 &&
+			{images.length > 0 && (
 				<div className="images" style={imageColumns}>
-					{images.map((image, index) => (
-						<img key={index} src={image} className="image" alt="" />
+					{images.map((image) => (
+						<img key={image} src={image} className="image" alt="" />
 					))}
 				</div>
-			}
+			)}
 
-			{title &&
-				<h3 className="title">{title}</h3>
-			}
-
+			{title && (<h3 className="title">{title}</h3>)}
 			<p className="text">{text}</p>
 		</div>
 	);
 }
 
-export default Note;
+export default SavedNote;

@@ -10,39 +10,30 @@ export const noteStateSlice = createSlice({
 		noteDialogIsVisible(state, action: PayloadAction<boolean>) {
 			state.isNoteDialogVisible = action.payload;
 		},
-
 		noteIsEmpty(state, action: PayloadAction<boolean>) {
 			state.isNoteEmpty = action.payload;
 		},
-
 		noteIsNew(state, action: PayloadAction<boolean>) {
 			state.isNoteNew = action.payload;
 		},
-
 		setNoteTitle(state, action: PayloadAction<string>) {
 			state.noteTitle = action.payload;
 		},
-
 		setNoteText(state, action: PayloadAction<string>) {
 			state.noteText = action.payload;
 		},
-
 		addNoteImages(state, action: PayloadAction<string>) {
 			state.noteImages.push(action.payload);
 		},
-
 		setNoteTheme(state, action: PayloadAction<ThemeType>) {
 			state.noteTheme = action.payload;
 		},
-
 		setNoteFont(state, action: PayloadAction<string>) {
 			state.noteFont = action.payload;
 		},
-
 		setNoteFavourite(state) {
 			state.noteIsFavourite = !state.noteIsFavourite;
 		},
-
 		createOrTrash(state, action: PayloadAction<string>) {
 			const newNote: NoteType = {
 				id: new Date().toISOString(),
@@ -55,24 +46,23 @@ export const noteStateSlice = createSlice({
 			};
 
 			if (action.payload === "create") {
-				state.userNotes.unshift(newNote);
+				state.savedNotes.unshift(newNote);
 			} else if(action.payload === "trash"){
 				state.trashedNotes.unshift(newNote);
 			}
 		},
-
 		editNoteContent(state, action: PayloadAction<NoteType>) {
-			state.noteId = action.payload.id;
-			state.noteTitle = action.payload.title;
-			state.noteText = action.payload.text;
-			state.noteImages = action.payload.images;
-			state.noteTheme = action.payload.theme;
-			state.noteFont = action.payload.font;
-			state.noteIsFavourite = action.payload.isFavourite;
+			const {id, title, text, images, theme, font, isFavourite} = action.payload;
+			state.noteId = id;
+			state.noteTitle = title;
+			state.noteText = text;
+			state.noteImages = images;
+			state.noteTheme = theme;
+			state.noteFont = font;
+			state.noteIsFavourite = isFavourite;
 		},
-
         updateNoteContent(state) {
-			const noteToUpdate = findNote(state.userNotes, state.noteId)!;
+			const noteToUpdate = findNote(state.savedNotes, state.noteId)!;
 			Object.assign(noteToUpdate, {
 				title: state.noteTitle.trim(),
 				text: state.noteText,
@@ -82,7 +72,6 @@ export const noteStateSlice = createSlice({
 				isFavourite: state.noteIsFavourite,
 			});
 		},
-
 		resetNoteContent(state) {
 			state.noteId = "";
 			state.noteTitle = "";
@@ -93,37 +82,28 @@ export const noteStateSlice = createSlice({
 			state.noteFont = "glacial";
 			state.noteIsFavourite = false;
 		},
-
 		trashNote(state) {
-			const noteToTrash = findNote(state.userNotes, state.noteId)!;
+			const noteToTrash = findNote(state.savedNotes, state.noteId)!;
 			state.trashedNotes.unshift(noteToTrash);
-			state.userNotes = filterNotes(state.userNotes, noteToTrash.id);
+			state.savedNotes = filterNotes(state.savedNotes, noteToTrash.id);
 		},
-
         restoreNote(state) {
 			const noteToRestore = findNote(state.trashedNotes, state.noteId)!;
-			state.userNotes.unshift(noteToRestore);
+			state.savedNotes.unshift(noteToRestore);
 			state.trashedNotes = filterNotes(state.trashedNotes, noteToRestore.id);
 		},
-
         deleteNoteImages(state, action: PayloadAction<number>) {
 			state.noteImages.splice(action.payload, 1);
 		},
-
 		deleteEmptyNote(state) {
-			state.userNotes = filterNotes(state.userNotes, state.noteId);
+			state.savedNotes = filterNotes(state.savedNotes, state.noteId);
 		},
-
         deleteNotesForever(state, action: PayloadAction<string>) {
 			if (action.payload === "one") {
 				state.trashedNotes = filterNotes(state.trashedNotes, state.noteId);
 			} else if (action.payload === "all") {
 				state.trashedNotes = [];
 			}
-		},
-
-        addFavouriteNotes(state) {
-			state.favouriteNotes = state.userNotes.filter(note => note.isFavourite);
 		}
 	}
 })

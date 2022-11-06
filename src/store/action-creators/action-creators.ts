@@ -1,65 +1,83 @@
-import { AppThunk, NoteType } from "../../types/types";
-import { noteActions } from "../store";
+import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
+import { RootState, noteActions } from "../store";
+import { NoteType } from "../../types/types";
 
-export const exitNote = (page: string): AppThunk => {
+type AppThunk<ReturnType = void> = ThunkAction<
+	ReturnType,
+	RootState,
+	unknown,
+	AnyAction
+>;
+
+const {
+	createOrTrash,
+	deleteEmptyNote,
+	deleteNotesForever,
+	editNoteContent,
+	noteDialogIsVisible,
+	noteIsNew,
+	resetNoteContent,
+	restoreNote,
+	trashNote,
+	updateNoteContent
+} = noteActions;
+
+export function exitNoteDialog(page: string): AppThunk {
 	return (dispatch, getState) => {
-		if (page !== "trash") {			
-			if (getState().isNoteNew) {
-				if (!getState().isNoteEmpty) {					
-					dispatch(noteActions.createOrTrash("create"));
-				}
-			} else {				
-				if (!getState().isNoteEmpty) {
-					dispatch(noteActions.updateNoteContent());
-				} else {
-					dispatch(noteActions.deleteEmptyNote());
-				}
-			}
+		if (page !== "trash") {
+			// If a new note is being created and it is not empty
+			if (getState().isNoteNew && !getState().isNoteEmpty) {
+				dispatch(createOrTrash("create"));
 
-			dispatch(noteActions.addFavouriteNotes());
+			// If an existing note is edited/updated
+			} else if(!getState().isNoteNew && !getState().isNoteEmpty) {
+				dispatch(updateNoteContent());
+
+			// If all the content of an existing note is removed
+			} else if(!getState().isNoteNew && getState().isNoteEmpty) {
+				dispatch(deleteEmptyNote());
+			}
 		}
 
-		dispatch(noteActions.resetNoteContent());	
-		dispatch(noteActions.noteDialogIsVisible(false));
+		dispatch(resetNoteContent());
+		dispatch(noteDialogIsVisible(false));
 	}
 }
 
-export const editNote = (noteContent: NoteType): AppThunk => {
+export function editNote(noteContent: NoteType): AppThunk {
 	return (dispatch) => {
-		dispatch(noteActions.editNoteContent(noteContent));
-		dispatch(noteActions.noteDialogIsVisible(true));
-		dispatch(noteActions.noteIsNew(false));
+		dispatch(editNoteContent(noteContent));
+		dispatch(noteDialogIsVisible(true));
+		dispatch(noteIsNew(false));
 	}
 }
 
-export const moveToTrash = (): AppThunk => {
+export function moveToTrash(): AppThunk {
 	return (dispatch, getState) => {
 		if (getState().isNoteNew) {
-			dispatch(noteActions.createOrTrash("trash"));
+			dispatch(createOrTrash("trash"));
 		} else {
-			dispatch(noteActions.updateNoteContent());
-			dispatch(noteActions.trashNote());
+			dispatch(updateNoteContent());
+			dispatch(trashNote());
 		}
 
-		dispatch(noteActions.resetNoteContent());
-		dispatch(noteActions.addFavouriteNotes());
-		dispatch(noteActions.noteDialogIsVisible(false));
+		dispatch(resetNoteContent());
+		dispatch(noteDialogIsVisible(false));
 	}
 }
 
-export const restoreFromTrash = (): AppThunk => {
+export function restoreFromTrash(): AppThunk {
     return (dispatch) => {
-	    dispatch(noteActions.restoreNote());
-	    dispatch(noteActions.resetNoteContent());
-	    dispatch(noteActions.noteDialogIsVisible(false));
-	    dispatch(noteActions.addFavouriteNotes());
+	    dispatch(restoreNote());
+	    dispatch(resetNoteContent());
+	    dispatch(noteDialogIsVisible(false));
     }
 }
 
-export const deleteFromTrash = (amount: string): AppThunk => {
+export function deleteFromTrash(amount: string): AppThunk {
 	return (dispatch) => {
-		dispatch(noteActions.deleteNotesForever(amount));
-		dispatch(noteActions.resetNoteContent());
-		dispatch(noteActions.noteDialogIsVisible(false));
+		dispatch(deleteNotesForever(amount));
+		dispatch(resetNoteContent());
+		dispatch(noteDialogIsVisible(false));
 	}
 }

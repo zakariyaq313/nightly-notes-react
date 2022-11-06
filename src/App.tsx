@@ -6,7 +6,9 @@ import Favourites from "./pages/Favourites";
 import HomePage from "./pages/Home";
 import Trash from "./pages/Trash";
 import store from "./store/store";
-import "./sass/main.scss";
+import "./sass/base-styles/base-styles.scss";
+import "./sass/common-styles/common-styles.scss";
+import "./sass/utility-classes/utility-classes.scss";
 
 function App(): JSX.Element {
 	return (

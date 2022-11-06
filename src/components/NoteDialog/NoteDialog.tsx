@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
-import { exitNote } from "../../store/action-creators/action-creators";
+import { exitNoteDialog } from "../../store/action-creators/action-creators";
 import NoteContent from "./NoteContent/NoteContent";
 import NoteOptions from "./NoteOptions/NoteOptions";
 import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
@@ -54,7 +54,7 @@ function NoteDialog(props: Props): JSX.Element {
 
 	const closeNoteDialog = (e: React.MouseEvent) => {
 		e.preventDefault();
-		thunkDispatch(exitNote(activePage));
+		thunkDispatch(exitNoteDialog(activePage));
 	}
 
 	const toggleFavourite = (e: React.MouseEvent) => {

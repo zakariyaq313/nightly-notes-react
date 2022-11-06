@@ -13,8 +13,7 @@ function Trash(): JSX.Element {
 
 	return (
 		<Fragment>
-			<BaseComponent
-				notes={notes}
+			<BaseComponent notes={notes}
 				activePage="trash"
 				pageTitle={pageTitle}
 				notesUnavailableClass={notesUnavailableClass}

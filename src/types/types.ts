@@ -1,6 +1,3 @@
-import { AnyAction, ThunkAction } from "@reduxjs/toolkit";
-import { RootState } from "../store/store";
-
 export type ThemeType = {
 	colour: string,
 	isGradient: boolean
@@ -17,8 +14,7 @@ export type NoteType = {
 };
 
 export type InitialState = {
-	userNotes: NoteType[],
-	favouriteNotes: NoteType[],
+	savedNotes: NoteType[],
 	trashedNotes: NoteType[],
 	isNoteEmpty: boolean,
 	isNoteNew: boolean,
@@ -31,13 +27,6 @@ export type InitialState = {
 	noteFont: string,
 	noteIsFavourite: boolean
 };
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-	ReturnType,
-	RootState,
-	unknown,
-	AnyAction
->;
 
 export type ElementsVisible = {
 	fontSelect: boolean,
