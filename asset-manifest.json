@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/nightly-notes-react/static/css/main.88fd15c2.css",
-    "main.js": "/nightly-notes-react/static/js/main.f9dd4931.js",
+    "main.css": "/nightly-notes-react/static/css/main.5e0639ba.css",
+    "main.js": "/nightly-notes-react/static/js/main.627ae5d1.js",
     "static/media/Glacial Indifference Regular.otf": "/nightly-notes-react/static/media/Glacial Indifference Regular.663a1c12d079e631b0b2.otf",
     "index.html": "/nightly-notes-react/index.html",
-    "main.88fd15c2.css.map": "/nightly-notes-react/static/css/main.88fd15c2.css.map",
-    "main.f9dd4931.js.map": "/nightly-notes-react/static/js/main.f9dd4931.js.map"
+    "main.5e0639ba.css.map": "/nightly-notes-react/static/css/main.5e0639ba.css.map",
+    "main.627ae5d1.js.map": "/nightly-notes-react/static/js/main.627ae5d1.js.map"
   },
   "entrypoints": [
-    "static/css/main.88fd15c2.css",
-    "static/js/main.f9dd4931.js"
+    "static/css/main.5e0639ba.css",
+    "static/js/main.627ae5d1.js"
   ]
 }
