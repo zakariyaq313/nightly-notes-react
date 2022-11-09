@@ -5,7 +5,7 @@ import "../../sass/theme-palette/theme-palette.scss";
 function ThemePalette(): JSX.Element {
 	const solidColourList: string[] = ["dark", "pink", "orange", "green", "purple", "brown", "gray"];
 	const gradientColourList: string[] = ["greenery", "sublime-vivid", "dimigo", "reef", "light-purple", "witching-hour", "titanium"];
-	
+
 	const dispatch = useDispatch();	
 	const activeTheme = useSelector((state: RootState) => state.noteTheme.colour);
 

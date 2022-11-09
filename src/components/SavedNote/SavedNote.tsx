@@ -5,7 +5,7 @@ import { NoteType } from "../../types/types";
 import "../../sass/saved-note/saved-note.scss";
 
 function SavedNote(props: NoteType): JSX.Element {
-	const { id, title, text, images, theme, font, isFavourite } = props;
+	const {id, title, text, images, theme, font, isFavourite} = props;
 	const [imageColumns, setImageColumns] = useState({columns: ""});
 	const thunkDispatch = useThunkDispatch();
 
