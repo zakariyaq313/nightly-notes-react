@@ -1,0 +1,55 @@
+@import "../../../sass/mixins/mixins.scss";
+
+header {
+	align-items: flex-start;
+	justify-content: space-between;
+	padding: 4rem 3rem 3rem;
+
+	@include respond(1000px) {
+		padding-inline: 2rem;
+	}
+
+	@include respond(500px) {
+		padding-inline: 1.4rem 1rem;
+	}
+
+	.page-title {
+		font-size: 2.4rem;
+		font-weight: 400;
+	}
+
+	&,
+	& .app-name {
+		display: flex;
+	}
+
+	.app-name {
+		align-items: center;
+		flex-direction: column;
+		row-gap: 2px;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+
+		span {
+			font-size: 1.2rem;
+		}
+	}
+
+	.create-note-btn svg {
+		height: 1.2rem;
+	}
+
+	.empty-trash-btn {
+		span {
+			width: 14rem;
+		}
+	
+		svg {
+			height: 1.8rem;
+		}
+	}
+		
+	.create-note-btn, .empty-trash-btn {
+		margin-top: 1.4rem;
+	}
+}

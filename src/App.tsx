@@ -1,7 +1,7 @@
 import { Provider } from "react-redux";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
-import LeftPaneNavbar from "./components/UIComponents/LeftPaneNavbar";
-import PageFooter from "./components/UIComponents/PageFooter";
+import LeftPaneNavbar from "./components/UIComponents/LeftPaneNavbar/LeftPaneNavbar";
+import PageFooter from "./components/UIComponents/PageFooter/PageFooter";
 import Favourites from "./pages/Favourites";
 import HomePage from "./pages/Home";
 import Trash from "./pages/Trash";

@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { noteActions, RootState, useThunkDispatch } from "../../store/store";
 import { exitNoteDialog } from "../../store/action-creators/action-creators";
-import NoteContent from "./NoteContent/NoteContent";
-import NoteOptions from "./NoteOptions/NoteOptions";
-import ArrowLeftIcon from "../../icons/ArrowLeftIcon";
-import HeartOutlineIcon from "../../icons/HeartOutlineIcon";
-import HeartFilledIcon from "../../icons/HeartFilledIcon";
-import { ElementsVisible } from "../../types/types";
-import "../../sass/note-dialog/note-dialog.scss";
+import NoteContent from "../UIComponents/NoteContent/NoteContent";
+import NoteOptions from "../UIComponents/NoteOptions/NoteOptions";
+import ArrowLeft from "../../icons/ArrowLeft";
+import HeartFilled from "../../icons/HeartFilled";
+import HeartOutlined from "../../icons/HeartOutlined";
+import { VisibleElements } from "../../types/types";
+import "./NoteDialog.scss";
 
 type Props = {
 	activePage: string,
@@ -33,20 +33,20 @@ function NoteDialog(props: Props): JSX.Element {
 	const dispatch = useDispatch();
 	const thunkDispatch = useThunkDispatch();
 	const [noteDialogClasses, setNoteDialogClasses] = useState("");
-	const [elementsVisible, setElementsVisible] = useState({
+	const [visibleElements, setVisibleElements] = useState({
 		fontSelect: false,
 		themePalette: false
 	});
 
-	const updateElementsVisibility = (visibility: ElementsVisible) => {
-		setElementsVisible({
+	const updateElementsVisibility = (visibility: VisibleElements) => {
+		setVisibleElements({
 			fontSelect: visibility.fontSelect,
 			themePalette: visibility.themePalette
 		});
 	}
 
 	const hideFontAndPalette = () => {
-		setElementsVisible({
+		setVisibleElements({
 			fontSelect: false,
 			themePalette: false
 		});
@@ -84,9 +84,9 @@ function NoteDialog(props: Props): JSX.Element {
 	return (
 		<form className={`note-dialog ${noteDialogClasses}`}>
 			<div onClick={hideFontAndPalette} className="action-buttons">
-				<button onClick={closeNoteDialog} className="close-button"><ArrowLeftIcon/></button>
+				<button onClick={closeNoteDialog} className="close-button"><ArrowLeft/></button>
 				<button onClick={toggleFavourite} className="favourite-button" disabled={activePage === "trash"}>
-					{noteIsFavourite ? <HeartFilledIcon /> : <HeartOutlineIcon />}
+					{noteIsFavourite ? <HeartFilled /> : <HeartOutlined />}
 				</button>
 			</div>
 
@@ -95,7 +95,7 @@ function NoteDialog(props: Props): JSX.Element {
 			/>
 
 			<NoteOptions activePage={activePage}
-				elementsVisible={elementsVisible}
+				visibleElements={visibleElements}
 				onShowDeleteConfirm={showDeleteConfirm}
 				onSyncDeleteAmount={syncDeleteAmount}
 				onUpdateElementsVisibility={updateElementsVisibility}

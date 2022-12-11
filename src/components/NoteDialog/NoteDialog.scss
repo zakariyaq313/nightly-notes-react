@@ -1,0 +1,91 @@
+@import "../../sass/mixins/mixins.scss";
+
+.note-dialog {
+	border: 1px solid rgba($color: #fff, $alpha: 0.2);
+	border-radius: 4px;
+	justify-content: space-between;
+	overflow: auto;
+	padding: 2rem;
+	scrollbar-color: #7a7a7a transparent;
+	transform: translate(-50%, -50%) scale(0.8);
+	transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+
+	@include respond(h600px) {
+		position: absolute;
+		top: 30rem;
+	}
+
+	&::-webkit-scrollbar {
+		width: 6px;
+		height: 0;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	&,
+	.user-inputs {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		row-gap: 2rem;
+	}
+
+	.note-content,
+	.action-buttons,
+	.user-inputs {
+		width: 100%;
+	}
+
+	button,
+	.note-title,
+	.note-text {
+		border: none;
+
+		&:not(.theme-buttons button) {
+			background-color: transparent;
+		}
+	}
+
+	.note-title:disabled,
+	.note-text:disabled {
+		cursor: not-allowed;
+		opacity: 0.4;
+	}
+
+	button:disabled {
+		cursor: not-allowed;
+		opacity: 0.4;
+	}
+
+	svg {
+		fill: #fff;
+	}
+}
+
+.note-dialog.note-dialog-visible {
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+	z-index: 100;
+}
+
+.action-buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+
+	button {
+		font-size: 1.2rem;
+		font-weight: 600;
+
+		svg {
+			height: 2.4rem;
+		}
+	}
+
+	.close-button {
+		margin-left: -4px;
+	}
+}

@@ -1,0 +1,100 @@
+@import "../../sass/mixins/mixins.scss";
+
+.notes-unavailable {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	overflow: hidden;
+	width: 100%;
+
+	@include respond(h600px) {
+		position: absolute;
+	}
+
+	@include respond(500px) {
+		padding-left: 5%;
+	}
+
+	@include respond(400px) {
+		padding-left: 10%;
+	}
+
+	span {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		row-gap: 3rem;
+
+		h2 {
+			font-size: 2.2rem;
+			font-weight: 300;
+		}
+
+		svg {
+			height: 16rem;
+
+			@include respond(600px) {
+				height: 14rem;
+			}
+
+			@include respond(400px) {
+				height: 12rem;
+			}
+		}
+	}
+
+	.inline-description {
+		flex-direction: row-reverse;
+		gap: 0 1rem;
+
+		svg {
+			height: 3rem;
+		}
+	}
+}
+
+.notes {
+	padding: 5rem 3rem 5rem 15rem;
+	columns: 4;
+	column-gap: 2rem;
+
+	@include respond(1000px) {
+		columns: 3;
+		padding-inline: 12rem 5rem;
+	}
+
+	@include respond(800px) {
+		columns: 2;
+	}
+
+	@include respond(600px) {
+		columns: 1;
+	}
+
+	@include respond(500px) {
+		padding-inline: 11rem 2rem;
+	}
+
+	@include respond(400px) {
+		padding-inline: 10rem 2rem;
+	}
+}
+
+.overlay {
+	height: 100vh;
+	width: 100vw;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: rgba($color: #000000, $alpha: 0.75);
+	opacity: 0;
+	z-index: -1;
+	transition: opacity 0.6s ease-in-out, z-index 0.6s ease-in-out;
+}
+
+.overlay-visible {
+	opacity: 1;
+	z-index: 50;
+}

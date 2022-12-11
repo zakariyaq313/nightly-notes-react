@@ -1,0 +1,106 @@
+@import "../../../sass/mixins/mixins.scss";
+
+.note-content {
+	.note-images {
+		margin-bottom: 2rem;
+		
+		.note-image {
+			position: relative;
+			margin-bottom: 1rem;
+			break-inside: avoid;
+
+			img:hover ~ .delete-image {
+				transform: scale(1);
+			}
+
+			.delete-image {
+				position: absolute;
+				top: 1rem;
+				right: 1rem;
+				padding: 1rem;
+				border-radius: 0.5rem;
+				background-color: rgba($color: #131820, $alpha: 0.5);
+				transform: scale(0);
+				transition: transform 0.2s;
+
+				&:hover {
+					transform: scale(1);
+				}
+
+				svg {
+					height: 2.4rem;
+					fill: #fff;
+				}
+			}
+		}
+	}
+		
+	.user-inputs {
+		.note-title,
+		.note-text {
+			width: 100%;
+			resize: none;
+			color: #fff;
+			font-family: inherit;
+
+			&:focus {
+				outline: none;
+			}
+
+			&::placeholder {
+				color: rgba($color: #fff, $alpha: 0.6);
+			}
+		}
+
+		.note-title {
+			font-size: 2rem;
+		}
+
+		.note-text {
+			font-size: 1.6rem;
+			line-height: 1.6;
+			height: 30rem;
+			scrollbar-color: #7a7a7a transparent;
+
+			&::-webkit-scrollbar {
+				width: 6px;
+			}
+
+			&::-webkit-scrollbar-track {
+				background-color: transparent;
+			}
+
+			@include respond(500px) {
+				height: 44rem;
+			}
+
+			@include respond(320px) {
+				height: 51rem;
+			}
+		}
+	}
+}
+
+.hi-melody .note-content {
+	.user-inputs {
+		.note-title {
+			font-size: 2.6rem;
+		}
+
+		.note-text {
+			font-size: 2rem;
+		}
+	}
+}
+
+.sacramento .note-content {
+	.user-inputs {
+		.note-title {
+			font-size: 2.6rem;
+		}
+
+		.note-text {
+			font-size: 2.2rem;
+		}
+	}
+}

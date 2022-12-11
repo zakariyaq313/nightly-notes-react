@@ -1,0 +1,78 @@
+@import "../../../sass/mixins/mixins.scss";
+
+.font-select-button {
+	color: #fff;
+	background-color: rgba($color: #fff, $alpha: 0.1);
+	font-family: 'Glacial Indifference', sans-serif;
+	font-size: 1.4rem;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	column-gap: 4px;
+	cursor: pointer;
+	padding: 0.6rem 1.2rem;
+
+	svg {
+		height: 2.4rem;
+		transition: transform 0.4s;
+	}
+}
+
+.font-selection-dropdown {
+	background-color: #000;
+	border: 1px solid #fff;
+	border-radius: 4px;
+	height: 20rem;
+	list-style: none;
+	position: absolute;
+	left: 0;
+	bottom: 5rem;
+	overflow: auto;
+	padding: 0.8rem 0.6rem;
+	scrollbar-color: #7a7a7a transparent;
+
+	&::-webkit-scrollbar {
+		width: 4px;
+	}
+
+	&::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	li {
+		display: flex;
+		align-items: center;
+		border-radius: 4px;
+		font-size: 1.4rem;
+		cursor: pointer;
+		padding-inline: 1.2rem;
+		height: 3.6rem;
+
+		&:not(:last-of-type) {
+			margin-bottom: 3px;
+		}
+
+		&.sacramento,
+		&.hi-melody {
+			font-size: 2rem;
+		}
+
+		&.selected-font {
+			background-color: rgba($color: #fff, $alpha: 0.1);
+
+			@include respond(600px) {
+				background-color: rgba($color: #fff, $alpha: 0.2);
+			}	
+		}
+
+		@media (hover: hover) {
+			&:hover {
+				background-color: rgba($color: #fff, $alpha: 0.1);
+	
+				@include respond(600px) {
+					background-color: rgba($color: #fff, $alpha: 0.2);
+				}	
+			}
+		}
+	}
+}

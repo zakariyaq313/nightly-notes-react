@@ -1,24 +1,21 @@
-import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import BaseComponent from "../components/BaseComponent/BaseComponent";
-import NotesIcon from "../icons/NotesIcon";
+import Notes from "../icons/Notes";
 
 function HomePage(): JSX.Element {
 	const notes = useSelector((state: RootState) => state.savedNotes);
 	const pageTitle = {main: "Nightly", optional: "Notes"};
 	const notesUnavailableInfo = "Anything to add?";
-	const notesUnavailableIcon = <NotesIcon />;
+	const notesUnavailableIcon = <Notes />;
 
 	return (
-		<Fragment>
-			<BaseComponent notes={notes}
-				activePage="home"
-				pageTitle={pageTitle}
-				notesUnavailableInfo={notesUnavailableInfo}
-				notesUnavailableIcon={notesUnavailableIcon}
-			/>
-		</Fragment>
+		<BaseComponent notes={notes}
+			activePage="home"
+			pageTitle={pageTitle}
+			notesUnavailableInfo={notesUnavailableInfo}
+			notesUnavailableIcon={notesUnavailableIcon}
+		/>
 	)
 }
 

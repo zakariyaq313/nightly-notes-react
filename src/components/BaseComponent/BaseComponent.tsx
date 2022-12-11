@@ -3,11 +3,11 @@ import { noteActions, RootState, useThunkDispatch } from "../../store/store";
 import { useDispatch, useSelector } from "react-redux";
 import { exitNoteDialog } from "../../store/action-creators/action-creators";
 import { NoteType } from "../../types/types";
-import PageHeader from "../UIComponents/PageHeader";
 import SavedNote from "../SavedNote/SavedNote";
 import NoteDialog from "../NoteDialog/NoteDialog";
-import ConfirmDelete from "../UIComponents/ConfirmDelete";
-import "../../sass/base-component/base-component.scss";
+import PageHeader from "../UIComponents/PageHeader/PageHeader";
+import ConfirmDelete from "../UIComponents/ConfirmDelete/ConfirmDelete";
+import "./BaseComponent.scss";
 
 type Props = {
 	activePage: string,

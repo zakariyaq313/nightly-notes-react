@@ -28,7 +28,7 @@ export type InitialState = {
 	noteIsFavourite: boolean
 };
 
-export type ElementsVisible = {
+export type VisibleElements = {
 	fontSelect: boolean,
 	themePalette: boolean
 };

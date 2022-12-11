@@ -1,0 +1,69 @@
+@import "../../../sass/mixins/mixins.scss";
+
+.navigation-buttons {
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	left: 3rem;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+
+	@include respond(h600px) {
+		position: absolute;
+		top: 30rem;
+	}
+
+	@include respond(1000px) {
+		left: 2rem;
+	}
+
+	@include respond(400px) {
+		left: 1rem;
+	}
+
+	&::before {
+		content: "";
+		height: 6rem;
+		width: 6rem;
+		background-color: rgba($color: #fff, $alpha: 0.2);
+		border-radius: 100%;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translate(-50%, 0);
+		transition: transform .4s;
+		z-index: -1;
+	}
+
+	button {
+		background: none;
+		border: none;
+		padding: 2rem;
+
+		svg {
+			fill: #fff;
+			height: 3rem;
+
+			&.heart-outline {
+				transform: scale(1.1);
+			}
+
+			&.trash-can {
+				transform: scale(0.9);
+			}
+		}
+	}
+}
+
+.focus-home::before {
+	transform: translate(-50%, 0.4rem);
+}
+
+.focus-favourites::before {
+	transform: translate(-50%, 7.2rem);
+}
+
+.focus-trash::before {
+	transform: translate(-50%, 14.4rem);
+}
