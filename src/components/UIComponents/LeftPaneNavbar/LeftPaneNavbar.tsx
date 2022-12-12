@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import HeartOutlined from "../../../icons/HeartOutlined";
 import Home from "../../../icons/Home";
-import Trash from "../../../icons/Trash";
+import TrashCan from "../../../icons/TrashCan";
 import "./LeftPaneNavbar.scss";
 
 function LeftPaneNavbar(): JSX.Element {
@@ -22,7 +22,7 @@ function LeftPaneNavbar(): JSX.Element {
 		<nav className={`navigation-buttons ${focusedPage}`}>
 			<button onClick={() => switchPageHandler("home")} title="Home"><Home/></button>
 			<button onClick={() => switchPageHandler("favourites")} title="Favourites"><HeartOutlined/></button>
-			<button onClick={() => switchPageHandler("trash")} title="Trash"><Trash/></button>
+			<button onClick={() => switchPageHandler("trash")} title="Trash"><TrashCan/></button>
 		</nav>
 	);
 }

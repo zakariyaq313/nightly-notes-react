@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { noteActions } from "../../../store/store";
 import Plus from "../../../icons/Plus";
-import Trash from "../../../icons/Trash";
+import TrashCan from "../../../icons/TrashCan";
 import "./PageHeader.scss";
 
 type Props = {
@@ -57,7 +57,7 @@ function PageHeader(props: Props): JSX.Element {
 				disabled={(notesUnavailable && activePage === "trash") || activePage === "favourites"}>
 
 				<span>
-					{activePage === "trash" ? <Trash /> : <Plus />}
+					{activePage === "trash" ? <TrashCan /> : <Plus />}
 					{buttonLabel}
 				</span>
 				

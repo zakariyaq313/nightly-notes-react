@@ -1,4 +1,4 @@
-function Trash(): JSX.Element {
+function TrashCan(): JSX.Element {
 	return (
 		<svg
 			className="trash-can"
@@ -25,4 +25,4 @@ function Trash(): JSX.Element {
 	);
 }
 
-export default Trash;
+export default TrashCan;
