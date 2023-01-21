@@ -1,6 +1,6 @@
 # **Nightly Notes (React)**
 
-A notes-app [originally](https://github.com/zakariyaq313/nightly-notes-vue) made using Vue, remade completely using React! 🤩
+A notes application, [originally](https://github.com/zakariyaq313/nightly-notes-vue) built with Vue, completely rebuilt using React!
 
 **Screenshot -**
 
@@ -20,16 +20,18 @@ A notes-app [originally](https://github.com/zakariyaq313/nightly-notes-vue) made
 - Sass / SCSS
 - Redux Toolkit
 - React Router
-- Icon components custom made (using icons in SVG format from [Material Icons](https://fonts.google.com/icons?selected=Material+Icons) and converting them into JSX components using [SVG to JSX](https://svg2jsx.com/))
+- Icon components custom-made (using icons in SVG format from [Material Icons](https://fonts.google.com/icons?selected=Material+Icons) and converting them into JSX components using [SVG to JSX](https://svg2jsx.com/))
 - **No additional libraries used**
 
 **Notes -**
 
-Few months prior to beginning this project, I had created a notes-app using Vue. It was an extensive project, and I put a lot of effort into making it. To test and showcase my newly picked up React skills, I wanted to create a similarly comprehensive application. Instead of trying a different project idea, I decided to recreate the Vue notes-app using React. This way I get to reuse existing design and styles and focus completely on the app logic and structure. It would also be a great chance to compare React and Vue first-hand.
+A few months before beginning this project, I had built a highly functional and well-designed notes application using Vue. I wanted to utilize my newly acquired React skills by building a similarly complex application. Instead of searching for a new project idea, I decided to recreate the Vue notes app using React.
 
-Over the course of this project, I was able to see the differences and similarities between React and Vue closely which helped me better understand them, and even more importantly, understand the workings of frontend frameworks/libraries as a whole. Functionality wise, both versions of the app are identical, but their internal structure and logic are quite different, with the React version being more robust and modular.
+Recreating the app allowed me to reuse its existing design and styles, and focus solely on developing the app's logic and structure using React. Additionally, it provided me with the opportunity to compare React and Vue firsthand and understand the similarities and differences between the two frameworks. Through this project, I was able to gain a deeper understanding of frontend frameworks and libraries as a whole.
 
-Design progression can be seen [here](./src/README.md).
+As my introduction to React, this project was an incredibly valuable learning experience. I was able to work on a comprehensive, frontend-focused, single-page application that made use of a modular architecture, complete with various components. Furthermore, I was able to gain hands-on experience with TypeScript and implement state management using Redux which provided me with a solid grasp of these technologies and how they can be effectively utilized in a real-world scenario.
+
+View the design progression of the project [here](./src/README.md).
 
 **How to run in local server -**
 - `Clone` the respository
